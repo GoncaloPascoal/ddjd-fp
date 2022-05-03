@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class Enemy : MonoBehaviour
 {
@@ -23,18 +24,41 @@ public class Enemy : MonoBehaviour
 
     private bool _chasingPlayer = false;
     private float _chasingTime;
+    
+    
+    // animation IDs
+    private int _animIDSpeed;
+    private int _animIDGrounded;
+    private int _animIDJump;
+    private int _animIDFreeFall;
+    private int _animIDMotionSpeed;
+
+    private Animator _animator;
+    private bool _hasAnimator;
+
+    private float _animationBlend;
+    public float speedChangeRate = 10.0f;
 
     // Start is called before the first frame update
     void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _playerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
+        _hasAnimator = TryGetComponent(out _animator);
 
         _spawn.position = transform.position;
         _initialOrientation = transform.rotation.normalized; 
             
         _chasingPlayer = false;
         _chasingTime = chaseCooldown;
+        
+        AssignAnimationIDs();
+
+        if (_hasAnimator)
+        {
+            _animator.SetFloat(_animIDMotionSpeed, 1f);
+        }
+        
     }
 
     // Update is called once per frame
@@ -68,9 +92,20 @@ public class Enemy : MonoBehaviour
             // if near spawn, reset to initial orientation
             if (Vector3.Distance(transform.position, _spawn.position) <= 0.2)
             {
+                _navMeshAgent.speed = 0f;
                 transform.rotation = Quaternion.Euler(Vector3.Lerp(transform.rotation.eulerAngles, _initialOrientation.eulerAngles, Time.deltaTime));
             }
         }
+        
+        _animationBlend = Mathf.Lerp(_animationBlend, _navMeshAgent.speed, Time.deltaTime * speedChangeRate);
+        _animator.SetFloat(_animIDSpeed, _animationBlend);
+
+    }
+    
+    private void AssignAnimationIDs()
+    {
+        _animIDSpeed = Animator.StringToHash("Speed");
+        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
     bool DetectPlayer()
