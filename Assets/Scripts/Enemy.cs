@@ -5,110 +5,66 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
     
-    [SerializeField] private float viewDistance;
-    [SerializeField] private float fieldOfView;
+    [SerializeField] protected float viewDistance = 5f;
+    [SerializeField] protected float fieldOfView = 70f;
 
-    [SerializeField] private float chaseSpeed = 3f;
-    [SerializeField] private float walkSpeed = 1.5f;
-    [SerializeField] private float chaseCooldown = 5f;
+    [SerializeField] protected float chaseSpeed = 3f;
+    [SerializeField] protected float walkSpeed = 1.5f;
+    [SerializeField] protected float chaseCooldown = 5f;
     
-    [SerializeField] private Transform _spawn;
-    private Quaternion _initialOrientation;
+    [SerializeField] protected Transform _spawn;
+    protected Quaternion InitialOrientation;
     
-    private Transform _playerTransform;
+    protected Transform PlayerTransform;
 
-    private NavMeshAgent _navMeshAgent;
-
-    private bool _chasingPlayer = false;
-    private float _chasingTime;
-    
+    protected NavMeshAgent NavMeshAgent;
     
     // animation IDs
-    private int _animIDSpeed;
-    private int _animIDGrounded;
-    private int _animIDJump;
-    private int _animIDFreeFall;
-    private int _animIDMotionSpeed;
+    protected int AnimIDSpeed;
+    protected int AnimIDMotionSpeed;
 
-    private Animator _animator;
-    private bool _hasAnimator;
+    protected Animator Animator;
+    protected bool HasAnimator;
 
-    private float _animationBlend;
+    protected float AnimationBlend;
     public float speedChangeRate = 10.0f;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _playerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
-        _hasAnimator = TryGetComponent(out _animator);
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+        PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
+        HasAnimator = TryGetComponent(out Animator);
 
         _spawn.position = transform.position;
-        _initialOrientation = transform.rotation.normalized; 
-            
-        _chasingPlayer = false;
-        _chasingTime = chaseCooldown;
-        
+        InitialOrientation = transform.rotation;
+
         AssignAnimationIDs();
 
-        if (_hasAnimator)
+        if (HasAnimator)
         {
-            _animator.SetFloat(_animIDMotionSpeed, 1f);
+            Animator.SetFloat(AnimIDMotionSpeed, 1f);
         }
         
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        bool detectingPlayer = DetectPlayer();
-        
-        if (detectingPlayer)
-        {
-            if (!_chasingPlayer)
-            {
-                _chasingTime = chaseCooldown;
-            }
-            
-            ChasePlayer();
-        } 
-        else if (_chasingPlayer)
-        {
-            if ((_chasingTime -= Time.deltaTime) <= 0)
-            {
-                _chasingPlayer = false;
-                GoToSpawn();
-            }
-            else
-            {
-                ChasePlayer();
-            }
-        }
-        else
-        {
-            // if near spawn, reset to initial orientation
-            if (Vector3.Distance(transform.position, _spawn.position) <= 0.2)
-            {
-                _navMeshAgent.speed = 0f;
-                transform.rotation = Quaternion.Euler(Vector3.Lerp(transform.rotation.eulerAngles, _initialOrientation.eulerAngles, Time.deltaTime));
-            }
-        }
-        
-        _animationBlend = Mathf.Lerp(_animationBlend, _navMeshAgent.speed, Time.deltaTime * speedChangeRate);
-        _animator.SetFloat(_animIDSpeed, _animationBlend);
-
+        AnimationBlend = Mathf.Lerp(AnimationBlend, NavMeshAgent.speed, Time.deltaTime * speedChangeRate);
+        Animator.SetFloat(AnimIDSpeed, AnimationBlend);
     }
     
     private void AssignAnimationIDs()
     {
-        _animIDSpeed = Animator.StringToHash("Speed");
-        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        AnimIDSpeed = Animator.StringToHash("Speed");
+        AnimIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
-    bool DetectPlayer()
+    protected bool DetectPlayer()
     {
         Vector3 rayDirection = GetPlayerPos() - transform.position;
         
@@ -117,7 +73,7 @@ public class Enemy : MonoBehaviour
             return false;
         
         // player not inside field of view cone
-        if (Vector3.Angle(transform.forward, rayDirection) > fieldOfView / 2.0f) 
+        if (Vector3.Angle(transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
             return false;
         
         //  and no obstacles in the way
@@ -129,24 +85,8 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    private void ChasePlayer()
+    protected Vector3 GetPlayerPos()
     {
-        Vector3 targetVector = GetPlayerPos(); 
-        _navMeshAgent.SetDestination(targetVector);
-        _navMeshAgent.speed = chaseSpeed;
-        _chasingPlayer = true;
-    }
-
-    private void GoToSpawn()
-    {
-        Vector3 targetVector = _spawn.position;
-
-        _navMeshAgent.SetDestination(targetVector);
-        _navMeshAgent.speed = walkSpeed;
-    }
-
-    private Vector3 GetPlayerPos()
-    {
-        return _playerTransform.position + Vector3.up; // TODO: change hardcoded height offset to player pos
+        return PlayerTransform.position + Vector3.up; // TODO: change hardcoded height offset to player pos
     }
 }
