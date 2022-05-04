@@ -19,6 +19,9 @@ public abstract class Enemy : MonoBehaviour
     protected Quaternion InitialOrientation;
     
     protected Transform PlayerTransform;
+    
+    // get player bounds
+    protected float playerMeshHeight;
 
     protected NavMeshAgent NavMeshAgent;
     
@@ -37,6 +40,8 @@ public abstract class Enemy : MonoBehaviour
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
+        playerMeshHeight = PlayerTransform.gameObject.transform.Find("Geometry/Armature_Mesh").GetComponent<SkinnedMeshRenderer>().bounds.size.y;
+        
         HasAnimator = TryGetComponent(out Animator);
 
         _spawn.position = transform.position;
@@ -87,6 +92,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Vector3 GetPlayerPos()
     {
-        return PlayerTransform.position + Vector3.up; // TODO: change hardcoded height offset to player pos
+        var playerPos = PlayerTransform.position;
+        return new Vector3(playerPos.x, playerPos.y + playerMeshHeight, playerPos.z); // TODO: change hardcoded height offset to player pos
     }
 }
