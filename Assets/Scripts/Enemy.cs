@@ -93,6 +93,6 @@ public abstract class Enemy : MonoBehaviour
     protected Vector3 GetPlayerPos()
     {
         var playerPos = PlayerTransform.position;
-        return new Vector3(playerPos.x, playerPos.y + playerMeshHeight, playerPos.z); // TODO: change hardcoded height offset to player pos
+        return new Vector3(playerPos.x, playerPos.y + playerMeshHeight, playerPos.z);
     }
 }
