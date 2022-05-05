@@ -1,5 +1,4 @@
-﻿
-using Cinemachine.Editor;
+﻿using Cinemachine.Editor;
 using UnityEngine;
 
 public class EnemyMelee : Enemy
@@ -9,28 +8,45 @@ public class EnemyMelee : Enemy
     private bool nearPlayer;
 
     [SerializeField] private float meleeDistance = 2f;
-    
+
+    [SerializeField]
+    private float
+        unconditionalDetectionRange = 1.5f; // enemy will attack player at this distance whether they are alert or not
+
+    [SerializeField] private float alertRange = 5f;
+
     new void Start()
     {
         base.Start();
         _chasingPlayer = false;
         _chasingTime = chaseCooldown;
     }
+
     new void Update()
     {
         var detectingPlayer = DetectPlayer();
 
+        var distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPos());
+
+        Debug.Log(distanceToPlayer);
+
         // if near player (attack range)
-        if (Vector3.Distance(transform.position, GetPlayerPos()) <= meleeDistance)
+        if (distanceToPlayer <= meleeDistance)
         {
-            Debug.Log("near");
-            _chasingPlayer = false;
-            NavMeshAgent.speed = 0f;
-            Quaternion lookRotation = Quaternion.LookRotation(GetPlayerPos() - transform.position);
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
-            
-            base.Update();
-            return;
+            // is chasing - will look at player to attack, or player is too close
+            if (_chasingPlayer || distanceToPlayer <= unconditionalDetectionRange)
+            {
+                NavMeshAgent.speed = 0f;
+                Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
+                    Quaternion.LookRotation(GetPlayerPos() - transform.position).eulerAngles.y,
+                    transform.rotation.eulerAngles.z);
+                transform.rotation =
+                    Quaternion.Lerp(transform.rotation, lookRotation,
+                        Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
+                base.Update();
+                return;
+            }
+            // else, player is standing behind unsuspecting enemy
         }
 
         if (detectingPlayer)
@@ -39,19 +55,19 @@ public class EnemyMelee : Enemy
             {
                 _chasingTime = chaseCooldown;
             }
-            
+
             ChasePlayer();
-        } 
+        }
         else if (_chasingPlayer)
         {
-            if ((_chasingTime -= Time.deltaTime) <= 0)
+            if (distanceToPlayer <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
             {
-                _chasingPlayer = false;
-                GoToSpawn();
+                ChasePlayer();
             }
             else
             {
-                ChasePlayer();
+                _chasingPlayer = false;
+                GoToSpawn();
             }
         }
         else
@@ -63,18 +79,18 @@ public class EnemyMelee : Enemy
                 transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
             }
         }
-        
+
         base.Update();
     }
-    
+
     protected void ChasePlayer()
     {
-        Vector3 targetVector = GetPlayerPos(); 
+        Vector3 targetVector = GetPlayerPos();
         NavMeshAgent.SetDestination(targetVector);
         NavMeshAgent.speed = chaseSpeed;
         _chasingPlayer = true;
     }
-    
+
     protected void GoToSpawn()
     {
         Vector3 targetVector = _spawn.position;
