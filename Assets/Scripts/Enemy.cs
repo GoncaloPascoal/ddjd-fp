@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -19,10 +20,8 @@ public abstract class Enemy : MonoBehaviour
     protected Quaternion InitialOrientation;
     
     protected Transform PlayerTransform;
+    protected ThirdPersonController playerTPC;
     
-    // get player bounds
-    protected float playerMeshHeight;
-
     protected NavMeshAgent NavMeshAgent;
     
     // animation IDs
@@ -40,8 +39,7 @@ public abstract class Enemy : MonoBehaviour
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
-        playerMeshHeight = PlayerTransform.gameObject.transform.Find("Geometry/Armature_Mesh").GetComponent<SkinnedMeshRenderer>().bounds.size.y;
-        
+        playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
         HasAnimator = TryGetComponent(out Animator);
 
         _spawn.position = transform.position;
@@ -92,7 +90,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Vector3 GetPlayerPos()
     {
-        var playerPos = PlayerTransform.position;
-        return new Vector3(playerPos.x, playerPos.y + playerMeshHeight, playerPos.z);
+        var headPos = playerTPC.playerHeadTransform.position;
+        return new Vector3(headPos.x, headPos.y - 0.5f, headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a meelee enemy gets near, the meelee enemy slides inside the player
     }
 }
