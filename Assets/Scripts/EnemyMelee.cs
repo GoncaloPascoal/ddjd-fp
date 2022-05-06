@@ -28,8 +28,6 @@ public class EnemyMelee : Enemy
 
         var distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPos());
 
-        Debug.Log(distanceToPlayer);
-
         // if near player (attack range)
         if (distanceToPlayer <= meleeDistance)
         {
@@ -37,12 +35,7 @@ public class EnemyMelee : Enemy
             if (_chasingPlayer || distanceToPlayer <= unconditionalDetectionRange)
             {
                 NavMeshAgent.speed = 0f;
-                Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
-                    Quaternion.LookRotation(GetPlayerPos() - transform.position).eulerAngles.y,
-                    transform.rotation.eulerAngles.z);
-                transform.rotation =
-                    Quaternion.Lerp(transform.rotation, lookRotation,
-                        Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
+                LookAtPlayer();
                 base.Update();
                 return;
             }

@@ -93,4 +93,14 @@ public abstract class Enemy : MonoBehaviour
         var headPos = playerTPC.playerHeadTransform.position;
         return new Vector3(headPos.x, headPos.y - 0.5f, headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a meelee enemy gets near, the meelee enemy slides inside the player
     }
+
+    protected void LookAtPlayer()
+    {
+        Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
+            Quaternion.LookRotation(GetPlayerPos() - transform.position).eulerAngles.y,
+            transform.rotation.eulerAngles.z);
+        transform.rotation =
+            Quaternion.Lerp(transform.rotation, lookRotation,
+                Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
+    }
 }
