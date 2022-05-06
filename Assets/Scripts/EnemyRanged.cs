@@ -10,6 +10,8 @@ public class EnemyRanged : Enemy
 {
     [SerializeField] private float prepareTime = 3f;
     [SerializeField] private float recoveryTime = 1f;
+    [SerializeField] private float shootVelocity = 1f;
+    [SerializeField] private GameObject projectile;
     
     private float _currentTime;
 
@@ -81,5 +83,8 @@ public class EnemyRanged : Enemy
         Debug.Log("Shot");
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
+
+        var shotProjectile = Instantiate(projectile, transform.position + Vector3.up, Quaternion.identity);
+        shotProjectile.GetComponent<Projectile>().ShootAt(GetPlayerPos());
     }
 }
