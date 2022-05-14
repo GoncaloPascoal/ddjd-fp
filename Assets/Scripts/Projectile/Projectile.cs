@@ -8,7 +8,16 @@ public class Projectile : MonoBehaviour
     private bool _shot = false;
     private Rigidbody _rb;
     
+    [Header("Stats")] [SerializeField] private int damage = 1;
+    
+    [Header("Layers")]
+    [SerializeField]
+    [Tooltip("What layers are considered as the player?")]
+    private LayerMask playerLayers;
 
+    [Tooltip("What other layers can this collide with")]
+    private LayerMask _groundLayers;
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -44,12 +53,34 @@ public class Projectile : MonoBehaviour
 
         _rb.AddForce(throwDirection * velocity, ForceMode.VelocityChange);
     }
-    
-    
 
     // Update is called once per frame
     void Update()
     {
         
     }
+    
+    void OnTriggerEnter(Collider col)
+    {
+        Debug.Log(col.gameObject);
+        // If colliding with a player layer
+        if ((playerLayers.value & (1 << col.gameObject.layer)) > 0)
+        {
+            Hittable hitScript = col.gameObject.GetComponent<Hittable>();
+            if (hitScript == null)
+            {
+                Debug.LogWarning("Projectile collided with player, but player doesn't have a Hittable component!");
+            }
+            else
+            {
+                hitScript.GetHit(damage);
+                Destroy(gameObject);
+            }
+        }
+        else if ((_groundLayers.value & (1 << col.gameObject.layer)) > 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }

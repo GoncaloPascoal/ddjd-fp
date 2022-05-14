@@ -1289,7 +1289,7 @@ PrefabInstance:
     - target: {fileID: 9017289900998797892, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: projectile
       value: 
-      objectReference: {fileID: 2868007301554971531, guid: 65d9352067a343d47ab788a537ff3701, type: 3}
+      objectReference: {fileID: 1080494255442829614, guid: e3f810e8a218d734f8b5949fde03eab0, type: 3}
     - target: {fileID: 9017289900998797892, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: recoveryTime
       value: 2
