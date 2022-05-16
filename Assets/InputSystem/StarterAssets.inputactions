@@ -43,9 +43,9 @@
                 },
                 {
                     "name": "Swing",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "69a560e0-152d-424d-8482-36c9f3f150db",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
