@@ -10,7 +10,6 @@ public class EnemyRanged : Enemy
 {
     [SerializeField] private float prepareTime = 3f;
     [SerializeField] private float recoveryTime = 1f;
-    [SerializeField] private float shootVelocity = 1f;
     [SerializeField] private GameObject projectile;
     
     private float _currentTime;

@@ -11,7 +11,7 @@ public class EnemyMelee : Enemy
 
     [SerializeField]
     private float
-        unconditionalDetectionRange = 1.5f; // enemy will attack player at this distance whether they are alert or not
+        unconditionalDetectionRange = 1.0f; // enemy will attack player at this distance whether they are alert or not
 
     [SerializeField] private float alertRange = 5f;
 

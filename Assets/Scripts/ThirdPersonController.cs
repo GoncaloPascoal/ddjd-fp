@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -63,6 +64,10 @@ namespace StarterAssets
 		[Tooltip("For locking the camera position on all axis")]
 		public bool LockCameraPosition = false;
 
+		[Header("Player Attacks")] 
+		[Tooltip("Minimum dot product between player and enemy looking directions for backstab")]
+		public float backstabAngleOffset = 0.95f;
+		
 		// cinemachine
 		private float _cinemachineTargetYaw;
 		private float _cinemachineTargetPitch;
@@ -98,6 +103,8 @@ namespace StarterAssets
 
 		private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
 
+		private List<GameObject> _backstabTargets;
+
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -114,6 +121,8 @@ namespace StarterAssets
 			_input = GetComponent<StarterAssetsInputs>();
 			_playerInput = GetComponent<PlayerInput>();
 
+			_backstabTargets = new List<GameObject>();
+
 			AssignAnimationIDs();
 
 			// reset our timeouts on start
@@ -128,6 +137,7 @@ namespace StarterAssets
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
+			Attacks();
 		}
 
 		private void LateUpdate()
@@ -307,6 +317,25 @@ namespace StarterAssets
 			}
 		}
 
+		private void Attacks()
+		{
+			if (_input.swing && _backstabTargets.Count > 0)
+			{
+				_input.swing = false;
+				Debug.Log(_backstabTargets.Count);
+				foreach (var target in _backstabTargets)
+				{
+					var dotprod = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
+					Debug.Log(dotprod);
+					if (dotprod < backstabAngleOffset)
+						continue;
+
+					BackstabAttack(target);
+					break;
+				}
+			}
+		}
+
 		private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
 		{
 			if (lfAngle < -360f) lfAngle += 360f;
@@ -324,6 +353,23 @@ namespace StarterAssets
 			
 			// when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
 			Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z), GroundedRadius);
+		}
+
+		public void SetBackstabTarget(GameObject enemy)
+		{
+			_backstabTargets.Add(enemy);
+		}
+		
+		public void RemoveBackstabTarget(GameObject enemy)
+		{
+			_backstabTargets.Remove(enemy);
+		}
+
+		private void BackstabAttack(GameObject enemy)
+		{
+			Debug.Log("Backstab");
+
+			enemy.GetComponent<Hittable>().GetHitBackstab(1000);
 		}
 	}
 }

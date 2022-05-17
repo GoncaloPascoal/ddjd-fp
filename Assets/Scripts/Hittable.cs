@@ -28,4 +28,10 @@ public class Hittable : MonoBehaviour
         curHp -= damage;
         Debug.Log("Ouch! Current HP: " + curHp + ".");
     }
+
+    public void GetHitBackstab(int damage)
+    {
+        curHp -= damage;
+        Debug.Log("Ouch! Backstab! Current HP: " + curHp + ".");
+    }
 }

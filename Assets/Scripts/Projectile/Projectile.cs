@@ -62,8 +62,9 @@ public class Projectile : MonoBehaviour
     
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log(col.gameObject);
         // If colliding with a player layer
+        Debug.Log(playerLayers.value);
+        Debug.Log(col.gameObject.layer);
         if ((playerLayers.value & (1 << col.gameObject.layer)) > 0)
         {
             Hittable hitScript = col.gameObject.GetComponent<Hittable>();
@@ -74,6 +75,7 @@ public class Projectile : MonoBehaviour
             else
             {
                 hitScript.GetHit(damage);
+                Debug.Log("Hit");
                 Destroy(gameObject);
             }
         }
