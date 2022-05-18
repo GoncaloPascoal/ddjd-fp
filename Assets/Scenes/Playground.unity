@@ -1028,6 +1028,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StaminaBar
       objectReference: {fileID: 0}
+    - target: {fileID: 4694194016470024407, guid: d67b2a585e1d692479c04c4e0f45108b, type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4694194016732211657, guid: d67b2a585e1d692479c04c4e0f45108b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

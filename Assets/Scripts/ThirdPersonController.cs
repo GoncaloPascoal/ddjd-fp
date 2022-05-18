@@ -67,6 +67,10 @@ namespace StarterAssets
 		[Header("Player Attacks")] 
 		[Tooltip("Minimum dot product between player and enemy looking directions for backstab")]
 		public float backstabAngleOffset = 0.95f;
+
+		private Canvas _hud;
+		private Bar _healthBar;
+		private Bar _staminaBar;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -122,6 +126,9 @@ namespace StarterAssets
 			_playerInput = GetComponent<PlayerInput>();
 
 			_backstabTargets = new List<GameObject>();
+
+			// TODO: get bar scripts
+			_hud = GetComponent<Canvas>();
 
 			AssignAnimationIDs();
 
