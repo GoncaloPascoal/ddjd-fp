@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 enum EnemyRangedState
 {
@@ -85,5 +86,17 @@ public class EnemyRanged : Enemy
 
         var shotProjectile = Instantiate(projectile, transform.position + Vector3.up, Quaternion.identity);
         shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos());
+    }
+
+    private void OnDrawGizmos()
+    {
+        var iconPos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+        Gizmos.DrawIcon(iconPos, "Ranged.png", true);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, viewDistance);
     }
 }

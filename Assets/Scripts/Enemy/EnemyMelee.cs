@@ -90,4 +90,10 @@ public class EnemyMelee : Enemy
         NavMeshAgent.SetDestination(targetVector);
         NavMeshAgent.speed = walkSpeed;
     }
+    
+    private void OnDrawGizmos()
+    {
+        var iconPos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+        Gizmos.DrawIcon(iconPos, "Meelee.png", true);
+    }
 }
