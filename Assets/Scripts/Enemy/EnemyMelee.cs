@@ -2,7 +2,7 @@
 
 public class EnemyMelee : Enemy
 {
-    private bool _chasingPlayer;
+    private bool _chasingTarget;
     private float _chasingTime;
     private bool nearPlayer;
 
@@ -17,48 +17,48 @@ public class EnemyMelee : Enemy
     new void Start()
     {
         base.Start();
-        _chasingPlayer = false;
+        _chasingTarget = false;
         _chasingTime = chaseCooldown;
     }
 
     new void Update()
     {
-        var detectingPlayer = DetectPlayer();
+        var detectingTarget = DetectTarget();
 
-        var distanceToPlayer = Vector3.Distance(transform.position, GetPlayerPos());
+        var distanceToTarget = Vector3.Distance(transform.position, GetTargetPos());
 
-        // if near player (attack range)
-        if (distanceToPlayer <= meleeDistance)
+        // if near target (attack range)
+        if (distanceToTarget <= meleeDistance)
         {
             // is chasing - will look at player to attack, or player is too close
-            if (_chasingPlayer || distanceToPlayer <= unconditionalDetectionRange)
+            if (_chasingTarget || distanceToTarget <= unconditionalDetectionRange)
             {
                 NavMeshAgent.speed = 0f;
-                LookAtPlayer();
+                LookAtTarget();
                 base.Update();
                 return;
             }
             // else, player is standing behind unsuspecting enemy
         }
 
-        if (detectingPlayer)
+        if (detectingTarget)
         {
-            if (!_chasingPlayer)
+            if (!_chasingTarget)
             {
                 _chasingTime = chaseCooldown;
             }
 
-            ChasePlayer();
+            ChaseTarget();
         }
-        else if (_chasingPlayer)
+        else if (_chasingTarget)
         {
-            if (distanceToPlayer <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
+            if (distanceToTarget <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
             {
-                ChasePlayer();
+                ChaseTarget();
             }
             else
             {
-                _chasingPlayer = false;
+                _chasingTarget = false;
                 GoToSpawn();
             }
         }
@@ -75,12 +75,12 @@ public class EnemyMelee : Enemy
         base.Update();
     }
 
-    protected void ChasePlayer()
+    protected void ChaseTarget()
     {
-        Vector3 targetVector = GetPlayerPos();
+        Vector3 targetVector = GetTargetPos();
         NavMeshAgent.SetDestination(targetVector);
         NavMeshAgent.speed = chaseSpeed;
-        _chasingPlayer = true;
+        _chasingTarget = true;
     }
 
     protected void GoToSpawn()

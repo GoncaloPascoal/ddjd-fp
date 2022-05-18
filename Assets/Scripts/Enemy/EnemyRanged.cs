@@ -34,7 +34,7 @@ public class EnemyRanged : Enemy
         
         if (_state == EnemyRangedState.Preparing)
         {
-            LookAtPlayer();
+            LookAtTarget();
             
             if ((_currentTime -= Time.deltaTime) <= 0)
             {
@@ -44,7 +44,7 @@ public class EnemyRanged : Enemy
             return;
         }
         
-        var detectingPlayer = DetectPlayer();
+        var detectingPlayer = DetectTarget();
 
         if (detectingPlayer)
         {
@@ -84,6 +84,6 @@ public class EnemyRanged : Enemy
         _state = EnemyRangedState.Recovering;
 
         var shotProjectile = Instantiate(projectile, transform.position + Vector3.up, Quaternion.identity);
-        shotProjectile.GetComponent<Projectile>().ShootAt(GetPlayerPos());
+        shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos());
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 public abstract class Enemy : MonoBehaviour
 {
-    
+    protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
 
@@ -21,7 +21,7 @@ public abstract class Enemy : MonoBehaviour
     
     protected Transform PlayerTransform;
     protected ThirdPersonController playerTPC;
-    
+
     protected NavMeshAgent NavMeshAgent;
     
     // animation IDs
@@ -44,6 +44,7 @@ public abstract class Enemy : MonoBehaviour
 
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
+        mindControlled = false;
 
         AssignAnimationIDs();
 
@@ -67,40 +68,75 @@ public abstract class Enemy : MonoBehaviour
         AnimIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
-    protected bool DetectPlayer()
+    protected bool DetectTarget()
     {
-        Vector3 rayDirection = GetPlayerPos() - transform.position;
+        Vector3 rayDirection = GetTargetPos() - transform.position;
         
-        // if player is within view distance
+        // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
             return false;
         
-        // player not inside field of view cone
+        // target not inside field of view cone
         if (Vector3.Angle(transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
             return false;
         
         //  and no obstacles in the way
-        if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance)) 
+        if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
         {
-            return hit.transform.CompareTag("Player");
+            if (!mindControlled)
+                return hit.transform.CompareTag("Player");
+            return hit.transform.CompareTag("Enemy");
         }
         
         return false;
     }
 
-    protected Vector3 GetPlayerPos()
+    Transform GetClosestEnemy ()
     {
-        var headPos = playerTPC.playerHeadTransform.position;
-        return new Vector3(headPos.x, headPos.y - 0.5f, headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a meelee enemy gets near, the meelee enemy slides inside the player
+        Transform bestTarget = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach(GameObject potentialTarget in GameObject.FindGameObjectsWithTag("Enemy"))
+        {
+            Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
+            float dSqrToTarget = directionToTarget.sqrMagnitude;
+            if(dSqrToTarget < closestDistanceSqr)
+            {
+                closestDistanceSqr = dSqrToTarget;
+                bestTarget = potentialTarget.transform;
+            }
+        }
+     
+        return bestTarget;
+    }
+    
+    protected Vector3 GetTargetPos()
+    {
+        if (!mindControlled)
+        {
+            var headPos = playerTPC.playerHeadTransform.position;
+            return
+                new Vector3(headPos.x, headPos.y - 0.5f,
+                    headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
+        }
+        else
+        {
+            return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
+        }
     }
 
-    protected void LookAtPlayer()
+    protected void LookAtTarget()
     {
         Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
-            Quaternion.LookRotation(GetPlayerPos() - transform.position).eulerAngles.y,
+            Quaternion.LookRotation(GetTargetPos() - transform.position).eulerAngles.y,
             transform.rotation.eulerAngles.z);
         transform.rotation =
             Quaternion.Lerp(transform.rotation, lookRotation,
                 Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
+    }
+
+    public void mindControl()
+    {
+        this.mindControlled = true;
     }
 }

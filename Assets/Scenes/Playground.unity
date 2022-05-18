@@ -1760,6 +1760,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: viewDistance
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6779535482803635006, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_RootOrder
       value: 7
