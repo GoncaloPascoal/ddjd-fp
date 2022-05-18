@@ -2426,7 +2426,8 @@ GameObject:
   - component: {fileID: 9017289900998797892}
   - component: {fileID: 836317743464338922}
   - component: {fileID: 9017289900998797891}
-  m_Layer: 8
+  - component: {fileID: 4275926999280835214}
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -2489,7 +2490,6 @@ MonoBehaviour:
   speedChangeRate: 10
   prepareTime: 3
   recoveryTime: 1
-  shootVelocity: 1
   projectile: {fileID: 0}
 --- !u!114 &836317743464338922
 MonoBehaviour:
@@ -2526,6 +2526,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &4275926999280835214
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9017289900998797890}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.29862544
+  m_Height: 1.7942059
+  m_Direction: 1
+  m_Center: {x: 0.0000000011672956, y: 0.8822645, z: 0.04474398}
 --- !u!1 &9127284578270617118
 GameObject:
   m_ObjectHideFlags: 0
