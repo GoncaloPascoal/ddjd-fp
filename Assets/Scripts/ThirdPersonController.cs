@@ -68,9 +68,12 @@ namespace StarterAssets
 		[Tooltip("Minimum dot product between player and enemy looking directions for backstab")]
 		public float backstabAngleOffset = 0.95f;
 
-		private Canvas _hud;
-		private Bar _healthBar;
-		private Bar _staminaBar;
+		[Header("HUD")]
+		[SerializeField] public GameObject healthBar;
+		[SerializeField] public GameObject staminaBar;
+		
+		private Bar _healthBarScript;
+		private Bar _staminaBarScript;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -83,6 +86,22 @@ namespace StarterAssets
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
+
+		private float _maxStamina = 100.0f;
+
+		private float _stamina;
+		private float Stamina
+		{
+			get => _stamina;
+			set
+			{
+				_stamina = Mathf.Clamp(value, 0.0f, _maxStamina);
+				_staminaBarScript.SetValue(_stamina);
+			}
+		}
+
+		private const float StaminaUsageSprint = -15.0f;
+		private const float StaminaRecovery = 20.0f;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -126,9 +145,12 @@ namespace StarterAssets
 			_playerInput = GetComponent<PlayerInput>();
 
 			_backstabTargets = new List<GameObject>();
-
-			// TODO: get bar scripts
-			_hud = GetComponent<Canvas>();
+			
+			_healthBarScript = healthBar.GetComponent<Bar>();
+			
+			_staminaBarScript = staminaBar.GetComponent<Bar>();
+			_staminaBarScript.SetMaxValue(_maxStamina);
+			Stamina = _maxStamina;
 
 			AssignAnimationIDs();
 
@@ -197,7 +219,19 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			float targetSpeed = MoveSpeed;
+			if (_input.sprint)
+			{
+				if (Stamina > 0)
+				{
+					targetSpeed = SprintSpeed;
+					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+				}
+			}
+			else
+			{
+				ChangeStamina(Time.deltaTime * StaminaRecovery);
+			}
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -377,6 +411,11 @@ namespace StarterAssets
 			Debug.Log("Backstab");
 
 			enemy.GetComponent<Hittable>().GetHitBackstab(1000);
+		}
+
+		private void ChangeStamina(float delta)
+		{
+			Stamina += delta;
 		}
 	}
 }

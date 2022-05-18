@@ -7,7 +7,7 @@ public class Bar : MonoBehaviour
 {
     private Slider _slider;
     
-    private void Start()
+    private void Awake()
     {
         _slider = GetComponentInChildren<Slider>();
     }

@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 761028221}
   - component: {fileID: 761028220}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: HUD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1059,6 +1059,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4694194016470024404, guid: d67b2a585e1d692479c04c4e0f45108b, type: 3}
   m_PrefabInstance: {fileID: 1570718356}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1640013416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4694194016470024405, guid: d67b2a585e1d692479c04c4e0f45108b, type: 3}
+  m_PrefabInstance: {fileID: 1570718356}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1675853216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1391,9 +1396,17 @@ PrefabInstance:
       value: PlayerArmature
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1865378555}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: staminaBar
+      value: 
+      objectReference: {fileID: 1640013416}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: playerHeadTransform
       value: 
@@ -1644,6 +1657,11 @@ ReflectionProbe:
   m_UseOcclusionCulling: 1
   m_Importance: 1
   m_CustomBakedTexture: {fileID: 0}
+--- !u!1 &1865378555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4694194016470024405, guid: d67b2a585e1d692479c04c4e0f45108b, type: 3}
+  m_PrefabInstance: {fileID: 4694194016590237069}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1936775003 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
