@@ -219,20 +219,17 @@ namespace StarterAssets
 		private void Move()
 		{
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = MoveSpeed;
-			if (_input.sprint)
+			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+
+			if (_input.sprint && _input.move != Vector2.zero)
 			{
-				if (Stamina > 0)
-				{
-					targetSpeed = SprintSpeed;
-					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
-				}
+				ChangeStamina(Time.deltaTime * StaminaUsageSprint);
 			}
 			else
 			{
 				ChangeStamina(Time.deltaTime * StaminaRecovery);
 			}
-
+			
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -274,7 +271,6 @@ namespace StarterAssets
 				// rotate to face input direction relative to camera position
 				transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 			}
-
 
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
