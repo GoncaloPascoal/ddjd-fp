@@ -17,7 +17,10 @@ public class Projectile : MonoBehaviour
 
     [Tooltip("What other layers can this collide with")]
     private LayerMask _groundLayers;
-    
+
+    private float initialYVelocity;
+    private Vector3 throwDirection;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -49,22 +52,28 @@ public class Projectile : MonoBehaviour
         
 
         // var throwDirection = Vector3.Normalize(new Vector3(direction.x, proj_x * throwAngleTangent, direction.z)); 
-        var throwDirection = Vector3.Normalize(new Vector3(direction.x, proj_x * throwAngleTangent, direction.z));
+        throwDirection = Vector3.Normalize(new Vector3(direction.x, proj_x * throwAngleTangent, direction.z));
 
-        _rb.AddForce(throwDirection * velocity, ForceMode.VelocityChange);
+        transform.rotation = Quaternion.LookRotation(throwDirection);
+
+        var shootVelocity = throwDirection * velocity;
+        initialYVelocity = shootVelocity.y;
+
+        _rb.AddForce(shootVelocity, ForceMode.VelocityChange);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (!_shot) return;
+
+        transform.rotation = Quaternion.LookRotation(new Vector3(throwDirection.x,
+            (_rb.velocity.y * throwDirection.y) / initialYVelocity, throwDirection.z));
     }
     
     void OnTriggerEnter(Collider col)
     {
         // If colliding with a player layer
-        Debug.Log(playerLayers.value);
-        Debug.Log(col.gameObject.layer);
         if ((playerLayers.value & (1 << col.gameObject.layer)) > 0)
         {
             Hittable hitScript = col.gameObject.GetComponent<Hittable>();
@@ -75,7 +84,6 @@ public class Projectile : MonoBehaviour
             else
             {
                 hitScript.GetHit(damage);
-                Debug.Log("Hit");
                 Destroy(gameObject);
             }
         }
