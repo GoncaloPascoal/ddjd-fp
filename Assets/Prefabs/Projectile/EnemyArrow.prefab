@@ -80,8 +80,17 @@ PrefabInstance:
       value: EnemyArrow
       objectReference: {fileID: 0}
     - target: {fileID: 3617680001270711496, guid: 65d9352067a343d47ab788a537ff3701, type: 3}
+      propertyPath: enemyLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 3617680001270711496, guid: 65d9352067a343d47ab788a537ff3701, type: 3}
       propertyPath: playerLayers.m_Bits
       value: 64
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3617680001270711496, guid: 65d9352067a343d47ab788a537ff3701, type: 3}
+      propertyPath: _groundLayers.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2430034027781706374, guid: 65d9352067a343d47ab788a537ff3701, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 65d9352067a343d47ab788a537ff3701, type: 3}

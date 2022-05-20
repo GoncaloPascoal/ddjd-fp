@@ -84,8 +84,8 @@ public class EnemyRanged : Enemy
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
 
-        var shotProjectile = Instantiate(projectile, transform.position + Vector3.up, Quaternion.identity);
-        shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos());
+        var shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
+        shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), mindControlled);
     }
 
     private void OnDrawGizmos()

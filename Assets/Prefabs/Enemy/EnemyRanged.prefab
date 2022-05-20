@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 702235599156973552}
   - component: {fileID: 1117013065830631592}
   - component: {fileID: 7580595325622464657}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Backstab
   m_TagString: Untagged
   m_Icon: {fileID: 0}

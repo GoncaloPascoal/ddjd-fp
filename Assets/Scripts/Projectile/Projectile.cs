@@ -14,12 +14,19 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     [Tooltip("What layers are considered as the player?")]
     private LayerMask playerLayers;
+    
+    [SerializeField]
+    [Tooltip("What layers are considered as the enemy?")]
+    private LayerMask enemyLayers;
 
+    [SerializeField]
     [Tooltip("What other layers can this collide with")]
     private LayerMask _groundLayers;
 
     private float initialYVelocity;
     private Vector3 throwDirection;
+    
+    private bool mindControl = false;
 
     private void Awake()
     {
@@ -32,9 +39,11 @@ public class Projectile : MonoBehaviour
         
     }
 
-    public void ShootAt(Vector3 target)
+    public void ShootAt(Vector3 target, bool isMindControlled = false)
     {
         if (_shot) return;
+
+        mindControl = isMindControlled;
 
         var direction = target - transform.position;
         _shot = true;
@@ -73,13 +82,15 @@ public class Projectile : MonoBehaviour
     
     void OnTriggerEnter(Collider col)
     {
-        // If colliding with a player layer
-        if ((playerLayers.value & (1 << col.gameObject.layer)) > 0)
+        // If colliding with a player layer 
+        // or enemy layer and is mind controlled
+        if ((playerLayers.value & (1 << col.gameObject.layer)) > 0 || 
+            (mindControl && (enemyLayers.value & (1 << col.gameObject.layer)) > 0))
         {
             Hittable hitScript = col.gameObject.GetComponent<Hittable>();
             if (hitScript == null)
             {
-                Debug.LogWarning("Projectile collided with player, but player doesn't have a Hittable component!");
+                Debug.LogWarning("Projectile collided with entity, but it doesn't have a Hittable component!");
             }
             else
             {
@@ -89,8 +100,8 @@ public class Projectile : MonoBehaviour
         }
         else if ((_groundLayers.value & (1 << col.gameObject.layer)) > 0)
         {
+            Debug.Log("Hit terrain");
             Destroy(gameObject);
         }
     }
-
 }
