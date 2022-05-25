@@ -67,6 +67,13 @@ namespace StarterAssets
 		[Header("Player Attacks")] 
 		[Tooltip("Minimum dot product between player and enemy looking directions for backstab")]
 		public float backstabAngleOffset = 0.95f;
+
+		[Header("HUD")]
+		[SerializeField] public GameObject healthBar;
+		[SerializeField] public GameObject staminaBar;
+		
+		private Bar _healthBarScript;
+		private Bar _staminaBarScript;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -79,6 +86,22 @@ namespace StarterAssets
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
+
+		private float _maxStamina = 100.0f;
+
+		private float _stamina;
+		private float Stamina
+		{
+			get => _stamina;
+			set
+			{
+				_stamina = Mathf.Clamp(value, 0.0f, _maxStamina);
+				_staminaBarScript.SetValue(_stamina);
+			}
+		}
+
+		private const float StaminaUsageSprint = -15.0f;
+		private const float StaminaRecovery = 20.0f;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -122,6 +145,12 @@ namespace StarterAssets
 			_playerInput = GetComponent<PlayerInput>();
 
 			_backstabTargets = new List<GameObject>();
+			
+			_healthBarScript = healthBar.GetComponent<Bar>();
+			
+			_staminaBarScript = staminaBar.GetComponent<Bar>();
+			_staminaBarScript.SetMaxValue(_maxStamina);
+			Stamina = _maxStamina;
 
 			AssignAnimationIDs();
 
@@ -192,6 +221,15 @@ namespace StarterAssets
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
+			if (_input.sprint && _input.move != Vector2.zero)
+			{
+				ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+			}
+			else
+			{
+				ChangeStamina(Time.deltaTime * StaminaRecovery);
+			}
+			
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -233,7 +271,6 @@ namespace StarterAssets
 				// rotate to face input direction relative to camera position
 				transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 			}
-
 
 			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -370,6 +407,11 @@ namespace StarterAssets
 			Debug.Log("Backstab");
 
 			enemy.GetComponent<Hittable>().GetHitBackstab(1000);
+		}
+
+		private void ChangeStamina(float delta)
+		{
+			Stamina += delta;
 		}
 	}
 }
