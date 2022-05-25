@@ -2490,7 +2490,7 @@ MonoBehaviour:
   speedChangeRate: 10
   prepareTime: 3
   recoveryTime: 1
-  projectile: {fileID: 0}
+  projectile: {fileID: 1080494255442829614, guid: e3f810e8a218d734f8b5949fde03eab0, type: 3}
 --- !u!114 &836317743464338922
 MonoBehaviour:
   m_ObjectHideFlags: 0
