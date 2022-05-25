@@ -5,23 +5,20 @@ using StarterAssets;
 
 public class Pickup : MonoBehaviour
 {
-
-    private String _labelText;
-    private StarterAssetsInputs _input;
+    private string _labelText;
 
     private List<GameObject> _items;
     // Start is called before the first frame update
     void Start()
     {
         _items = new List<GameObject>();
-        _input = GetComponent<StarterAssetsInputs>();
         _labelText = "Hit E to pick up";
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_input.pickup)
+        if (Input.GetButtonDown("Interact"))
         {
                 if (_items.Count > 0)
                 {
