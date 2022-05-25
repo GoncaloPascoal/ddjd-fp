@@ -101,7 +101,7 @@ namespace StarterAssets
 		}
 
 		private const float StaminaUsageSprint = -15.0f;
-		private const float StaminaUsageJump = -25.0f;
+		private const float StaminaUsageJump = -20.0f;
 		private const float StaminaRecovery = 20.0f;
 
 		// timeout deltatime
@@ -120,7 +120,7 @@ namespace StarterAssets
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 
-		private const float _threshold = 0.01f;
+		private const float Threshold = 0.01f;
 
 		private bool _hasAnimator;
 
@@ -201,7 +201,7 @@ namespace StarterAssets
 			Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 			
 			// if there is an input and camera position is not fixed
-			if (look.sqrMagnitude >= _threshold && !LockCameraPosition)
+			if (look.sqrMagnitude >= Threshold && !LockCameraPosition)
 			{
 				//Don't multiply mouse input by Time.deltaTime;
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
@@ -226,13 +226,16 @@ namespace StarterAssets
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = sprint ? SprintSpeed : MoveSpeed;
 
-			if (sprint && movement != Vector2.zero)
+			if (Grounded)
 			{
-				ChangeStamina(Time.deltaTime * StaminaUsageSprint);
-			}
-			else
-			{
-				ChangeStamina(Time.deltaTime * StaminaRecovery);
+				if (sprint && movement != Vector2.zero)
+				{
+					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+				}
+				else
+				{
+					ChangeStamina(Time.deltaTime * StaminaRecovery);
+				}
 			}
 			
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
