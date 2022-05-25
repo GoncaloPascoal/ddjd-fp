@@ -83,8 +83,6 @@ public abstract class Enemy : MonoBehaviour
         //  and no obstacles in the way
         if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
         {
-            Debug.Log(hit.collider.gameObject.name);
-            Debug.DrawLine(transform.position, hit.transform.position, Color.blue, 1000);
             if (!mindControlled)
                 return hit.transform.CompareTag("Player");
             return hit.transform.CompareTag("Enemy");
