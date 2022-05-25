@@ -13,6 +13,7 @@ namespace StarterAssets
 		public bool jump;
 		public bool sprint;
 		public bool swing;
+		public bool pickup;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -51,6 +52,11 @@ namespace StarterAssets
 		{
 			SwingInput(value.isPressed);
 		}
+		
+		public void OnPickup(InputValue value)
+		{
+			PickupInput(value.isPressed);
+		}
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
@@ -79,6 +85,11 @@ namespace StarterAssets
 		public void SwingInput(bool newSwingState)
 		{
 			swing = newSwingState;
+		}
+
+		public void PickupInput(bool newPickupState)
+		{
+			pickup = newPickupState;
 		}
 
 #if !UNITY_IOS || !UNITY_ANDROID
