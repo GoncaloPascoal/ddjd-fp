@@ -2401,7 +2401,7 @@ GameObject:
   - component: {fileID: 4724259919690623100}
   - component: {fileID: 1257167517651220204}
   - component: {fileID: 5246725830805229702}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Backstab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
