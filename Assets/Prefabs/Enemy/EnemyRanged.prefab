@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 702235599156973552}
   - component: {fileID: 1117013065830631592}
   - component: {fileID: 7580595325622464657}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Backstab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d445d669e1ad66441af4210352a717ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 9017289900998797890}
 --- !u!65 &7580595325622464657
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2490,7 +2490,7 @@ MonoBehaviour:
   speedChangeRate: 10
   prepareTime: 3
   recoveryTime: 1
-  projectile: {fileID: 0}
+  projectile: {fileID: 1080494255442829614, guid: e3f810e8a218d734f8b5949fde03eab0, type: 3}
 --- !u!114 &836317743464338922
 MonoBehaviour:
   m_ObjectHideFlags: 0
