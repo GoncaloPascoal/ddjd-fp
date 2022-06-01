@@ -8,6 +8,11 @@ using UnityEngine.Serialization;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [SerializeField] private GameObject healthBar;
+    private Bar _healthBarScript;
+
+    private Damageable _damageable;
+
     protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
@@ -37,6 +42,11 @@ public abstract class Enemy : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        _damageable = GetComponent<Damageable>();
+        
+        _healthBarScript = healthBar.GetComponent<Bar>();
+        _damageable.OnHealthChanged += UpdateHealth;
+
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
         playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
@@ -52,7 +62,6 @@ public abstract class Enemy : MonoBehaviour
         {
             Animator.SetFloat(AnimIDMotionSpeed, 1f);
         }
-        
     }
 
     // Update is called once per frame
@@ -91,7 +100,7 @@ public abstract class Enemy : MonoBehaviour
         return false;
     }
 
-    Transform GetClosestEnemy ()
+    Transform GetClosestEnemy()
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -138,5 +147,10 @@ public abstract class Enemy : MonoBehaviour
     public void mindControl()
     {
         this.mindControlled = true;
+    }
+    
+    private void UpdateHealth()
+    {
+        _healthBarScript.SetValue(_damageable.Health);
     }
 }
