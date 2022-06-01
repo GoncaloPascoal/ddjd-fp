@@ -8,9 +8,12 @@ public class Pickup : MonoBehaviour
     private string _labelText;
 
     private List<GameObject> _items;
+
+    private Inventory _inventoryScript;
     // Start is called before the first frame update
     void Start()
     {
+        _inventoryScript = GetComponent<Inventory>();
         _items = new List<GameObject>();
         _labelText = "Hit E to pick up";
     }
@@ -24,8 +27,8 @@ public class Pickup : MonoBehaviour
                 {
                     if (_items[0] != null)
                     {
-                        Destroy(_items[0]);
-                        Debug.Log("Destroy");
+                        
+                        _inventoryScript.AddItem(_items[0]);
                     }
                     _items.RemoveAt(0);
                 }
