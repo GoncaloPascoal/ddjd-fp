@@ -7,6 +7,7 @@ TagManager:
   - CinemachineTarget
   - Enemy
   - Pickup
+  - Message
   layers:
   - Default
   - TransparentFX
