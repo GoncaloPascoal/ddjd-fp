@@ -101,6 +101,7 @@ namespace StarterAssets
 		}
 
 		private const float StaminaUsageSprint = -15.0f;
+		private const float StaminaUsageJump = -20.0f;
 		private const float StaminaRecovery = 20.0f;
 
 		// timeout deltatime
@@ -114,17 +115,17 @@ namespace StarterAssets
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
 
-		private PlayerInput _playerInput;
 		private Animator _animator;
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
 
-		private const float _threshold = 0.01f;
+		private const float Threshold = 0.01f;
 
 		private bool _hasAnimator;
 
-		private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
+		// TODO: fix
+		private bool IsCurrentDeviceMouse = true;
 
 		private List<GameObject> _backstabTargets;
 
@@ -142,7 +143,6 @@ namespace StarterAssets
 			_hasAnimator = TryGetComponent(out _animator);
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
-			_playerInput = GetComponent<PlayerInput>();
 
 			_backstabTargets = new List<GameObject>();
 			
@@ -198,14 +198,16 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
+			Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+			
 			// if there is an input and camera position is not fixed
-			if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
+			if (look.sqrMagnitude >= Threshold && !LockCameraPosition)
 			{
 				//Don't multiply mouse input by Time.deltaTime;
 				float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 				
-				_cinemachineTargetYaw += _input.look.x * deltaTimeMultiplier;
-				_cinemachineTargetPitch += _input.look.y * deltaTimeMultiplier;
+				_cinemachineTargetYaw += look.x * deltaTimeMultiplier;
+				_cinemachineTargetPitch += look.y * deltaTimeMultiplier;
 			}
 
 			// clamp our rotations so our values are limited 360 degrees
@@ -218,29 +220,35 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			bool sprint = Input.GetButton("Sprint");
+			Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
-			if (_input.sprint && _input.move != Vector2.zero)
+			// set target speed based on move speed, sprint speed and if sprint is pressed
+			float targetSpeed = sprint ? SprintSpeed : MoveSpeed;
+
+			if (Grounded)
 			{
-				ChangeStamina(Time.deltaTime * StaminaUsageSprint);
-			}
-			else
-			{
-				ChangeStamina(Time.deltaTime * StaminaRecovery);
+				if (sprint && movement != Vector2.zero)
+				{
+					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+				}
+				else
+				{
+					ChangeStamina(Time.deltaTime * StaminaRecovery);
+				}
 			}
 			
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
 			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is no input, set the target speed to 0
-			if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+			if (movement == Vector2.zero) targetSpeed = 0.0f;
 
 			// a reference to the players current horizontal velocity
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
-			float speedOffset = 0.1f;
-			float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
+			const float speedOffset = 0.1f;
+			float inputMagnitude = movement.magnitude;
 
 			// accelerate or decelerate to target speed
 			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
@@ -259,13 +267,13 @@ namespace StarterAssets
 			_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
 
 			// normalise input direction
-			Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
+			Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
-			if (_input.move != Vector2.zero)
+			if (movement != Vector2.zero)
 			{
-				_targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+				_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
 				float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
 				// rotate to face input direction relative to camera position
@@ -306,8 +314,10 @@ namespace StarterAssets
 				}
 
 				// Jump
-				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+				if (Input.GetButtonDown("Jump") && Stamina >= StaminaUsageJump)
 				{
+					ChangeStamina(StaminaUsageJump);
+					
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
