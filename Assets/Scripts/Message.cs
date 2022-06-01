@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Message : MonoBehaviour
 {
-    [SerializeField] private string _labelText;
+    
+    [SerializeField,TextArea] private string _labelText;
 
     private bool _colliding;
     // Start is called before the first frame update

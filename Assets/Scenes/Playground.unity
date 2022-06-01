@@ -873,6 +873,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: _labelText
+      value: 'Lore 1
+
+        Lore 2'
+      objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
       value: LoreMessage
