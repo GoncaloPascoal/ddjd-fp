@@ -154,11 +154,12 @@ namespace StarterAssets
 
 			_healthBarScript = healthBar.GetComponent<Bar>();
 			_healthBarScript.SetMaxValue(_damageable.MaxHealth);
-			_healthBarScript.SetValue(_damageable.Health);
+			_healthBarScript.SetValueInstantly(_damageable.Health);
 			
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
 			_staminaBarScript.SetMaxValue(_maxStamina);
-			Stamina = _maxStamina;
+			_staminaBarScript.SetValueInstantly(_maxStamina);
+			_stamina = _maxStamina;
 
 			_damageable.OnHealthChanged += UpdateHealth;
 
@@ -326,6 +327,7 @@ namespace StarterAssets
 				// Jump
 				if (Input.GetButtonDown("Jump") && Stamina >= StaminaUsageJump)
 				{
+					_damageable.ChangeHealth(-20);
 					ChangeStamina(StaminaUsageJump);
 					
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
