@@ -126,6 +126,7 @@ namespace StarterAssets
 		private bool _hasAnimator;
 		
 		// Roll
+		[Header("Roll")]
 		private bool _is_rolling;
 		private bool _started_rolling;
 		
@@ -138,6 +139,8 @@ namespace StarterAssets
 		[SerializeField]
 		private float _roll_speed;
 		private Quaternion _camera_rot_at_start_roll;
+		private Vector3 _roll_dir;
+		private float _roll_target_rotation;
 		
 
 		// TODO: fix
@@ -236,10 +239,8 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			if (_roll_cooldown_cur > 0)
-			{
+			if (_started_rolling)
 				MoveRoll();
-			}
 			else{
 				bool sprint = Input.GetButton("Sprint");
 				Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
@@ -303,9 +304,20 @@ namespace StarterAssets
 
 				Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
-				// move the player
-				_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
+				if (_is_rolling)
+				{
+					targetDirection = Quaternion.Euler(0.0f, _roll_target_rotation, 0.0f) * Vector3.forward;
+					_controller.Move(targetDirection.normalized * (_roll_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+				else if (_roll_cooldown_cur < 0f)
+				{
+					// move the player
+					_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+				else
+				{
+					_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
 				// update animator if using character
 				if (_hasAnimator)
 				{
@@ -330,20 +342,9 @@ namespace StarterAssets
 						direction = new Vector3(0, 0, 1);
 					}
 
-					_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+					_roll_target_rotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
 					_started_rolling = false;
 				}
-				Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-				Debug.Log("tdir:" + targetDirection);
-				Debug.Log(targetDirection);
-
-				if (_verticalVelocity > 0)
-				{
-					_verticalVelocity = 0;
-				}
-				
-				_controller.Move(targetDirection.normalized * (_roll_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-				
 			}
 		}
 		
