@@ -112,16 +112,24 @@ public abstract class Enemy : MonoBehaviour
     
     protected Vector3 GetTargetPos()
     {
+        var headPos = playerTPC.playerHeadTransform.position;
+        var playerPos = 
+            new Vector3(headPos.x, headPos.y - 0.5f,
+                headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
+        
         if (!mindControlled)
         {
-            var headPos = playerTPC.playerHeadTransform.position;
-            return
-                new Vector3(headPos.x, headPos.y - 0.5f,
-                    headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
+            return playerPos;
         }
         else
         {
-            return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
+            var closestEnemy = GetClosestEnemy();
+            if (closestEnemy != null)
+                return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
+
+            // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
+            mindControlled = false;
+            return playerPos;
         }
     }
 

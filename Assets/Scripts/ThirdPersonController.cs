@@ -74,6 +74,8 @@ namespace StarterAssets
 		
 		private Bar _healthBarScript;
 		private Bar _staminaBarScript;
+
+		private Attacker _attacker;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -153,6 +155,8 @@ namespace StarterAssets
 			_staminaBarScript.SetMaxValue(_maxStamina);
 			Stamina = _maxStamina;
 
+			_attacker = GetComponent<Attacker>();
+
 			AssignAnimationIDs();
 
 			// reset our timeouts on start
@@ -223,7 +227,14 @@ namespace StarterAssets
 		private void Move()
 		{
 			bool sprint = Input.GetButton("Sprint");
-			Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+			Vector2 movement;
+
+			if (_attacker.IsAttacking())
+			{
+				movement = Vector2.zero;
+			}
+			else 
+				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = sprint ? SprintSpeed : MoveSpeed;
@@ -297,7 +308,7 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (Grounded)
+			if (Grounded && !_attacker.IsAttacking())
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -370,11 +381,9 @@ namespace StarterAssets
 		{
 			if (!Input.GetButtonDown("Attack") || !Grounded)
 				return;
-			
-			Debug.Log("Attack");
+
 			if (_backstabTargets.Count > 0)
 			{
-				_input.swing = false;
 				Debug.Log(_backstabTargets.Count);
 				foreach (var target in _backstabTargets)
 				{
@@ -389,10 +398,7 @@ namespace StarterAssets
 			}
 			else 
 			{
-				_input.swing = false;
-				Debug.Log("Normal Attack");
-				
-				_animator.SetTrigger(_animIDAttackNormal);
+				_attacker.Attack();
 			}
 		}
 
