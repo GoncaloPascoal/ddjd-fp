@@ -114,6 +114,7 @@ namespace StarterAssets
 		private int _animIDJump;
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
+		private int _animIDAttackNormal;
 
 		private Animator _animator;
 		private CharacterController _controller;
@@ -181,6 +182,7 @@ namespace StarterAssets
 			_animIDJump = Animator.StringToHash("Jump");
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
 			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+			_animIDAttackNormal = Animator.StringToHash("AttackNormal");
 		}
 
 		private void GroundedCheck()
@@ -366,7 +368,11 @@ namespace StarterAssets
 
 		private void Attacks()
 		{
-			if (_input.swing && _backstabTargets.Count > 0)
+			if (!Input.GetButtonDown("Attack") || !Grounded)
+				return;
+			
+			Debug.Log("Attack");
+			if (_backstabTargets.Count > 0)
 			{
 				_input.swing = false;
 				Debug.Log(_backstabTargets.Count);
@@ -380,6 +386,13 @@ namespace StarterAssets
 					BackstabAttack(target);
 					break;
 				}
+			}
+			else 
+			{
+				_input.swing = false;
+				Debug.Log("Normal Attack");
+				
+				_animator.SetTrigger(_animIDAttackNormal);
 			}
 		}
 
