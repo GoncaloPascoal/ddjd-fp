@@ -327,7 +327,6 @@ namespace StarterAssets
 				// Jump
 				if (Input.GetButtonDown("Jump") && Stamina >= StaminaUsageJump)
 				{
-					_damageable.ChangeHealth(-20);
 					ChangeStamina(StaminaUsageJump);
 					
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
