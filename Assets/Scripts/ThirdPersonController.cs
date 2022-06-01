@@ -74,6 +74,9 @@ namespace StarterAssets
 		
 		private Bar _healthBarScript;
 		private Bar _staminaBarScript;
+
+		private Damageable _damageable;
+		private const int PlayerMaxHealth = 100;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -146,11 +149,18 @@ namespace StarterAssets
 
 			_backstabTargets = new List<GameObject>();
 			
+			_damageable = GetComponent<Damageable>();
+			_damageable.InitializeMaxHealth(PlayerMaxHealth);
+
 			_healthBarScript = healthBar.GetComponent<Bar>();
+			_healthBarScript.SetMaxValue(_damageable.MaxHealth);
+			_healthBarScript.SetValue(_damageable.Health);
 			
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
 			_staminaBarScript.SetMaxValue(_maxStamina);
 			Stamina = _maxStamina;
+
+			_damageable.OnHealthChanged += UpdateHealth;
 
 			AssignAnimationIDs();
 
@@ -414,14 +424,18 @@ namespace StarterAssets
 
 		private void BackstabAttack(GameObject enemy)
 		{
-			Debug.Log("Backstab");
-
-			enemy.GetComponent<Hittable>().GetHitBackstab(1000);
+			// TODO: fix
+			//enemy.GetComponent<Damageable>().GetHitBackstab(1000);
 		}
 
 		private void ChangeStamina(float delta)
 		{
 			Stamina += delta;
+		}
+
+		private void UpdateHealth()
+		{
+			_healthBarScript.SetValue(_damageable.Health);
 		}
 	}
 }
