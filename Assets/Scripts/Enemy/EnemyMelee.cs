@@ -14,9 +14,12 @@ public class EnemyMelee : Enemy
 
     [SerializeField] private float alertRange = 5f;
 
+    [SerializeField] private Attacker attacker;
+
     new void Start()
     {
         base.Start();
+        attacker = GetComponent<Attacker>();
         _chasingTarget = false;
         _chasingTime = chaseCooldown;
     }
@@ -31,10 +34,14 @@ public class EnemyMelee : Enemy
         if (distanceToTarget <= meleeDistance)
         {
             // is chasing - will look at player to attack, or player is too close
+
             if (_chasingTarget || distanceToTarget <= unconditionalDetectionRange)
             {
                 NavMeshAgent.speed = 0f;
                 LookAtTarget();
+                
+                attacker.AttackNotBuffered();
+                
                 base.Update();
                 return;
             }
