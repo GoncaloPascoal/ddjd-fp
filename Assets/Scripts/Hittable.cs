@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Hittable : MonoBehaviour
 {
-
-    
     [SerializeField]
     [Tooltip("Maximum HP.")]
     int maxHp;
     int curHp;
     private Enemy _enemy;
-    
+    private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
         curHp = maxHp;
         _enemy = GetComponent<Enemy>();
+        _animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,6 +28,9 @@ public class Hittable : MonoBehaviour
     {
         curHp -= damage;
         Debug.Log("Ouch! Current HP: " + curHp + ".");
+        
+        if (curHp <= 0)
+            Death();
     }
 
     public void GetHitBackstab(int damage)
@@ -38,5 +41,24 @@ public class Hittable : MonoBehaviour
         {
             _enemy.mindControl();
         }
+    }
+
+    public void Death()
+    {
+        if (gameObject.CompareTag("Player"))
+        {
+            return;
+        }
+
+        _animator.applyRootMotion = true;
+        foreach (var comp in GetComponents(typeof(Component)))
+        {
+            if (comp != _animator && comp != transform && comp != this)
+            {
+                Destroy(comp);
+            }
+        }
+        _animator.SetTrigger("Die");
+        Destroy(this);
     }
 }
