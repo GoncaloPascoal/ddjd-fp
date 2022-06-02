@@ -258,8 +258,6 @@ namespace StarterAssets
 			if (_started_rolling && !isAttacking)
 				MoveRoll();
 			else {
-				Debug.Log("Started rolling:" + _started_rolling);
-				Debug.Log("Is rolling:" + _is_rolling);
 				bool sprint = Input.GetButton("Sprint");
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
@@ -369,8 +367,7 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			Debug.Log(_is_rolling);
-			if (Grounded && !_attacker.IsAttacking())
+			if (Grounded)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -388,38 +385,40 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				// Roll
-				if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) && _roll_cooldown_cur <= 0 && _verticalVelocity <= 0.0f)
+				if (!_attacker.IsAttacking())
 				{
-					ChangeStamina(StaminaUsageRoll);
-					_is_rolling = true;
-					_started_rolling = true;
-					_roll_cooldown_cur = _roll_cooldown;
-					_roll_duration_cur = _roll_duration;
-					Debug.Log("Am rolling!");
-				}
-				
-				// Jump
-				if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && _roll_cooldown_cur <= 0)
-				{
-					ChangeStamina(StaminaUsageJump);
-					
-					// the square root of H * -2 * G = how much velocity needed to reach desired height
-					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-					// update animator if using character
-					if (_hasAnimator)
+					// Roll
+					if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
+					    _roll_cooldown_cur <= 0 && _verticalVelocity <= 0.0f)
 					{
-						_animator.SetBool(_animIDJump, true);
+						ChangeStamina(StaminaUsageRoll);
+						_is_rolling = true;
+						_started_rolling = true;
+						_roll_cooldown_cur = _roll_cooldown;
+						_roll_duration_cur = _roll_duration;
+					}
+
+					// Jump
+					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && _roll_cooldown_cur <= 0)
+					{
+						ChangeStamina(StaminaUsageJump);
+
+						// the square root of H * -2 * G = how much velocity needed to reach desired height
+						_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+						// update animator if using character
+						if (_hasAnimator)
+						{
+							_animator.SetBool(_animIDJump, true);
+						}
+					}
+
+					// jump timeout
+					if (_jumpTimeoutDelta >= 0.0f)
+					{
+						_jumpTimeoutDelta -= Time.deltaTime;
 					}
 				}
-
-				// jump timeout
-				if (_jumpTimeoutDelta >= 0.0f)
-				{
-					_jumpTimeoutDelta -= Time.deltaTime;
-				}
-
 			}
 			else
 			{
