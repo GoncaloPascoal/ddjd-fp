@@ -74,6 +74,8 @@ namespace StarterAssets
 		
 		private Bar _healthBarScript;
 		private Bar _staminaBarScript;
+
+		private Attacker _attacker;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -116,6 +118,7 @@ namespace StarterAssets
 		private int _animIDJump;
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
+		private int _animIDAttackNormal;
 
 		private Animator _animator;
 		private CharacterController _controller;
@@ -172,6 +175,8 @@ namespace StarterAssets
 			_staminaBarScript.SetMaxValue(_maxStamina);
 			Stamina = _maxStamina;
 
+			_attacker = GetComponent<Attacker>();
+
 			AssignAnimationIDs();
 
 			// reset our timeouts on start
@@ -201,6 +206,7 @@ namespace StarterAssets
 			_animIDJump = Animator.StringToHash("Jump");
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
 			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+			_animIDAttackNormal = Animator.StringToHash("AttackNormal");
 		}
 
 		private void GroundedCheck()
@@ -240,11 +246,21 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			if (_started_rolling)
+			Vector2 movement;
+
+			bool isAttacking = _attacker.IsAttacking();
+
+			if (isAttacking)
+				movement = Vector2.zero;
+			else 
+				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+
+			if (_started_rolling && !isAttacking)
 				MoveRoll();
-			else{
+			else {
+				Debug.Log("Started rolling:" + _started_rolling);
+				Debug.Log("Is rolling:" + _is_rolling);
 				bool sprint = Input.GetButton("Sprint");
-				Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
 				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
@@ -334,7 +350,6 @@ namespace StarterAssets
 		{
 			if (_roll_duration_cur > 0)
 			{
-				
 				if (_started_rolling)
 				{
 					Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
@@ -354,7 +369,8 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (Grounded)
+			Debug.Log(_is_rolling);
+			if (Grounded && !_attacker.IsAttacking())
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -444,9 +460,11 @@ namespace StarterAssets
 
 		private void Attacks()
 		{
-			if (_input.swing && _backstabTargets.Count > 0)
+			if (!Input.GetButtonDown("Attack") || !Grounded)
+				return;
+
+			if (_backstabTargets.Count > 0)
 			{
-				_input.swing = false;
 				Debug.Log(_backstabTargets.Count);
 				foreach (var target in _backstabTargets)
 				{
@@ -458,6 +476,10 @@ namespace StarterAssets
 					BackstabAttack(target);
 					break;
 				}
+			}
+			else 
+			{
+				_attacker.Attack();
 			}
 		}
 
