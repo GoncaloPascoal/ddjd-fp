@@ -104,6 +104,7 @@ namespace StarterAssets
 		private const float StaminaUsageJump = -20.0f;
 		private const float StaminaUsageRoll = -20.0f;
 		private const float StaminaRecovery = 20.0f;
+		private float StaminaNeededBeforeSprint = 0;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -246,13 +247,15 @@ namespace StarterAssets
 				Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
-				float targetSpeed = sprint ? SprintSpeed : MoveSpeed;
+				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
 
-				if (Grounded)
+				if (Grounded && !_is_rolling)
 				{
-					if (sprint && movement != Vector2.zero)
+					if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
 					{
+						StaminaNeededBeforeSprint = 0;
 						ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+						if (Stamina <= 0.0f) StaminaNeededBeforeSprint = 25f;
 					}
 					else
 					{
@@ -370,7 +373,7 @@ namespace StarterAssets
 				}
 
 				// Roll
-				if (Input.GetButtonDown("Roll") && Stamina >= StaminaUsageRoll && _roll_cooldown_cur <= 0)
+				if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) && _roll_cooldown_cur <= 0 && _verticalVelocity <= 0.0f)
 				{
 					ChangeStamina(StaminaUsageRoll);
 					_is_rolling = true;
@@ -381,7 +384,7 @@ namespace StarterAssets
 				}
 				
 				// Jump
-				if (Input.GetButtonDown("Jump") && Stamina >= StaminaUsageJump && _roll_cooldown_cur <= 0)
+				if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && _roll_cooldown_cur <= 0)
 				{
 					ChangeStamina(StaminaUsageJump);
 					
