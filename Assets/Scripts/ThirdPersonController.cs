@@ -104,7 +104,9 @@ namespace StarterAssets
 
 		private const float StaminaUsageSprint = -15.0f;
 		private const float StaminaUsageJump = -20.0f;
+		private const float StaminaUsageRoll = -20.0f;
 		private const float StaminaRecovery = 20.0f;
+		private float StaminaNeededBeforeSprint = 0;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -126,6 +128,24 @@ namespace StarterAssets
 		private const float Threshold = 0.01f;
 
 		private bool _hasAnimator;
+		
+		// Roll
+		[Header("Roll")]
+		private bool _is_rolling;
+		private bool _started_rolling;
+		
+		[SerializeField]
+		private float _roll_duration;
+		private float _roll_duration_cur;
+		[SerializeField]
+		private float _roll_cooldown;
+		private float _roll_cooldown_cur;
+		[SerializeField]
+		private float _roll_speed;
+		private Quaternion _camera_rot_at_start_roll;
+		private Vector3 _roll_dir;
+		private float _roll_target_rotation;
+		
 
 		// TODO: fix
 		private bool IsCurrentDeviceMouse = true;
@@ -226,88 +246,130 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			bool sprint = Input.GetButton("Sprint");
 			Vector2 movement;
 
-			if (_attacker.IsAttacking())
-			{
+			bool isAttacking = _attacker.IsAttacking();
+
+			if (isAttacking)
 				movement = Vector2.zero;
-			}
 			else 
 				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
-			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = sprint ? SprintSpeed : MoveSpeed;
+			if (_started_rolling && !isAttacking)
+				MoveRoll();
+			else {
+				Debug.Log("Started rolling:" + _started_rolling);
+				Debug.Log("Is rolling:" + _is_rolling);
+				bool sprint = Input.GetButton("Sprint");
 
-			if (Grounded)
-			{
-				if (sprint && movement != Vector2.zero)
+				// set target speed based on move speed, sprint speed and if sprint is pressed
+				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
+
+				if (Grounded && !_is_rolling)
 				{
-					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+					if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
+					{
+						StaminaNeededBeforeSprint = 0;
+						ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+						if (Stamina <= 0.0f) StaminaNeededBeforeSprint = 25f;
+					}
+					else
+					{
+						ChangeStamina(Time.deltaTime * StaminaRecovery);
+					}
+				}
+				
+				// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+				// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+				// if there is no input, set the target speed to 0
+				if (movement == Vector2.zero) targetSpeed = 0.0f;
+
+				// a reference to the players current horizontal velocity
+				float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+
+				const float speedOffset = 0.1f;
+				float inputMagnitude = movement.magnitude;
+
+				// accelerate or decelerate to target speed
+				if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
+				{
+					// creates curved result rather than a linear one giving a more organic speed change
+					// note T in Lerp is clamped, so we don't need to clamp our speed
+					_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+
+					// round speed to 3 decimal places
+					_speed = Mathf.Round(_speed * 1000f) / 1000f;
 				}
 				else
 				{
-					ChangeStamina(Time.deltaTime * StaminaRecovery);
+					_speed = targetSpeed;
 				}
-			}
-			
-			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+				_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
 
-			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is no input, set the target speed to 0
-			if (movement == Vector2.zero) targetSpeed = 0.0f;
+				// normalise input direction
+				Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
 
-			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+				// if there is a move input rotate player when the player is moving
+				if (movement != Vector2.zero)
+				{
+					_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+					float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
 
-			const float speedOffset = 0.1f;
-			float inputMagnitude = movement.magnitude;
+					// rotate to face input direction relative to camera position
+					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+				}
 
-			// accelerate or decelerate to target speed
-			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
-			{
-				// creates curved result rather than a linear one giving a more organic speed change
-				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+				Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
-				// round speed to 3 decimal places
-				_speed = Mathf.Round(_speed * 1000f) / 1000f;
-			}
-			else
-			{
-				_speed = targetSpeed;
-			}
-			_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-
-			// normalise input direction
-			Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
-
-			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is a move input rotate player when the player is moving
-			if (movement != Vector2.zero)
-			{
-				_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-				float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
-
-				// rotate to face input direction relative to camera position
-				transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-			}
-
-			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-			// move the player
-			_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
-			// update animator if using character
-			if (_hasAnimator)
-			{
-				_animator.SetFloat(_animIDSpeed, _animationBlend);
-				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+				if (_is_rolling)
+				{
+					targetDirection = Quaternion.Euler(0.0f, _roll_target_rotation, 0.0f) * Vector3.forward;
+					_controller.Move(targetDirection.normalized * (_roll_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+				else if (_roll_cooldown_cur < 0f)
+				{
+					// move the player
+					_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+				else
+				{
+					_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+				// update animator if using character
+				if (_hasAnimator)
+				{
+					_animator.SetFloat(_animIDSpeed, _animationBlend);
+					_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+				}
 			}
 		}
 
+		private void MoveRoll()
+		{
+			if (_roll_duration_cur > 0)
+			{
+				if (_started_rolling)
+				{
+					Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+					// normalise input direction
+					Vector3 direction = new Vector3(movement.x, 0.0f, movement.y).normalized;
+					if (direction == Vector3.zero)
+					{
+						direction = new Vector3(0, 0, 1);
+					}
+
+					_roll_target_rotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
+					_started_rolling = false;
+				}
+			}
+		}
+		
+
 		private void JumpAndGravity()
 		{
+			Debug.Log(_is_rolling);
 			if (Grounded && !_attacker.IsAttacking())
 			{
 				// reset the fall timeout timer
@@ -326,8 +388,19 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
+				// Roll
+				if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) && _roll_cooldown_cur <= 0 && _verticalVelocity <= 0.0f)
+				{
+					ChangeStamina(StaminaUsageRoll);
+					_is_rolling = true;
+					_started_rolling = true;
+					_roll_cooldown_cur = _roll_cooldown;
+					_roll_duration_cur = _roll_duration;
+					Debug.Log("Am rolling!");
+				}
+				
 				// Jump
-				if (Input.GetButtonDown("Jump") && Stamina >= StaminaUsageJump)
+				if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && _roll_cooldown_cur <= 0)
 				{
 					ChangeStamina(StaminaUsageJump);
 					
@@ -346,6 +419,7 @@ namespace StarterAssets
 				{
 					_jumpTimeoutDelta -= Time.deltaTime;
 				}
+
 			}
 			else
 			{
@@ -374,6 +448,13 @@ namespace StarterAssets
 			if (_verticalVelocity < _terminalVelocity)
 			{
 				_verticalVelocity += Gravity * Time.deltaTime;
+			}
+
+			_roll_cooldown_cur -= Time.deltaTime;
+			_roll_duration_cur -= Time.deltaTime;
+			if (_roll_duration_cur <= 0)
+			{
+				_is_rolling = false;
 			}
 		}
 

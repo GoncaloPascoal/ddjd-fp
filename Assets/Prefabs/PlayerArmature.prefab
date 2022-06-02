@@ -1104,6 +1104,9 @@ MonoBehaviour:
   backstabAngleOffset: 0.95
   healthBar: {fileID: 0}
   staminaBar: {fileID: 0}
+  _roll_duration: 0.5
+  _roll_cooldown: 1
+  _roll_speed: 5
 --- !u!114 &5885216827943657505
 MonoBehaviour:
   m_ObjectHideFlags: 0
