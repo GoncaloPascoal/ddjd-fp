@@ -43,7 +43,7 @@ public class Hittable : MonoBehaviour
         }
     }
 
-    public void Death()
+    void Death()
     {
         if (gameObject.CompareTag("Player"))
         {
@@ -51,6 +51,7 @@ public class Hittable : MonoBehaviour
         }
 
         _animator.applyRootMotion = true;
+
         foreach (var comp in GetComponents(typeof(Component)))
         {
             if (comp != _animator && comp != transform && comp != this)
@@ -59,6 +60,11 @@ public class Hittable : MonoBehaviour
             }
         }
         _animator.SetTrigger("Die");
+    }
+
+    public void EndDeath()
+    {
+        Destroy(_animator);
         Destroy(this);
     }
 }
