@@ -55,6 +55,8 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (gameObject.CompareTag("Player"))
+            Debug.Log(other.tag);
         HitObstacle(other);
     }
 }

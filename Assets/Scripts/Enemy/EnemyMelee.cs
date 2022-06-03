@@ -14,12 +14,12 @@ public class EnemyMelee : Enemy
 
     [SerializeField] private float alertRange = 5f;
 
-    [SerializeField] private Attacker attacker;
+    private Attacker _attacker;
 
     new void Start()
     {
         base.Start();
-        attacker = GetComponent<Attacker>();
+        _attacker = GetComponent<Attacker>();
         _chasingTarget = false;
         _chasingTime = chaseCooldown;
     }
@@ -40,7 +40,7 @@ public class EnemyMelee : Enemy
                 NavMeshAgent.speed = 0f;
                 LookAtTarget();
                 
-                attacker.AttackNotBuffered();
+                _attacker.AttackNotBuffered();
                 
                 base.Update();
                 return;
