@@ -1091,7 +1091,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9166171171625114604}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Skeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1476,7 +1476,6 @@ MonoBehaviour:
   meleeDistance: 2
   unconditionalDetectionRange: 1.25
   alertRange: 5
-  attacker: {fileID: 0}
 --- !u!114 &2650512198738814323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2647,7 +2646,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -373.672
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6953150615432029739, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
 --- !u!4 &5298514435423963838 stripped
 Transform:

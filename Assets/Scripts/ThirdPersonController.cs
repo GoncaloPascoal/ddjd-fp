@@ -522,5 +522,16 @@ namespace StarterAssets
 		{
 			Stamina += delta;
 		}
+
+		private void OnControllerColliderHit(ControllerColliderHit hit)
+		{
+			if (hit.collider.gameObject.layer == LayerMask.NameToLayer("EnemySkeleton"))
+				hit.collider.attachedRigidbody.velocity = _controller.velocity;
+		}
+
+		private void Col(Collision collision)
+		{
+
+		}
 	}
 }
