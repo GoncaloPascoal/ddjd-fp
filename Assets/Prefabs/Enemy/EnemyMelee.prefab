@@ -1473,8 +1473,8 @@ MonoBehaviour:
   chaseCooldown: 5
   _spawn: {fileID: 3586084888711922195}
   speedChangeRate: 10
-  meleeDistance: 2
-  unconditionalDetectionRange: 1.25
+  meleeDistance: 1.5
+  unconditionalDetectionRange: 0
   alertRange: 5
 --- !u!114 &2650512198738814323
 MonoBehaviour:
