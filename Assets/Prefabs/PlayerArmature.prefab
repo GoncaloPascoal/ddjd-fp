@@ -845,6 +845,7 @@ GameObject:
   - component: {fileID: 8178030209161109223}
   - component: {fileID: 5064086058150168977}
   - component: {fileID: 423026774712006885}
+  - component: {fileID: -4521213889600835716}
   m_Layer: 6
   m_Name: PlayerArmature
   m_TagString: Player
@@ -1255,6 +1256,18 @@ MonoBehaviour:
   attackingStates:
   - AttackNormal
   weapon: {fileID: 5331836338879897050}
+--- !u!114 &-4521213889600835716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffaa419cc41d0eb489e72393c4798c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4502985912587992869
 GameObject:
   m_ObjectHideFlags: 0
