@@ -37,7 +37,7 @@ public class Hittable : MonoBehaviour
     {
         curHp -= damage;
         Debug.Log("Ouch! Backstab! Current HP: " + curHp + ".");
-        if (curHp < 0)
+        if (curHp <= 0)
         {
             _enemy.mindControl();
         }

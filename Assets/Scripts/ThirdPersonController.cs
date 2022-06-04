@@ -84,7 +84,7 @@ namespace StarterAssets
 		// player
 		private float _speed;
 		private float _animationBlend;
-		private float _targetRotation = 0.0f;
+		private float _targetRotation;
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
@@ -106,7 +106,7 @@ namespace StarterAssets
 		private const float StaminaUsageJump = -20.0f;
 		private const float StaminaUsageRoll = -20.0f;
 		private const float StaminaRecovery = 20.0f;
-		private float StaminaNeededBeforeSprint = 0;
+		private float StaminaNeededBeforeSprint;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -133,20 +133,6 @@ namespace StarterAssets
 		// TODO: change so that roll is only invunerable in some frames
 		[Header("Roll")]
 		private bool _is_rolling;
-		private bool _started_rolling;
-		
-		[SerializeField]
-		private float _roll_duration;
-		private float _roll_duration_cur;
-		[SerializeField]
-		private float _roll_cooldown;
-		private float _roll_cooldown_cur;
-		[SerializeField]
-		private float _roll_speed;
-		private Quaternion _camera_rot_at_start_roll;
-		private Vector3 _roll_dir;
-		private float _roll_target_rotation;
-		
 
 		// TODO: fix
 		private bool IsCurrentDeviceMouse = true;
@@ -343,7 +329,6 @@ namespace StarterAssets
 		public void EndRoll()
 		{
 			this._is_rolling = false;
-			this._roll_cooldown = 0;
 			_animator.SetBool("Rolling", false);
 			_animator.applyRootMotion = false;
 		}
@@ -377,10 +362,8 @@ namespace StarterAssets
 					{
 						ChangeStamina(StaminaUsageRoll);
 						_is_rolling = true;
-						_started_rolling = true;
 						_animator.SetBool("Rolling", true);
 						_animator.applyRootMotion = true;
-						_roll_cooldown_cur = _roll_cooldown;
 						// _roll_duration_cur = _roll_duration;
 					}
 
@@ -434,8 +417,6 @@ namespace StarterAssets
 			{
 				_verticalVelocity += Gravity * Time.deltaTime;
 			}
-
-			_roll_cooldown_cur -= Time.deltaTime;
 		}
 
 		private void Attacks()
