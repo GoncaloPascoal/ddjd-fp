@@ -121,16 +121,14 @@ public abstract class Enemy : MonoBehaviour
         {
             return playerPos;
         }
-        else
-        {
-            var closestEnemy = GetClosestEnemy();
-            if (closestEnemy != null)
-                return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
+        var closestEnemy = GetClosestEnemy();
+        if (closestEnemy != null)
+            return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
 
-            // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
-            mindControlled = false;
-            return playerPos;
-        }
+        // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
+        mindControlled = false;
+        return playerPos;
+        
     }
 
     protected void LookAtTarget()
