@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 605538108185862781}
   - component: {fileID: 605538108185862780}
   - component: {fileID: 605538108185862779}
-  - component: {fileID: 3399532124199613401}
+  - component: {fileID: 7514567752682769794}
   m_Layer: 0
-  m_Name: PickableItem
+  m_Name: SwordItem
   m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3399532124199613401
+--- !u!114 &7514567752682769794
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +105,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 605538108185862777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70defeed44374c67863f3344eb3fa279, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f10952f98e6455f8e80194c0c7ee639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 
+  name: 
+  damage: 0
