@@ -4,7 +4,6 @@ public class EnemyMelee : Enemy
 {
     private bool _chasingTarget;
     private float _chasingTime;
-    private bool nearPlayer;
 
     [SerializeField] private float meleeDistance = 2f;
 
@@ -27,14 +26,16 @@ public class EnemyMelee : Enemy
     new void Update()
     {
         var detectingTarget = DetectTarget();
-
-        var distanceToTarget = Vector3.Distance(transform.position, GetTargetPos());
+        var targetPos = GetTargetPos();
+        var position = transform.position;
+        var distanceToTarget = Vector2.Distance(new Vector2(position.x,position.z), new Vector2(targetPos.x, targetPos.z));
 
         // if near target (attack range)
         if (distanceToTarget <= meleeDistance)
         {
             // is chasing - will look at player to attack, or player is too close
-
+            
+            NavMeshAgent.SetDestination(gameObject.transform.position);
             if (_chasingTarget || distanceToTarget <= unconditionalDetectionRange)
             {
                 NavMeshAgent.speed = 0f;
@@ -82,7 +83,7 @@ public class EnemyMelee : Enemy
         base.Update();
     }
 
-    protected void ChaseTarget()
+    private void ChaseTarget()
     {
         Vector3 targetVector = GetTargetPos();
         NavMeshAgent.SetDestination(targetVector);
@@ -90,7 +91,7 @@ public class EnemyMelee : Enemy
         _chasingTarget = true;
     }
 
-    protected void GoToSpawn()
+    private void GoToSpawn()
     {
         Vector3 targetVector = _spawn.position;
 
@@ -100,7 +101,8 @@ public class EnemyMelee : Enemy
     
     private void OnDrawGizmos()
     {
-        var iconPos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+        var position = transform.position;
+        var iconPos = new Vector3(position.x, position.y + 2.5f, position.z);
         Gizmos.DrawIcon(iconPos, "Meelee.png", true);
     }
 }
