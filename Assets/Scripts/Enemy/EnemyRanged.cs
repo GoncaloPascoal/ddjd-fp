@@ -13,6 +13,9 @@ public class EnemyRanged : Enemy
     [SerializeField] private float recoveryTime = 1f;
     [SerializeField] private GameObject projectile;
     
+    private Animator _animator;
+
+    
     private float _currentTime;
 
     private EnemyRangedState _state;
@@ -22,7 +25,7 @@ public class EnemyRanged : Enemy
         base.Start();
         _currentTime = prepareTime;
         _state = EnemyRangedState.NotAlert;
-        Animator.SetFloat(AnimIDSpeed, 0);
+        _animator = GetComponent<Animator>();
     }
 
     new void Update()
@@ -74,7 +77,7 @@ public class EnemyRanged : Enemy
     void Prepare()
     {
         Debug.Log("Preparing shot");
-        this.Animator.SetTrigger("Aim");
+        this._animator.SetTrigger("Aim");
         _state = EnemyRangedState.Preparing;
         _currentTime = prepareTime;
     }
@@ -85,7 +88,7 @@ public class EnemyRanged : Enemy
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
         
-        this.Animator.SetTrigger("Shoot");
+        this._animator.SetTrigger("Shoot");
 
         var shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
         shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), mindControlled);
