@@ -130,6 +130,7 @@ namespace StarterAssets
 		private bool _hasAnimator;
 		
 		// Roll
+		// TODO: change so that roll is only invunerable in some frames
 		[Header("Roll")]
 		private bool _is_rolling;
 		private bool _started_rolling;
@@ -254,10 +255,8 @@ namespace StarterAssets
 				movement = Vector2.zero;
 			else 
 				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-
-			if (_started_rolling && !isAttacking)
-				MoveRoll();
-			else {
+			
+			if (!isAttacking) {
 				bool sprint = Input.GetButton("Sprint");
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
@@ -310,31 +309,24 @@ namespace StarterAssets
 
 				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 				// if there is a move input rotate player when the player is moving
-				if (movement != Vector2.zero)
+				if (!_is_rolling)
 				{
-					_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-					float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
+					if (movement != Vector2.zero)
+					{
+						_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+						                  _mainCamera.transform.eulerAngles.y;
+						float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
+							ref _rotationVelocity, RotationSmoothTime);
 
-					// rotate to face input direction relative to camera position
-					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-				}
+						// rotate to face input direction relative to camera position
+						transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+					}
 
-				Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-				if (_is_rolling)
-				{
-					targetDirection = Quaternion.Euler(0.0f, _roll_target_rotation, 0.0f) * Vector3.forward;
-					_controller.Move(targetDirection.normalized * (_roll_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+					Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+					_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+					                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 				}
-				else if (_roll_cooldown_cur < 0f)
-				{
-					// move the player
-					_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-				}
-				else
-				{
-					_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-				}
+				
 				// update animator if using character
 				if (_hasAnimator)
 				{
@@ -344,26 +336,14 @@ namespace StarterAssets
 			}
 		}
 
-		private void MoveRoll()
+		public void EndRoll()
 		{
-			if (_roll_duration_cur > 0)
-			{
-				if (_started_rolling)
-				{
-					Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-					// normalise input direction
-					Vector3 direction = new Vector3(movement.x, 0.0f, movement.y).normalized;
-					if (direction == Vector3.zero)
-					{
-						direction = new Vector3(0, 0, 1);
-					}
-
-					_roll_target_rotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-					_started_rolling = false;
-				}
-			}
+			this._is_rolling = false;
+			this._roll_cooldown = 0;
+			_animator.SetBool("Rolling", false);
+			_animator.applyRootMotion = false;
 		}
-		
+
 
 		private void JumpAndGravity()
 		{
@@ -389,17 +369,19 @@ namespace StarterAssets
 				{
 					// Roll
 					if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
-					    _roll_cooldown_cur <= 0 && _verticalVelocity <= 0.0f)
+					    !_is_rolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
 						_is_rolling = true;
 						_started_rolling = true;
+						_animator.SetBool("Rolling", true);
+						_animator.applyRootMotion = true;
 						_roll_cooldown_cur = _roll_cooldown;
-						_roll_duration_cur = _roll_duration;
+						// _roll_duration_cur = _roll_duration;
 					}
 
 					// Jump
-					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && _roll_cooldown_cur <= 0)
+					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_is_rolling)
 					{
 						ChangeStamina(StaminaUsageJump);
 
@@ -450,11 +432,6 @@ namespace StarterAssets
 			}
 
 			_roll_cooldown_cur -= Time.deltaTime;
-			_roll_duration_cur -= Time.deltaTime;
-			if (_roll_duration_cur <= 0)
-			{
-				_is_rolling = false;
-			}
 		}
 
 		private void Attacks()
@@ -521,17 +498,6 @@ namespace StarterAssets
 		private void ChangeStamina(float delta)
 		{
 			Stamina += delta;
-		}
-
-		private void OnControllerColliderHit(ControllerColliderHit hit)
-		{
-			if (hit.collider.gameObject.layer == LayerMask.NameToLayer("EnemySkeleton"))
-				hit.collider.attachedRigidbody.velocity = _controller.velocity;
-		}
-
-		private void Col(Collision collision)
-		{
-
 		}
 	}
 }
