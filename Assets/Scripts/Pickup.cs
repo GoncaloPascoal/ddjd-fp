@@ -27,7 +27,6 @@ public class Pickup : MonoBehaviour
                 {
                     if (_items[0] != null)
                     {
-                        
                         _inventoryScript.AddItem(_items[0]);
                     }
                     _items.RemoveAt(0);
