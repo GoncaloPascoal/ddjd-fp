@@ -74,6 +74,7 @@ public class EnemyRanged : Enemy
     void Prepare()
     {
         Debug.Log("Preparing shot");
+        this.Animator.SetTrigger("Aim");
         _state = EnemyRangedState.Preparing;
         _currentTime = prepareTime;
     }
@@ -83,6 +84,8 @@ public class EnemyRanged : Enemy
         Debug.Log("Shot");
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
+        
+        this.Animator.SetTrigger("Shoot");
 
         var shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
         shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), mindControlled);
