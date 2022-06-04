@@ -15,12 +15,23 @@ public class EnemyMelee : Enemy
 
     private Attacker _attacker;
 
+    private Animator _animator;
+    
+    // animation IDs
+    private int _animIDSpeed;
+    private int _animIDMotionSpeed;
+
     new void Start()
     {
         base.Start();
         _attacker = GetComponent<Attacker>();
+        _animator = GetComponent<Animator>();
         _chasingTarget = false;
         _chasingTime = chaseCooldown;
+        
+        AssignAnimationIDs();
+
+        _animator.SetFloat(_animIDMotionSpeed, 1f);
     }
 
     new void Update()
@@ -79,8 +90,16 @@ public class EnemyMelee : Enemy
                 transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
             }
         }
+        
+        _animator.SetFloat(_animIDSpeed, AnimationBlend);
 
         base.Update();
+    }
+    
+    private void AssignAnimationIDs()
+    {
+        _animIDSpeed = Animator.StringToHash("Speed");
+        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
     private void ChaseTarget()
