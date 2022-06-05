@@ -2,14 +2,13 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] private string name;
-    [SerializeField] private 
+    [SerializeField] private new string name;
     
     void Start()
     {
     }
 
-    public void print()
+    public void Print()
     {
         Debug.Log(name);
     }
