@@ -139,6 +139,8 @@ namespace StarterAssets
 
 		private List<GameObject> _backstabTargets;
 
+		private bool _inCheckpoint;
+
 		private void Awake()
 		{
 			// get a reference to our main camera
@@ -146,6 +148,13 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+
+			var spawnPoint = GameObject.Find("Checkpoint1").transform.Find("PlayerSpawn").transform;
+
+			if (spawnPoint == null) return;
+			
+			transform.position = spawnPoint.position;
+			transform.rotation = spawnPoint.rotation;
 		}
 
 		private void Start()
@@ -233,6 +242,9 @@ namespace StarterAssets
 
 		private void Move()
 		{
+			if (_inCheckpoint)
+				return;
+			
 			Vector2 movement;
 
 			bool isAttacking = _attacker.IsAttacking();
@@ -328,7 +340,7 @@ namespace StarterAssets
 
 		public void EndRoll()
 		{
-			this._is_rolling = false;
+			_is_rolling = false;
 			_animator.SetBool("Rolling", false);
 			_animator.applyRootMotion = false;
 		}
@@ -336,6 +348,9 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
+			if (_inCheckpoint)
+				return;
+			
 			if (Grounded)
 			{
 				// reset the fall timeout timer
@@ -421,6 +436,9 @@ namespace StarterAssets
 
 		private void Attacks()
 		{
+			if (_inCheckpoint)
+				return;
+			
 			if (!Input.GetButtonDown("Attack") || !Grounded)
 				return;
 
