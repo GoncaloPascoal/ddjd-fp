@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
     {
         foreach (Item item in _items)
         {
-            item.print();
+            item.Print();
         }
 
     }
