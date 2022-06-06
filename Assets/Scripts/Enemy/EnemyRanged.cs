@@ -30,6 +30,8 @@ public class EnemyRanged : Enemy
 
     new void Update()
     {
+        
+        if (backstabbing) return;
 
         if (_state == EnemyRangedState.NotAlert)
         {
