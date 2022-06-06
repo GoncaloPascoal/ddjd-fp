@@ -10,11 +10,13 @@ public class Hittable : MonoBehaviour
     int curHp;
     private Enemy _enemy;
     private Animator _animator;
+    private bool _is_backstabing;
 
     // Start is called before the first frame update
     void Start()
     {
         curHp = maxHp;
+        _is_backstabing = false;
         _enemy = GetComponent<Enemy>();
         _animator = GetComponent<Animator>();
     }
@@ -26,6 +28,7 @@ public class Hittable : MonoBehaviour
 
     public void GetHit(int damage)
     {
+        if (_is_backstabing) return;
         curHp -= damage;
         Debug.Log("Ouch! Current HP: " + curHp + ".");
         
@@ -41,6 +44,14 @@ public class Hittable : MonoBehaviour
         {
             _enemy.mindControl();
         }
+        
+        _animator.SetBool("Backstab", true);
+    }
+
+    public void FreezeForBackstab()
+    {
+        _is_backstabing = true;
+        _enemy.setBackstabbing(true);
     }
 
     void Death()
@@ -60,11 +71,20 @@ public class Hittable : MonoBehaviour
             }
         }
         _animator.SetTrigger("Die");
+        _enemy.setBackstabbing(true);
+
     }
 
     public void EndDeath()
     {
         Destroy(_animator);
         Destroy(this);
+    }
+    
+    public void EndBackstab()
+    {
+        _animator.SetBool("Backstab", false);
+        _is_backstabing = false;
+        _enemy.setBackstabbing(false);
     }
 }

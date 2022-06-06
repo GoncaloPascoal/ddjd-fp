@@ -128,6 +128,7 @@ namespace StarterAssets
 		private const float Threshold = 0.01f;
 
 		private bool _hasAnimator;
+
 		
 		// Roll
 		// TODO: change so that roll is only invunerable in some frames
@@ -138,8 +139,12 @@ namespace StarterAssets
 		private bool IsCurrentDeviceMouse = true;
 
 		private List<GameObject> _backstabTargets;
+		
+		private GameObject _enemy_to_hit;
 
 		private int _inCheckpoint = -1;
+
+		private bool _is_backstabing;
 
 		private void Awake()
 		{
@@ -165,6 +170,8 @@ namespace StarterAssets
 			_staminaBarScript.SetMaxValue(_maxStamina);
 			Stamina = _maxStamina;
 
+			_is_backstabing = false;
+			
 			_attacker = GetComponent<Attacker>();
 
 			AssignAnimationIDs();
@@ -267,7 +274,7 @@ namespace StarterAssets
 			else 
 				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 			
-			if (!isAttacking) {
+			if (!isAttacking && !_is_backstabing) {
 				bool sprint = Input.GetButton("Sprint");
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
@@ -358,13 +365,19 @@ namespace StarterAssets
 			_animator.applyRootMotion = false;
 		}
 
+		public void EndBackstabbing()
+		{
+			_is_backstabing = false;
+			_animator.SetBool("Backstab", false);
+			_animator.applyRootMotion = false;
+		}
 
 		private void JumpAndGravity()
 		{
 			if (_inCheckpoint != -1)
 				return;
 			
-			if (Grounded)
+			if (Grounded && !_is_backstabing)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -457,7 +470,6 @@ namespace StarterAssets
 
 			if (_backstabTargets.Count > 0)
 			{
-				Debug.Log(_backstabTargets.Count);
 				foreach (var target in _backstabTargets)
 				{
 					var dotprod = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
@@ -465,7 +477,11 @@ namespace StarterAssets
 					if (dotprod < backstabAngleOffset)
 						continue;
 
-					BackstabAttack(target);
+					_enemy_to_hit = target;
+					FreezeEnemy(target);
+					_animator.SetBool("Backstab", true);
+					_is_backstabing = true;
+					_animator.applyRootMotion = true;
 					break;
 				}
 			}
@@ -504,11 +520,14 @@ namespace StarterAssets
 			_backstabTargets.Remove(enemy);
 		}
 
-		private void BackstabAttack(GameObject enemy)
+		private void BackstabAttack()
 		{
-			Debug.Log("Backstab");
+			_enemy_to_hit.GetComponent<Hittable>().GetHitBackstab(1000);
+		}
 
-			enemy.GetComponent<Hittable>().GetHitBackstab(1000);
+		private void FreezeEnemy(GameObject enemy)
+		{
+			enemy.GetComponent<Hittable>().FreezeForBackstab();
 		}
 
 		private void ChangeStamina(float delta)
