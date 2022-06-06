@@ -139,7 +139,7 @@ namespace StarterAssets
 
 		private List<GameObject> _backstabTargets;
 
-		private bool _inCheckpoint;
+		private int _inCheckpoint = -1;
 
 		private void Awake()
 		{
@@ -149,12 +149,6 @@ namespace StarterAssets
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 
-			var spawnPoint = GameObject.Find("Checkpoint1").transform.Find("PlayerSpawn").transform;
-
-			if (spawnPoint == null) return;
-			
-			transform.position = spawnPoint.position;
-			transform.rotation = spawnPoint.rotation;
 		}
 
 		private void Start()
@@ -178,12 +172,31 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
+			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
+				.transform.Find("PlayerSpawn").transform;
+			
+
+			_controller.enabled = false;
+			
+			transform.position = spawnPoint.position;
+			transform.rotation = spawnPoint.rotation;
+			
+			_controller.enabled = true;
+
+			if (GameData.InCheckpoint)
+			{
+				InCheckpoint(currentCheckpoint);
+			}
 		}
 
 		private void Update()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
 			
+			if (_inCheckpoint != -1) return;
+
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -242,7 +255,7 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			if (_inCheckpoint)
+			if (_inCheckpoint != -1)
 				return;
 			
 			Vector2 movement;
@@ -348,7 +361,7 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (_inCheckpoint)
+			if (_inCheckpoint != -1)
 				return;
 			
 			if (Grounded)
@@ -436,7 +449,7 @@ namespace StarterAssets
 
 		private void Attacks()
 		{
-			if (_inCheckpoint)
+			if (_inCheckpoint != -1)
 				return;
 			
 			if (!Input.GetButtonDown("Attack") || !Grounded)
@@ -501,6 +514,38 @@ namespace StarterAssets
 		private void ChangeStamina(float delta)
 		{
 			Stamina += delta;
+		}
+
+		public void EnterCheckpoint(int checkpointNumber)
+		{
+			_inCheckpoint = checkpointNumber;
+			_animator.SetTrigger("Checkpoint");
+		}
+		
+		public void InCheckpoint(int checkpointNumber)
+		{
+			_inCheckpoint = checkpointNumber;
+			_animator.SetBool("InCheckpoint", true);
+		}
+
+		public bool IsInCheckpoint()
+		{
+			return _inCheckpoint != -1;
+		}
+
+		public int GetCheckpoint()
+		{
+			return _inCheckpoint;
+		}
+
+		public void ExitCheckpoint()
+		{
+			_animator.SetBool("InCheckpoint", false);
+		}
+
+		public void OnExitCheckpointEnd()
+		{
+			_inCheckpoint = -1;
 		}
 	}
 }
