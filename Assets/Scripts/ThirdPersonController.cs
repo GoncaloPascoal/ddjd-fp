@@ -365,7 +365,7 @@ namespace StarterAssets
 			_animator.applyRootMotion = false;
 		}
 
-		public void EndBackstab()
+		public void EndBackstabbing()
 		{
 			_is_backstabing = false;
 			_animator.SetBool("Backstab", false);
