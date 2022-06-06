@@ -83,7 +83,6 @@ public class Hittable : MonoBehaviour
     
     public void EndBackstab()
     {
-        if (gameObject.CompareTag("Player")) return;
         _animator.SetBool("Backstab", false);
         _is_backstabing = false;
         _enemy.setBackstabbing(false);
