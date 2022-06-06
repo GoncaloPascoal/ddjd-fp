@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    [SerializeField] private int checkpointNumber = 1;
+    
     private bool _playerInRange;
     private ThirdPersonController _player;
 
     private LevelChanger _levelChanger;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,9 +23,22 @@ public class Checkpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_playerInRange && Input.GetButtonDown("Interact"))
+        if (Input.GetButtonDown("Interact"))
         {
-            _levelChanger.ReloadLevel();
+            Debug.Log(_player.IsInCheckpoint());
+            Debug.Log(_player.GetCheckpoint());
+            Debug.Log(checkpointNumber);
+            
+            if (_playerInRange && !_player.IsInCheckpoint())
+            {
+                PlayerPrefs.SetInt("Checkpoint", checkpointNumber);
+                _player.EnterCheckpoint(checkpointNumber);
+                _levelChanger.ReloadLevel();
+            }
+            else if (_player.GetCheckpoint() == checkpointNumber)
+            {
+                _player.ExitCheckpoint();
+            }
         }
     }
 
@@ -52,7 +67,10 @@ public class Checkpoint : MonoBehaviour
     // TODO: change this 
     private void OnGUI()
     {
-        if (_playerInRange)
+        if (_playerInRange && !_player.IsInCheckpoint())
             GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to pray"));
+        else if (_player.IsInCheckpoint())
+            GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to stand up"));
+        
     }
 }
