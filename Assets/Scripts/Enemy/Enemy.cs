@@ -25,6 +25,7 @@ public abstract class Enemy : MonoBehaviour
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
+    protected bool backstabbing;
     public float speedChangeRate = 10.0f;
 
     // Start is called before the first frame update
@@ -37,6 +38,7 @@ public abstract class Enemy : MonoBehaviour
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
         mindControlled = false;
+        backstabbing = false;
 
     }
 
@@ -124,5 +126,10 @@ public abstract class Enemy : MonoBehaviour
     public void mindControl()
     {
         this.mindControlled = true;
+    }
+
+    public void setBackstabbing(bool val)
+    {
+        backstabbing = val;
     }
 }
