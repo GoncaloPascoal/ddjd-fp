@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public static event Action<Enemy> OnEnemyCreated = delegate { }; 
+
     [SerializeField] private GameObject healthBar;
     private Bar _healthBarScript;
 
@@ -62,6 +64,8 @@ public abstract class Enemy : MonoBehaviour
         {
             Animator.SetFloat(AnimIDMotionSpeed, 1f);
         }
+
+        OnEnemyCreated.Invoke(this);
     }
 
     // Update is called once per frame
@@ -147,6 +151,12 @@ public abstract class Enemy : MonoBehaviour
     public void mindControl()
     {
         this.mindControlled = true;
+    }
+
+    public void SetupHealthBar(Canvas canvas)
+    {
+        healthBar.transform.SetParent(canvas.transform);
+        healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
     }
     
     private void UpdateHealth()
