@@ -140,6 +140,7 @@ namespace StarterAssets
 
 		private List<GameObject> _backstabTargets;
 		private bool _isBackstabbing;
+		private GameObject _currentTarget;
 
 		private int _inCheckpoint = -1;
 
@@ -356,6 +357,12 @@ namespace StarterAssets
 			}
 		}
 
+		public void BackstabAttack()
+		{
+			// TODO: change hardcoded damage
+			_currentTarget.GetComponent<Enemy>().Backstab(20);
+		}
+		
 		public void EndRoll()
 		{
 			_isRolling = false;
@@ -473,11 +480,10 @@ namespace StarterAssets
 					var dotProd = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
 					if (dotProd < backstabAngleOffset) continue;
 
-					// TODO: change hardcoded damage
 					_isBackstabbing = true;
+					_currentTarget = target;
 					_animator.SetBool("Backstab", true);
 					_animator.applyRootMotion = true;
-					target.GetComponent<Enemy>().Backstab(20);
 					break;
 				}
 			}
@@ -551,11 +557,6 @@ namespace StarterAssets
 		public void OnExitCheckpointEnd()
 		{
 			_inCheckpoint = -1;
-		}
-
-		public void EndBackstab()
-		{
-			_isBackstabbing = false;
 		}
 	}
 }
