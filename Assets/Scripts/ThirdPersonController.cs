@@ -133,18 +133,15 @@ namespace StarterAssets
 		// Roll
 		// TODO: change so that roll is only invunerable in some frames
 		[Header("Roll")]
-		private bool _is_rolling;
+		private bool _isRolling;
 
 		// TODO: fix
 		private bool IsCurrentDeviceMouse = true;
 
 		private List<GameObject> _backstabTargets;
-		
-		private GameObject _enemy_to_hit;
+		private bool _isBackstabbing;
 
 		private int _inCheckpoint = -1;
-
-		private bool _is_backstabing;
 
 		private void Awake()
 		{
@@ -172,7 +169,7 @@ namespace StarterAssets
 			_staminaBarScript.SetValueInstantly(_maxStamina);
 			_stamina = _maxStamina;
 
-			_is_backstabing = false;
+			_isBackstabbing = false;
 			
 			_attacker = GetComponent<Attacker>();
 
@@ -275,13 +272,13 @@ namespace StarterAssets
 			else 
 				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 			
-			if (!isAttacking && !_is_backstabing) {
+			if (!isAttacking && !_isBackstabbing) {
 				bool sprint = Input.GetButton("Sprint");
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
 				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
 
-				if (Grounded && !_is_rolling)
+				if (Grounded && !_isRolling)
 				{
 					if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
 					{
@@ -328,7 +325,7 @@ namespace StarterAssets
 
 				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 				// if there is a move input rotate player when the player is moving
-				if (!_is_rolling)
+				if (!_isRolling)
 				{
 					if (movement != Vector2.zero)
 					{
@@ -361,14 +358,14 @@ namespace StarterAssets
 
 		public void EndRoll()
 		{
-			_is_rolling = false;
+			_isRolling = false;
 			_animator.SetBool("Rolling", false);
 			_animator.applyRootMotion = false;
 		}
 
 		public void EndBackstabbing()
 		{
-			_is_backstabing = false;
+			_isBackstabbing = false;
 			_animator.SetBool("Backstab", false);
 			_animator.applyRootMotion = false;
 		}
@@ -378,7 +375,7 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 			
-			if (Grounded && !_is_backstabing)
+			if (Grounded && !_isBackstabbing)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -400,17 +397,17 @@ namespace StarterAssets
 				{
 					// Roll
 					if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
-					    !_is_rolling && _verticalVelocity <= 0.0f)
+					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
-						_is_rolling = true;
+						_isRolling = true;
 						_animator.SetBool("Rolling", true);
 						_animator.applyRootMotion = true;
 						// _roll_duration_cur = _roll_duration;
 					}
 
 					// Jump
-					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_is_rolling)
+					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
 
@@ -473,16 +470,14 @@ namespace StarterAssets
 			{
 				foreach (var target in _backstabTargets)
 				{
-					var dotprod = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
-					Debug.Log(dotprod);
-					if (dotprod < backstabAngleOffset)
-						continue;
+					var dotProd = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
+					if (dotProd < backstabAngleOffset) continue;
 
-					_enemy_to_hit = target;
-					FreezeEnemy(target);
+					// TODO: change hardcoded damage
+					_isBackstabbing = true;
 					_animator.SetBool("Backstab", true);
-					_is_backstabing = true;
 					_animator.applyRootMotion = true;
+					target.GetComponent<Enemy>().Backstab(20);
 					break;
 				}
 			}
@@ -521,16 +516,6 @@ namespace StarterAssets
 			_backstabTargets.Remove(enemy);
 		}
 
-		private void BackstabAttack()
-		{
-			_enemy_to_hit.GetComponent<Hittable>().GetHitBackstab(1000);
-		}
-
-		private void FreezeEnemy(GameObject enemy)
-		{
-			enemy.GetComponent<Hittable>().FreezeForBackstab();
-		}
-
 		private void ChangeStamina(float delta)
 		{
 			Stamina += delta;
@@ -566,6 +551,11 @@ namespace StarterAssets
 		public void OnExitCheckpointEnd()
 		{
 			_inCheckpoint = -1;
+		}
+
+		public void EndBackstab()
+		{
+			_isBackstabbing = false;
 		}
 	}
 }

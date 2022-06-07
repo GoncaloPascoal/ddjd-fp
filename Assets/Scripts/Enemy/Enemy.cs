@@ -30,10 +30,12 @@ public abstract class Enemy : MonoBehaviour
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
-    protected bool backstabbing;
+    public bool backstabbed { get; private set; }
     public float speedChangeRate = 10.0f;
 
-    public void Start()
+    protected Animator _animator;
+
+    protected void Start()
     {
         _damageable = GetComponent<Damageable>();
         _damageable.InitializeMaxHealth(EnemyMaxHealth);
@@ -45,12 +47,14 @@ public abstract class Enemy : MonoBehaviour
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
         mindControlled = false;
-        backstabbing = false;
+        backstabbed = false;
+
+        _animator = GetComponent<Animator>();
 
         OnEnemyCreated.Invoke(this);
     }
 
-    public void Update()
+    protected void Update()
     {
         AnimationBlend = Mathf.Lerp(AnimationBlend, NavMeshAgent.speed, Time.deltaTime * speedChangeRate);
     }
@@ -128,9 +132,22 @@ public abstract class Enemy : MonoBehaviour
                 Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
     }
 
-    public void mindControl()
+    public void Backstab(int damage)
     {
-        this.mindControlled = true;
+        backstabbed = true;
+        _animator.SetBool("Backstab", true);
+        _damageable.ChangeHealth(-damage);
+    }
+
+    public void EndBackstab()
+    {
+        _animator.SetBool("Backstab", false);
+        backstabbed = false;
+    }
+    
+    public void MindControl()
+    {
+        mindControlled = true;
     }
 
     public void SetupHealthBar(Canvas canvas)
@@ -142,10 +159,5 @@ public abstract class Enemy : MonoBehaviour
         var follow = healthBar.AddComponent<FollowTarget>();
         follow.target = transform;
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
-    }
-
-    public void SetBackstabbing(bool val)
-    {
-        backstabbing = val;
     }
 }
