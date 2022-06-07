@@ -77,6 +77,7 @@ namespace StarterAssets
 
 		private Damageable _damageable;
 		private const int PlayerMaxHealth = 100;
+		private Attacker _attacker;
 		
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -85,7 +86,7 @@ namespace StarterAssets
 		// player
 		private float _speed;
 		private float _animationBlend;
-		private float _targetRotation = 0.0f;
+		private float _targetRotation;
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
@@ -105,7 +106,9 @@ namespace StarterAssets
 
 		private const float StaminaUsageSprint = -15.0f;
 		private const float StaminaUsageJump = -20.0f;
+		private const float StaminaUsageRoll = -20.0f;
 		private const float StaminaRecovery = 20.0f;
+		private float StaminaNeededBeforeSprint;
 
 		// timeout deltatime
 		private float _jumpTimeoutDelta;
@@ -117,6 +120,7 @@ namespace StarterAssets
 		private int _animIDJump;
 		private int _animIDFreeFall;
 		private int _animIDMotionSpeed;
+		private int _animIDAttackNormal;
 
 		private Animator _animator;
 		private CharacterController _controller;
@@ -127,10 +131,22 @@ namespace StarterAssets
 
 		private bool _hasAnimator;
 
+		
+		// Roll
+		// TODO: change so that roll is only invunerable in some frames
+		[Header("Roll")]
+		private bool _is_rolling;
+
 		// TODO: fix
 		private bool IsCurrentDeviceMouse = true;
 
 		private List<GameObject> _backstabTargets;
+		
+		private GameObject _enemy_to_hit;
+
+		private int _inCheckpoint = -1;
+
+		private bool _is_backstabing;
 
 		private void Awake()
 		{
@@ -139,6 +155,7 @@ namespace StarterAssets
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
+
 		}
 
 		private void Start()
@@ -163,17 +180,40 @@ namespace StarterAssets
 
 			_damageable.OnHealthChanged += UpdateHealth;
 
+			_is_backstabing = false;
+			
+			_attacker = GetComponent<Attacker>();
+
 			AssignAnimationIDs();
 
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
+			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
+				.transform.Find("PlayerSpawn").transform;
+			
+
+			_controller.enabled = false;
+			
+			transform.position = spawnPoint.position;
+			transform.rotation = spawnPoint.rotation;
+			
+			_controller.enabled = true;
+
+			if (GameData.InCheckpoint)
+			{
+				InCheckpoint(currentCheckpoint);
+			}
 		}
 
 		private void Update()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
 			
+			if (_inCheckpoint != -1) return;
+
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
@@ -192,6 +232,7 @@ namespace StarterAssets
 			_animIDJump = Animator.StringToHash("Jump");
 			_animIDFreeFall = Animator.StringToHash("FreeFall");
 			_animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+			_animIDAttackNormal = Animator.StringToHash("AttackNormal");
 		}
 
 		private void GroundedCheck()
@@ -231,82 +272,122 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			bool sprint = Input.GetButton("Sprint");
-			Vector2 movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+			if (_inCheckpoint != -1)
+				return;
+			
+			Vector2 movement;
 
-			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = sprint ? SprintSpeed : MoveSpeed;
+			bool isAttacking = _attacker.IsAttacking();
 
-			if (Grounded)
-			{
-				if (sprint && movement != Vector2.zero)
+			if (isAttacking)
+				movement = Vector2.zero;
+			else 
+				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+			
+			if (!isAttacking && !_is_backstabing) {
+				bool sprint = Input.GetButton("Sprint");
+
+				// set target speed based on move speed, sprint speed and if sprint is pressed
+				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
+
+				if (Grounded && !_is_rolling)
 				{
-					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+					if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
+					{
+						StaminaNeededBeforeSprint = 0;
+						ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+						if (Stamina <= 0.0f) StaminaNeededBeforeSprint = 25f;
+					}
+					else
+					{
+						ChangeStamina(Time.deltaTime * StaminaRecovery);
+					}
+				}
+				
+				// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+				// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+				// if there is no input, set the target speed to 0
+				if (movement == Vector2.zero) targetSpeed = 0.0f;
+
+				// a reference to the players current horizontal velocity
+				float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+
+				const float speedOffset = 0.1f;
+				float inputMagnitude = movement.magnitude;
+
+				// accelerate or decelerate to target speed
+				if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
+				{
+					// creates curved result rather than a linear one giving a more organic speed change
+					// note T in Lerp is clamped, so we don't need to clamp our speed
+					_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+
+					// round speed to 3 decimal places
+					_speed = Mathf.Round(_speed * 1000f) / 1000f;
 				}
 				else
 				{
-					ChangeStamina(Time.deltaTime * StaminaRecovery);
+					_speed = targetSpeed;
+				}
+				_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+
+				// normalise input direction
+				Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
+
+				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+				// if there is a move input rotate player when the player is moving
+				if (!_is_rolling)
+				{
+					if (movement != Vector2.zero)
+					{
+						_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+						                  _mainCamera.transform.eulerAngles.y;
+						float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
+							ref _rotationVelocity, RotationSmoothTime);
+
+						// rotate to face input direction relative to camera position
+						transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+					}
+
+					Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+					_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+					                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+				else if(!_controller.isGrounded)
+				{
+					_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+				}
+
+				// update animator if using character
+				if (_hasAnimator)
+				{
+					_animator.SetFloat(_animIDSpeed, _animationBlend);
+					_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
 				}
 			}
-			
-			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+		}
 
-			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is no input, set the target speed to 0
-			if (movement == Vector2.zero) targetSpeed = 0.0f;
+		public void EndRoll()
+		{
+			_is_rolling = false;
+			_animator.SetBool("Rolling", false);
+			_animator.applyRootMotion = false;
+		}
 
-			// a reference to the players current horizontal velocity
-			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-			const float speedOffset = 0.1f;
-			float inputMagnitude = movement.magnitude;
-
-			// accelerate or decelerate to target speed
-			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
-			{
-				// creates curved result rather than a linear one giving a more organic speed change
-				// note T in Lerp is clamped, so we don't need to clamp our speed
-				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
-
-				// round speed to 3 decimal places
-				_speed = Mathf.Round(_speed * 1000f) / 1000f;
-			}
-			else
-			{
-				_speed = targetSpeed;
-			}
-			_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-
-			// normalise input direction
-			Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
-
-			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-			// if there is a move input rotate player when the player is moving
-			if (movement != Vector2.zero)
-			{
-				_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-				float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
-
-				// rotate to face input direction relative to camera position
-				transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-			}
-
-			Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-			// move the player
-			_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
-			// update animator if using character
-			if (_hasAnimator)
-			{
-				_animator.SetFloat(_animIDSpeed, _animationBlend);
-				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-			}
+		public void EndBackstabbing()
+		{
+			_is_backstabing = false;
+			_animator.SetBool("Backstab", false);
+			_animator.applyRootMotion = false;
 		}
 
 		private void JumpAndGravity()
 		{
-			if (Grounded)
+			if (_inCheckpoint != -1)
+				return;
+			
+			if (Grounded && !_is_backstabing)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -324,25 +405,39 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				// Jump
-				if (Input.GetButtonDown("Jump") && Stamina >= StaminaUsageJump)
+				if (!_attacker.IsAttacking())
 				{
-					ChangeStamina(StaminaUsageJump);
-					
-					// the square root of H * -2 * G = how much velocity needed to reach desired height
-					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-					// update animator if using character
-					if (_hasAnimator)
+					// Roll
+					if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
+					    !_is_rolling && _verticalVelocity <= 0.0f)
 					{
-						_animator.SetBool(_animIDJump, true);
+						ChangeStamina(StaminaUsageRoll);
+						_is_rolling = true;
+						_animator.SetBool("Rolling", true);
+						_animator.applyRootMotion = true;
+						// _roll_duration_cur = _roll_duration;
 					}
-				}
 
-				// jump timeout
-				if (_jumpTimeoutDelta >= 0.0f)
-				{
-					_jumpTimeoutDelta -= Time.deltaTime;
+					// Jump
+					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_is_rolling)
+					{
+						ChangeStamina(StaminaUsageJump);
+
+						// the square root of H * -2 * G = how much velocity needed to reach desired height
+						_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+
+						// update animator if using character
+						if (_hasAnimator)
+						{
+							_animator.SetBool(_animIDJump, true);
+						}
+					}
+
+					// jump timeout
+					if (_jumpTimeoutDelta >= 0.0f)
+					{
+						_jumpTimeoutDelta -= Time.deltaTime;
+					}
 				}
 			}
 			else
@@ -377,10 +472,14 @@ namespace StarterAssets
 
 		private void Attacks()
 		{
-			if (_input.swing && _backstabTargets.Count > 0)
+			if (_inCheckpoint != -1)
+				return;
+			
+			if (!Input.GetButtonDown("Attack") || !Grounded)
+				return;
+
+			if (_backstabTargets.Count > 0)
 			{
-				_input.swing = false;
-				Debug.Log(_backstabTargets.Count);
 				foreach (var target in _backstabTargets)
 				{
 					var dotprod = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
@@ -388,9 +487,17 @@ namespace StarterAssets
 					if (dotprod < backstabAngleOffset)
 						continue;
 
-					BackstabAttack(target);
+					_enemy_to_hit = target;
+					FreezeEnemy(target);
+					_animator.SetBool("Backstab", true);
+					_is_backstabing = true;
+					_animator.applyRootMotion = true;
 					break;
 				}
+			}
+			else 
+			{
+				_attacker.Attack();
 			}
 		}
 
@@ -423,10 +530,14 @@ namespace StarterAssets
 			_backstabTargets.Remove(enemy);
 		}
 
-		private void BackstabAttack(GameObject enemy)
+		private void BackstabAttack()
 		{
-			// TODO: fix
-			//enemy.GetComponent<Damageable>().GetHitBackstab(1000);
+			_enemy_to_hit.GetComponent<Hittable>().GetHitBackstab(1000);
+		}
+
+		private void FreezeEnemy(GameObject enemy)
+		{
+			enemy.GetComponent<Hittable>().FreezeForBackstab();
 		}
 
 		private void ChangeStamina(float delta)
@@ -437,6 +548,38 @@ namespace StarterAssets
 		private void UpdateHealth()
 		{
 			_healthBarScript.SetValue(_damageable.Health);
+		}
+
+		public void EnterCheckpoint(int checkpointNumber)
+		{
+			_inCheckpoint = checkpointNumber;
+			_animator.SetTrigger("Checkpoint");
+		}
+		
+		public void InCheckpoint(int checkpointNumber)
+		{
+			_inCheckpoint = checkpointNumber;
+			_animator.SetBool("InCheckpoint", true);
+		}
+
+		public bool IsInCheckpoint()
+		{
+			return _inCheckpoint != -1;
+		}
+
+		public int GetCheckpoint()
+		{
+			return _inCheckpoint;
+		}
+
+		public void ExitCheckpoint()
+		{
+			_animator.SetBool("InCheckpoint", false);
+		}
+
+		public void OnExitCheckpointEnd()
+		{
+			_inCheckpoint = -1;
 		}
 	}
 }

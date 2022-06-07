@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1197523982387914742}
   - component: {fileID: 2824229906050787411}
   - component: {fileID: 60052486943267993}
-  - component: {fileID: 5279477391002009472}
+  - component: {fileID: 1317227702154723038}
   m_Layer: 0
   m_Name: Close_Coffin
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5279477391002009472
+--- !u!65 &1317227702154723038
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,5 +93,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.3999999, y: 0.39999998, z: 0.59999996}
-  m_Center: {x: 0, y: 0.19999999, z: 0}
+  m_Size: {x: 2.7999997, y: 0.79999995, z: 1.1999999}
+  m_Center: {x: 0, y: 0.39999998, z: 0}
