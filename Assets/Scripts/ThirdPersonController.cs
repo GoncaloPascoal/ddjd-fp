@@ -75,6 +75,8 @@ namespace StarterAssets
 		private Bar _healthBarScript;
 		private Bar _staminaBarScript;
 
+		private Damageable _damageable;
+		private const int PlayerMaxHealth = 100;
 		private Attacker _attacker;
 		
 		// cinemachine
@@ -164,11 +166,19 @@ namespace StarterAssets
 
 			_backstabTargets = new List<GameObject>();
 			
+			_damageable = GetComponent<Damageable>();
+			_damageable.InitializeMaxHealth(PlayerMaxHealth);
+
 			_healthBarScript = healthBar.GetComponent<Bar>();
+			_healthBarScript.SetMaxValue(_damageable.MaxHealth);
+			_healthBarScript.SetValueInstantly(_damageable.Health);
 			
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
 			_staminaBarScript.SetMaxValue(_maxStamina);
-			Stamina = _maxStamina;
+			_staminaBarScript.SetValueInstantly(_maxStamina);
+			_stamina = _maxStamina;
+
+			_damageable.OnHealthChanged += UpdateHealth;
 
 			_is_backstabing = false;
 			
@@ -533,6 +543,11 @@ namespace StarterAssets
 		private void ChangeStamina(float delta)
 		{
 			Stamina += delta;
+		}
+
+		private void UpdateHealth()
+		{
+			_healthBarScript.SetValue(_damageable.Health);
 		}
 
 		public void EnterCheckpoint(int checkpointNumber)
