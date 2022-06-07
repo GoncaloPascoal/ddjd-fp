@@ -109,5 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
+  _inv_item: {fileID: 11400000, guid: 1336a36da30cc6d4986fa762eac14d35, type: 2}
   effect: 
   effectTime: 0
