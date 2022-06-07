@@ -109,4 +109,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
+  _inv_item: {fileID: 11400000, guid: 9e77b063c843faf45b058b96e967e3b7, type: 2}
   damage: 0
