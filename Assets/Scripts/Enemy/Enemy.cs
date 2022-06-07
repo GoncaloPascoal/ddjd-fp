@@ -38,10 +38,10 @@ public abstract class Enemy : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
-        _damageable = GetComponent<Damageable>();
-        
-        _healthBarScript = healthBar.GetComponent<Bar>();
-        _damageable.OnHealthChanged += UpdateHealth;
+        _damageable = GetComponentInChildren<Damageable>();
+
+        _healthBarScript = healthBar.GetComponentInChildren<Bar>();
+        _damageable.OnHealthChanged += OnHealthChanged;
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
@@ -148,12 +148,12 @@ public abstract class Enemy : MonoBehaviour
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
     }
     
-    private void UpdateHealth()
+    private void OnHealthChanged()
     {
         _healthBarScript.SetValue(_damageable.Health);
     }
 
-    public void setBackstabbing(bool val)
+    public void SetBackstabbing(bool val)
     {
         backstabbing = val;
     }
