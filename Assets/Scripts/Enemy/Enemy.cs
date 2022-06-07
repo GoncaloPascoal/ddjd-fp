@@ -143,6 +143,9 @@ public abstract class Enemy : MonoBehaviour
     {
         healthBar.transform.SetParent(canvas.transform);
         healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
+        var follow = healthBar.AddComponent<FollowTarget>();
+        follow.target = transform;
+        follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
     }
     
     private void UpdateHealth()
