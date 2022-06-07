@@ -7,6 +7,8 @@ TagManager:
   - CinemachineTarget
   - Enemy
   - Pickup
+  - Message
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
@@ -19,8 +21,8 @@ TagManager:
   - EnemyBack
   - EnemyProjectile
   - Ground
-  - 
-  - 
+  - EnemySkeleton
+  - PlayerSkeleton
   - 
   - 
   - 

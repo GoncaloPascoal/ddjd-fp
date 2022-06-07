@@ -30,15 +30,9 @@ public abstract class Enemy : MonoBehaviour
     protected ThirdPersonController playerTPC;
 
     protected NavMeshAgent NavMeshAgent;
-    
-    // animation IDs
-    protected int AnimIDSpeed;
-    protected int AnimIDMotionSpeed;
-
-    protected Animator Animator;
-    protected bool HasAnimator;
 
     protected float AnimationBlend;
+    protected bool backstabbing;
     public float speedChangeRate = 10.0f;
 
     // Start is called before the first frame update
@@ -52,18 +46,11 @@ public abstract class Enemy : MonoBehaviour
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
         playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
-        HasAnimator = TryGetComponent(out Animator);
 
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
         mindControlled = false;
-
-        AssignAnimationIDs();
-
-        if (HasAnimator)
-        {
-            Animator.SetFloat(AnimIDMotionSpeed, 1f);
-        }
+        backstabbing = false;
 
         OnEnemyCreated.Invoke(this);
     }
@@ -72,13 +59,6 @@ public abstract class Enemy : MonoBehaviour
     public void Update()
     {
         AnimationBlend = Mathf.Lerp(AnimationBlend, NavMeshAgent.speed, Time.deltaTime * speedChangeRate);
-        Animator.SetFloat(AnimIDSpeed, AnimationBlend);
-    }
-    
-    private void AssignAnimationIDs()
-    {
-        AnimIDSpeed = Animator.StringToHash("Speed");
-        AnimIDMotionSpeed = Animator.StringToHash("MotionSpeed");
     }
 
     protected bool DetectTarget()
@@ -125,17 +105,23 @@ public abstract class Enemy : MonoBehaviour
     
     protected Vector3 GetTargetPos()
     {
+        var headPos = playerTPC.playerHeadTransform.position;
+        var playerPos = 
+            new Vector3(headPos.x, headPos.y - 0.5f,
+                headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
+        
         if (!mindControlled)
         {
-            var headPos = playerTPC.playerHeadTransform.position;
-            return
-                new Vector3(headPos.x, headPos.y - 0.5f,
-                    headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
+            return playerPos;
         }
-        else
-        {
+        var closestEnemy = GetClosestEnemy();
+        if (closestEnemy != null)
             return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
-        }
+
+        // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
+        mindControlled = false;
+        return playerPos;
+        
     }
 
     protected void LookAtTarget()
@@ -162,5 +148,10 @@ public abstract class Enemy : MonoBehaviour
     private void UpdateHealth()
     {
         _healthBarScript.SetValue(_damageable.Health);
+    }
+
+    public void setBackstabbing(bool val)
+    {
+        backstabbing = val;
     }
 }
