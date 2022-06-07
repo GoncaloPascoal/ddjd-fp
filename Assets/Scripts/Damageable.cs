@@ -56,5 +56,10 @@ public abstract class Damageable : MonoBehaviour
         }
     }
 
+    public void RestoreToMaxHealth()
+    {
+        Health = MaxHealth;
+    }
+
     protected abstract void Die();
 }

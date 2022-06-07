@@ -14,16 +14,25 @@ public class DamageableEnemy : Damageable
 
     protected override void Die()
     {
-        foreach (var comp in GetComponents(typeof(Component)))
+        var enemy = GetComponent<Enemy>();
+        if (enemy.backstabbed)
         {
-            if (comp != _animator && comp != transform && comp != this)
-            {
-                Destroy(comp);
-            }
+            RestoreToMaxHealth();
+            enemy.MindControl();
         }
+        else
+        {
+            foreach (var comp in GetComponents(typeof(Component)))
+            {
+                if (comp != _animator && comp != transform && comp != this)
+                {
+                    Destroy(comp);
+                }
+            }
 
-        _animator.applyRootMotion = true;
-        _animator.SetTrigger("Die");
+            _animator.applyRootMotion = true;
+            _animator.SetTrigger("Die");
+        }
     }
 
     public void EndDeath()
