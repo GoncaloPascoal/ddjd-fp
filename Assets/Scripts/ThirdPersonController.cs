@@ -69,10 +69,8 @@ namespace StarterAssets
 		public float backstabAngleOffset = 0.95f;
 
 		[Header("HUD")]
-		[SerializeField] public GameObject healthBar;
 		[SerializeField] public GameObject staminaBar;
 		
-		private Bar _healthBarScript;
 		private Bar _staminaBarScript;
 
 		private Damageable _damageable;
@@ -165,20 +163,14 @@ namespace StarterAssets
 			_input = GetComponent<StarterAssetsInputs>();
 
 			_backstabTargets = new List<GameObject>();
-			
+
 			_damageable = GetComponent<Damageable>();
 			_damageable.InitializeMaxHealth(PlayerMaxHealth);
 
-			_healthBarScript = healthBar.GetComponent<Bar>();
-			_healthBarScript.SetMaxValue(_damageable.MaxHealth);
-			_healthBarScript.SetValueInstantly(_damageable.Health);
-			
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
 			_staminaBarScript.SetMaxValue(_maxStamina);
 			_staminaBarScript.SetValueInstantly(_maxStamina);
 			_stamina = _maxStamina;
-
-			_damageable.OnHealthChanged += UpdateHealth;
 
 			_is_backstabing = false;
 			
@@ -193,7 +185,6 @@ namespace StarterAssets
 			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
 			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
 				.transform.Find("PlayerSpawn").transform;
-			
 
 			_controller.enabled = false;
 			
@@ -543,11 +534,6 @@ namespace StarterAssets
 		private void ChangeStamina(float delta)
 		{
 			Stamina += delta;
-		}
-
-		private void UpdateHealth()
-		{
-			_healthBarScript.SetValue(_damageable.Health);
 		}
 
 		public void EnterCheckpoint(int checkpointNumber)
