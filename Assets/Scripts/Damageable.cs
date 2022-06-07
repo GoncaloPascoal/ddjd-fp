@@ -5,14 +5,23 @@ using UnityEngine;
 
 public abstract class Damageable : MonoBehaviour
 {
+    [SerializeField] public Bar healthBar;
+
+    protected void Start()
+    {
+        if (healthBar == null) return;
+        OnMaxHealthChanged += () => healthBar.SetMaxValue(MaxHealth);
+        OnHealthChanged += () => healthBar.SetValue(Health);
+    }
+
     private int _maxHealth;
     public int MaxHealth
     {
         get => _maxHealth;
-        private set
+        set
         {
             _maxHealth = value;
-            OnMaxHealthChanged?.Invoke();
+            OnMaxHealthChanged.Invoke();
         }
     }
 
@@ -23,11 +32,11 @@ public abstract class Damageable : MonoBehaviour
         private set
         {
             _health = value;
-            OnHealthChanged?.Invoke();
+            OnHealthChanged.Invoke();
         }
     }
 
-    public Action OnMaxHealthChanged, OnHealthChanged;
+    public event Action OnMaxHealthChanged = delegate { }, OnHealthChanged = delegate { };
 
     public void ChangeHealth(int delta)
     {
@@ -37,8 +46,14 @@ public abstract class Damageable : MonoBehaviour
 
     public void InitializeMaxHealth(int value)
     {
-        MaxHealth = value;
-        Health = value;
+        _maxHealth = value;
+        _health = value;
+
+        if (healthBar != null)
+        {
+            healthBar.SetMaxValue(value);
+            healthBar.SetValueInstantly(value);
+        }
     }
 
     protected abstract void Die();

@@ -6,8 +6,9 @@ public class DamageableEnemy : Damageable
 {
     private Animator _animator;
 
-    private void Start()
+    private new void Start()
     {
+        base.Start();
         _animator = GetComponent<Animator>();
     }
 
@@ -28,6 +29,7 @@ public class DamageableEnemy : Damageable
     public void EndDeath()
     {
         Destroy(_animator);
+        Destroy(healthBar.gameObject);
         Destroy(this);
     }
 }
