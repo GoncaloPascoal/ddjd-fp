@@ -8,6 +8,13 @@ using UnityEngine.Serialization;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public static event Action<Enemy> OnEnemyCreated = delegate { }; 
+
+    [SerializeField] private GameObject healthBar;
+    private Bar _healthBarScript;
+
+    private Damageable _damageable;
+
     protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
@@ -31,6 +38,11 @@ public abstract class Enemy : MonoBehaviour
     // Start is called before the first frame update
     public void Start()
     {
+        _damageable = GetComponent<Damageable>();
+        
+        _healthBarScript = healthBar.GetComponent<Bar>();
+        _damageable.OnHealthChanged += UpdateHealth;
+
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
         playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
@@ -40,6 +52,7 @@ public abstract class Enemy : MonoBehaviour
         mindControlled = false;
         backstabbing = false;
 
+        OnEnemyCreated.Invoke(this);
     }
 
     // Update is called once per frame
@@ -47,8 +60,6 @@ public abstract class Enemy : MonoBehaviour
     {
         AnimationBlend = Mathf.Lerp(AnimationBlend, NavMeshAgent.speed, Time.deltaTime * speedChangeRate);
     }
-    
-
 
     protected bool DetectTarget()
     {
@@ -73,7 +84,7 @@ public abstract class Enemy : MonoBehaviour
         return false;
     }
 
-    Transform GetClosestEnemy ()
+    Transform GetClosestEnemy()
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -126,6 +137,20 @@ public abstract class Enemy : MonoBehaviour
     public void mindControl()
     {
         this.mindControlled = true;
+    }
+
+    public void SetupHealthBar(Canvas canvas)
+    {
+        healthBar.transform.SetParent(canvas.transform);
+        healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
+        var follow = healthBar.AddComponent<FollowTarget>();
+        follow.target = transform;
+        follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
+    }
+    
+    private void UpdateHealth()
+    {
+        _healthBarScript.SetValue(_damageable.Health);
     }
 
     public void setBackstabbing(bool val)

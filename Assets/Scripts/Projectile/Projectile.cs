@@ -33,12 +33,6 @@ public class Projectile : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void ShootAt(Vector3 target, bool isMindControlled = false)
     {
         if (_shot) return;
@@ -72,7 +66,7 @@ public class Projectile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!_shot) return;
 
@@ -80,23 +74,23 @@ public class Projectile : MonoBehaviour
             (_rb.velocity.y * throwDirection.y) / initialYVelocity, throwDirection.z));
     }
     
-    void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider col)
     {
         // If colliding with a player layer 
         // or enemy layer and is mind controlled
         if ((playerLayers.value & (1 << col.gameObject.layer)) > 0 || 
             (mindControl && (enemyLayers.value & (1 << col.gameObject.layer)) > 0))
         {
-            Hittable hitScript = col.gameObject.GetComponent<Hittable>();
-            if (hitScript == null)
+            Damageable damageable = col.gameObject.GetComponent<Damageable>();
+            if (damageable == null)
             {
-                Debug.LogWarning("Projectile collided with entity, but it doesn't have a Hittable component!");
+                Debug.LogWarning("Projectile collided with entity, but it doesn't have a Damageable component!");
             }
             else
             {
-                hitScript.GetHit(damage);
-                Destroy(gameObject);
+                damageable.ChangeHealth(damage);
             }
+            Destroy(gameObject);
         }
         else if ((_groundLayers.value & (1 << col.gameObject.layer)) > 0)
         {
