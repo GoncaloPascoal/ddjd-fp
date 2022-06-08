@@ -1,12 +1,18 @@
 
 using System;
 
+public enum StatName
+{
+    Health,
+    Stamina,
+    StaminaRecovery,
+    Damage,
+    Armor,
+    Stability
+}
+
 [Serializable]
 public class Stats
 {
-    public int baseHealth;
-    public float baseStamina, baseStaminaRecovery;
-    public int baseDamage;
-    public int baseArmor;
-    public int baseStability;
+    public SerializableDictionary<StatName, float> baseValues;
 }
