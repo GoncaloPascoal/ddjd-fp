@@ -12,24 +12,22 @@ public class EnemyRanged : Enemy
     [SerializeField] private float prepareTime = 3f;
     [SerializeField] private float recoveryTime = 1f;
     [SerializeField] private GameObject projectile;
-    
-    private Animator _animator;
 
-    
     private float _currentTime;
 
     private EnemyRangedState _state;
     
-    new void Start()
+    private new void Start()
     {
         base.Start();
         _currentTime = prepareTime;
         _state = EnemyRangedState.NotAlert;
-        _animator = GetComponent<Animator>();
     }
 
-    new void Update()
+    private new void Update()
     {
+        
+        if (backstabbed) return;
 
         if (_state == EnemyRangedState.NotAlert)
         {

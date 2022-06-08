@@ -69,12 +69,12 @@ namespace StarterAssets
 		public float backstabAngleOffset = 0.95f;
 
 		[Header("HUD")]
-		[SerializeField] public GameObject healthBar;
 		[SerializeField] public GameObject staminaBar;
 		
-		private Bar _healthBarScript;
 		private Bar _staminaBarScript;
 
+		private Damageable _damageable;
+		private const int PlayerMaxHealth = 100;
 		private Attacker _attacker;
 		
 		// cinemachine
@@ -128,16 +128,19 @@ namespace StarterAssets
 		private const float Threshold = 0.01f;
 
 		private bool _hasAnimator;
+
 		
 		// Roll
 		// TODO: change so that roll is only invunerable in some frames
 		[Header("Roll")]
-		private bool _is_rolling;
+		private bool _isRolling;
 
 		// TODO: fix
 		private bool IsCurrentDeviceMouse = true;
 
 		private List<GameObject> _backstabTargets;
+		private bool _isBackstabbing;
+		private GameObject _currentTarget;
 
 		private int _inCheckpoint = -1;
 
@@ -158,13 +161,17 @@ namespace StarterAssets
 			_input = GetComponent<StarterAssetsInputs>();
 
 			_backstabTargets = new List<GameObject>();
-			
-			_healthBarScript = healthBar.GetComponent<Bar>();
-			
+
+			_damageable = GetComponent<Damageable>();
+			_damageable.InitializeMaxHealth(PlayerMaxHealth);
+
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
 			_staminaBarScript.SetMaxValue(_maxStamina);
-			Stamina = _maxStamina;
+			_staminaBarScript.SetValueInstantly(_maxStamina);
+			_stamina = _maxStamina;
 
+			_isBackstabbing = false;
+			
 			_attacker = GetComponent<Attacker>();
 
 			AssignAnimationIDs();
@@ -176,7 +183,6 @@ namespace StarterAssets
 			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
 			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
 				.transform.Find("PlayerSpawn").transform;
-			
 
 			_controller.enabled = false;
 			
@@ -267,13 +273,13 @@ namespace StarterAssets
 			else 
 				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 			
-			if (!isAttacking) {
+			if (!isAttacking && !_isBackstabbing) {
 				bool sprint = Input.GetButton("Sprint");
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
 				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
 
-				if (Grounded && !_is_rolling)
+				if (Grounded && !_isRolling)
 				{
 					if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
 					{
@@ -320,7 +326,7 @@ namespace StarterAssets
 
 				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 				// if there is a move input rotate player when the player is moving
-				if (!_is_rolling)
+				if (!_isRolling)
 				{
 					if (movement != Vector2.zero)
 					{
@@ -351,20 +357,32 @@ namespace StarterAssets
 			}
 		}
 
+		public void BackstabAttack()
+		{
+			// TODO: change hardcoded damage
+			_currentTarget.GetComponent<Enemy>().Backstab(20);
+		}
+		
 		public void EndRoll()
 		{
-			_is_rolling = false;
+			_isRolling = false;
 			_animator.SetBool("Rolling", false);
 			_animator.applyRootMotion = false;
 		}
 
+		public void EndBackstabbing()
+		{
+			_isBackstabbing = false;
+			_animator.SetBool("Backstab", false);
+			_animator.applyRootMotion = false;
+		}
 
 		private void JumpAndGravity()
 		{
 			if (_inCheckpoint != -1)
 				return;
 			
-			if (Grounded)
+			if (Grounded && !_isBackstabbing)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -386,17 +404,17 @@ namespace StarterAssets
 				{
 					// Roll
 					if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
-					    !_is_rolling && _verticalVelocity <= 0.0f)
+					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
-						_is_rolling = true;
+						_isRolling = true;
 						_animator.SetBool("Rolling", true);
 						_animator.applyRootMotion = true;
 						// _roll_duration_cur = _roll_duration;
 					}
 
 					// Jump
-					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_is_rolling)
+					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
 
@@ -457,15 +475,15 @@ namespace StarterAssets
 
 			if (_backstabTargets.Count > 0)
 			{
-				Debug.Log(_backstabTargets.Count);
 				foreach (var target in _backstabTargets)
 				{
-					var dotprod = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
-					Debug.Log(dotprod);
-					if (dotprod < backstabAngleOffset)
-						continue;
+					var dotProd = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
+					if (dotProd < backstabAngleOffset) continue;
 
-					BackstabAttack(target);
+					_isBackstabbing = true;
+					_currentTarget = target;
+					_animator.SetBool("Backstab", true);
+					_animator.applyRootMotion = true;
 					break;
 				}
 			}
@@ -502,13 +520,6 @@ namespace StarterAssets
 		public void RemoveBackstabTarget(GameObject enemy)
 		{
 			_backstabTargets.Remove(enemy);
-		}
-
-		private void BackstabAttack(GameObject enemy)
-		{
-			Debug.Log("Backstab");
-
-			enemy.GetComponent<Hittable>().GetHitBackstab(1000);
 		}
 
 		private void ChangeStamina(float delta)

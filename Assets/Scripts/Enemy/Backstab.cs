@@ -11,17 +11,10 @@ public class Backstab : MonoBehaviour
 
     [SerializeField] private GameObject enemy;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _backStabArea = GetComponent<BoxCollider>();
         _player = GameObject.Find("PlayerArmature").GetComponent<ThirdPersonController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnTriggerEnter(Collider other)

@@ -14,18 +14,15 @@ public class EnemyMelee : Enemy
     [SerializeField] private float alertRange = 5f;
 
     private Attacker _attacker;
-
-    private Animator _animator;
     
     // animation IDs
     private int _animIDSpeed;
     private int _animIDMotionSpeed;
 
-    new void Start()
+    private new void Start()
     {
         base.Start();
         _attacker = GetComponent<Attacker>();
-        _animator = GetComponent<Animator>();
         _chasingTarget = false;
         _chasingTime = chaseCooldown;
         
@@ -34,13 +31,14 @@ public class EnemyMelee : Enemy
         _animator.SetFloat(_animIDMotionSpeed, 1f);
     }
 
-    new void Update()
+    private new void Update()
     {
+        if (backstabbed) return;
         var detectingTarget = DetectTarget();
         var targetPos = GetTargetPos();
         var position = transform.position;
         var distanceToTarget = Vector2.Distance(new Vector2(position.x,position.z), new Vector2(targetPos.x, targetPos.z));
-
+        
         // if near target (attack range)
         if (distanceToTarget <= meleeDistance)
         {
