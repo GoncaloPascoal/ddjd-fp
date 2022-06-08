@@ -71,12 +71,17 @@ public class InventoryManager : MonoBehaviour
     {
         _current_filter = "";
         _currently_shown_items.Clear();
-        foreach (Item _item in _inventory.Items)
+        foreach (Item item in _inventory.Items)
         {
-            _currently_shown_items.Add(_item);
+            _currently_shown_items.Add(item);
         }
     }
 
+    public void FilterAndShowItems(string itemType){
+        FilterItems(itemType);
+        ShowItems();
+    }
+    
     public void ShowAllItems()
     {
         FilterItems();
