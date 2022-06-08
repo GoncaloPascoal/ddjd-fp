@@ -15,16 +15,14 @@ public class Weapon : MonoBehaviour
 
     private Animator _wielderAnimator;
     
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
         _wielderAnimator = wielder.GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_wielderAnimator == null)
             return;
@@ -39,7 +37,7 @@ public class Weapon : MonoBehaviour
 
     private void HitObstacle(Collider obstacle)
     {
-        // only hit if the collider is not part of the weapon wilder layer
+        // Only hit if the collider is not part of the weapon wielder layer
         // (if player is wielding weapon, they can not hit themselves or other players
         // and enemies cannot hit each other)
         if (wielder.layer != obstacle.gameObject.layer)
@@ -48,15 +46,13 @@ public class Weapon : MonoBehaviour
 
             if (hittable != null)
             {
-                hittable.GetHit(baseDamage);
+                hittable.Hit(baseDamage);
             }
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (gameObject.CompareTag("Player"))
-            Debug.Log(other.tag);
         HitObstacle(other);
     }
 }
