@@ -843,9 +843,10 @@ GameObject:
   - component: {fileID: 1838161622610248769}
   - component: {fileID: 4416926081852918493}
   - component: {fileID: 8178030209161109223}
-  - component: {fileID: 5064086058150168977}
   - component: {fileID: 423026774712006885}
   - component: {fileID: -4521213889600835716}
+  - component: {fileID: 8896355497579845234}
+  - component: {fileID: 2478567705012085936}
   m_Layer: 6
   m_Name: PlayerArmature
   m_TagString: Player
@@ -885,145 +886,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: '
-
-    Transform ''QuickRigCharacter_LeftToeBase'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_LeftFoot'' has been deleted
-
-    Transform ''QuickRigCharacter_LeftLeg''
-    has been deleted
-
-    Transform ''QuickRigCharacter_LeftUpLeg'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_RightToeBase'' has been deleted
-
-    Transform ''QuickRigCharacter_RightFoot''
-    has been deleted
-
-    Transform ''QuickRigCharacter_RightLeg'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_RightUpLeg'' has been deleted
-
-    Transform ''Left_Middle3''
-    has been deleted
-
-    Transform ''Left_Middle2'' has been deleted
-
-    Transform
-    ''Left_Middle'' has been deleted
-
-    Transform ''Left_Pinky3'' has been deleted
-
-    Transform
-    ''Left_Pinky2'' has been deleted
-
-    Transform ''Left_Pinky'' has been deleted
-
-    Transform
-    ''Left_Pointer3'' has been deleted
-
-    Transform ''Left_Pointer2'' has been
-    deleted
-
-    Transform ''Left_Pointer'' has been deleted
-
-    Transform ''Left_Ring3''
-    has been deleted
-
-    Transform ''Left_Ring2'' has been deleted
-
-    Transform
-    ''Left_Ring'' has been deleted
-
-    Transform ''Left_Thumb3'' has been deleted
-
-    Transform
-    ''Left_Thumb2'' has been deleted
-
-    Transform ''Left_Thumb'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_LeftHand'' has been deleted
-
-    Transform ''QuickRigCharacter_LeftForeArm''
-    has been deleted
-
-    Transform ''QuickRigCharacter_LeftArm'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_LeftShoulder'' has been deleted
-
-    Transform ''QuickRigCharacter_Head''
-    has been deleted
-
-    Transform ''QuickRigCharacter_Neck'' has been deleted
-
-    Transform
-    ''Right_Middle3'' has been deleted
-
-    Transform ''Right_Middle2'' has been
-    deleted
-
-    Transform ''Right_Middle'' has been deleted
-
-    Transform ''Left_Pinky3
-    1'' has been deleted
-
-    Transform ''Left_Pinky2 1'' has been deleted
-
-    Transform
-    ''Right_Pinky'' has been deleted
-
-    Transform ''Right_Pointer3'' has been deleted
-
-    Transform
-    ''Right_Pointer2'' has been deleted
-
-    Transform ''Right_Pointer'' has been
-    deleted
-
-    Transform ''Right_Ring3'' has been deleted
-
-    Transform ''Right_Ring2''
-    has been deleted
-
-    Transform ''Right_Ring'' has been deleted
-
-    Transform
-    ''Right_Thumb3'' has been deleted
-
-    Transform ''Right_Thumb2'' has been deleted
-
-    Transform
-    ''Right_Thumb'' has been deleted
-
-    Transform ''QuickRigCharacter_RightHand''
-    has been deleted
-
-    Transform ''QuickRigCharacter_RightForeArm'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_RightArm'' has been deleted
-
-    Transform ''QuickRigCharacter_RightShoulder''
-    has been deleted
-
-    Transform ''QuickRigCharacter_Spine2'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_Spine1'' has been deleted
-
-    Transform ''QuickRigCharacter_Spine''
-    has been deleted
-
-    Transform ''QuickRigCharacter_Hips'' has been deleted
-
-    Transform
-    ''QuickRigCharacter_Reference'' has been deleted'
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -1228,19 +1091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d844af86898a0f440b8ec9d622466b15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5064086058150168977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a6f911115d8e954e940424baf7a8ef0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHp: 0
 --- !u!114 &423026774712006885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1266,6 +1116,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ffaa419cc41d0eb489e72393c4798c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8896355497579845234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5dfc1516c574e68aea283ec78819b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2478567705012085936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4502985912587992869
@@ -1743,7 +1617,7 @@ CharacterJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 0, y: 0, z: -1}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.0073051034, y: -0.0011929576, z: 0.085505486}
+  m_ConnectedAnchor: {x: -0.08550539, y: 0.910723, z: -0.008251666}
   serializedVersion: 2
   m_SwingAxis: {x: -1, y: 0, z: 0}
   m_TwistLimitSpring:

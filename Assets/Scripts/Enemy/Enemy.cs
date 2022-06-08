@@ -8,6 +8,11 @@ using UnityEngine.Serialization;
 
 public abstract class Enemy : MonoBehaviour
 {
+    public static event Action<Enemy> OnEnemyCreated = delegate { };
+
+    private Damageable _damageable;
+    private const int EnemyMaxHealth = 40;
+
     protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
@@ -18,18 +23,23 @@ public abstract class Enemy : MonoBehaviour
     
     [SerializeField] protected Transform _spawn;
     protected Quaternion InitialOrientation;
-    
+
     protected Transform PlayerTransform;
     protected ThirdPersonController playerTPC;
 
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
+    public bool backstabbed { get; private set; }
     public float speedChangeRate = 10.0f;
 
-    // Start is called before the first frame update
-    public void Start()
+    protected Animator _animator;
+
+    protected void Start()
     {
+        _damageable = GetComponent<Damageable>();
+        _damageable.InitializeMaxHealth(EnemyMaxHealth);
+
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
         playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
@@ -37,16 +47,17 @@ public abstract class Enemy : MonoBehaviour
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
         mindControlled = false;
+        backstabbed = false;
 
+        _animator = GetComponent<Animator>();
+
+        OnEnemyCreated.Invoke(this);
     }
 
-    // Update is called once per frame
-    public void Update()
+    protected void Update()
     {
         AnimationBlend = Mathf.Lerp(AnimationBlend, NavMeshAgent.speed, Time.deltaTime * speedChangeRate);
     }
-    
-
 
     protected bool DetectTarget()
     {
@@ -71,7 +82,7 @@ public abstract class Enemy : MonoBehaviour
         return false;
     }
 
-    Transform GetClosestEnemy ()
+    Transform GetClosestEnemy()
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -121,8 +132,32 @@ public abstract class Enemy : MonoBehaviour
                 Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
     }
 
-    public void mindControl()
+    public void Backstab(int damage)
     {
-        this.mindControlled = true;
+        backstabbed = true;
+        _animator.SetBool("Backstab", true);
+        _damageable.ChangeHealth(-damage);
+    }
+
+    public void EndBackstab()
+    {
+        _animator.SetBool("Backstab", false);
+        backstabbed = false;
+    }
+    
+    public void MindControl()
+    {
+        mindControlled = true;
+    }
+
+    public void SetupHealthBar(Canvas canvas)
+    {
+        GameObject healthBar = _damageable.healthBar.gameObject;
+
+        healthBar.transform.SetParent(canvas.transform);
+        healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
+        var follow = healthBar.AddComponent<FollowTarget>();
+        follow.target = transform;
+        follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
     }
 }

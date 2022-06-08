@@ -25,10 +25,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (Input.GetButtonDown("Interact"))
         {
-            Debug.Log(_player.IsInCheckpoint());
-            Debug.Log(_player.GetCheckpoint());
-            Debug.Log(checkpointNumber);
-            
             if (_playerInRange && !_player.IsInCheckpoint())
             {
                 PlayerPrefs.SetInt("Checkpoint", checkpointNumber);
