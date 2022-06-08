@@ -239,7 +239,7 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
-			Vector2 look = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+			Vector2 look = new Vector2(InputManager.GetAxis("Mouse X"), InputManager.GetAxis("Mouse Y"));
 			
 			// if there is an input and camera position is not fixed
 			if (look.sqrMagnitude >= Threshold && !LockCameraPosition)
@@ -271,10 +271,10 @@ namespace StarterAssets
 			if (isAttacking)
 				movement = Vector2.zero;
 			else 
-				movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
 			
 			if (!isAttacking && !_isBackstabbing) {
-				bool sprint = Input.GetButton("Sprint");
+				bool sprint = InputManager.GetButton("Sprint");
 
 				// set target speed based on move speed, sprint speed and if sprint is pressed
 				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
@@ -403,7 +403,7 @@ namespace StarterAssets
 				if (!_attacker.IsAttacking())
 				{
 					// Roll
-					if (Input.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
+					if (InputManager.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
 					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
@@ -414,7 +414,7 @@ namespace StarterAssets
 					}
 
 					// Jump
-					if (Input.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_isRolling)
+					if (InputManager.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
 
@@ -470,7 +470,7 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 			
-			if (!Input.GetButtonDown("Attack") || !Grounded)
+			if (!InputManager.GetButtonDown("Attack") || !Grounded)
 				return;
 
 			if (_backstabTargets.Count > 0)
