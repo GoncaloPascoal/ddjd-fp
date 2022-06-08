@@ -8,12 +8,10 @@ using UnityEngine.Serialization;
 
 public abstract class Enemy : MonoBehaviour
 {
-    public static event Action<Enemy> OnEnemyCreated = delegate { }; 
-
-    [SerializeField] private GameObject healthBar;
-    private Bar _healthBarScript;
+    public static event Action<Enemy> OnEnemyCreated = delegate { };
 
     private Damageable _damageable;
+    private const int EnemyMaxHealth = 40;
 
     protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
@@ -25,23 +23,22 @@ public abstract class Enemy : MonoBehaviour
     
     [SerializeField] protected Transform _spawn;
     protected Quaternion InitialOrientation;
-    
+
     protected Transform PlayerTransform;
     protected ThirdPersonController playerTPC;
 
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
-    protected bool backstabbing;
+    public bool backstabbed { get; private set; }
     public float speedChangeRate = 10.0f;
 
-    // Start is called before the first frame update
-    public void Start()
+    protected Animator _animator;
+
+    protected void Start()
     {
         _damageable = GetComponent<Damageable>();
-        
-        _healthBarScript = healthBar.GetComponent<Bar>();
-        _damageable.OnHealthChanged += UpdateHealth;
+        _damageable.InitializeMaxHealth(EnemyMaxHealth);
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
@@ -50,13 +47,14 @@ public abstract class Enemy : MonoBehaviour
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
         mindControlled = false;
-        backstabbing = false;
+        backstabbed = false;
+
+        _animator = GetComponent<Animator>();
 
         OnEnemyCreated.Invoke(this);
     }
 
-    // Update is called once per frame
-    public void Update()
+    protected void Update()
     {
         AnimationBlend = Mathf.Lerp(AnimationBlend, NavMeshAgent.speed, Time.deltaTime * speedChangeRate);
     }
@@ -134,27 +132,32 @@ public abstract class Enemy : MonoBehaviour
                 Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
     }
 
-    public void mindControl()
+    public void Backstab(int damage)
     {
-        this.mindControlled = true;
+        backstabbed = true;
+        _animator.SetBool("Backstab", true);
+        _damageable.ChangeHealth(-damage);
+    }
+
+    public void EndBackstab()
+    {
+        _animator.SetBool("Backstab", false);
+        backstabbed = false;
+    }
+    
+    public void MindControl()
+    {
+        mindControlled = true;
     }
 
     public void SetupHealthBar(Canvas canvas)
     {
+        GameObject healthBar = _damageable.healthBar.gameObject;
+
         healthBar.transform.SetParent(canvas.transform);
         healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
         var follow = healthBar.AddComponent<FollowTarget>();
         follow.target = transform;
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
-    }
-    
-    private void UpdateHealth()
-    {
-        _healthBarScript.SetValue(_damageable.Health);
-    }
-
-    public void setBackstabbing(bool val)
-    {
-        backstabbing = val;
     }
 }
