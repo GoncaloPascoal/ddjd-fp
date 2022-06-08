@@ -77,9 +77,16 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void FilterAndShowItems(string itemType){
+    public void FilterAndShowItems(string itemType)
+    {
+        Debug.Log(itemType);
         FilterItems(itemType);
         ShowItems();
+    }
+
+    public void HelloWorld()
+    {
+        Debug.Log(("Hello, World!"));
     }
     
     public void ShowAllItems()
