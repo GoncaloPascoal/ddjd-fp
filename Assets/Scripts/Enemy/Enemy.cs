@@ -11,7 +11,9 @@ public abstract class Enemy : MonoBehaviour
     public static event Action<Enemy> OnEnemyCreated = delegate { };
 
     private Damageable _damageable;
-    private const int EnemyMaxHealth = 40;
+    
+    
+    [SerializeField] private int EnemyMaxHealth = 40;
 
     protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;

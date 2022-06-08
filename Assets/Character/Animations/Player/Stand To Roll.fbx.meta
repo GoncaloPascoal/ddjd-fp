@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: fcce62f254fa8f34a8163a52307dcd41
+guid: 3b925c08b960554468c392eb3276b3cc
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
@@ -39,9 +39,9 @@ ModelImporter:
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 40
+      lastFrame: 62
       wrapMode: 0
-      orientationOffsetY: -45
+      orientationOffsetY: -20
       level: 0
       cycleOffset: 0
       loop: 0
@@ -49,7 +49,7 @@ ModelImporter:
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 0
-      loopBlendPositionY: 0
+      loopBlendPositionY: 1
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
@@ -60,9 +60,9 @@ ModelImporter:
       curves: []
       events:
       - time: 1
-        functionName: EndBackstab
+        functionName: EndRoll
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: e5f5443c4edb89d4f941f3faa869d5a6, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
