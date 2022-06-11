@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private List<Item> _items = new List<Item>();
+    private Dictionary<InvItem.ItemType, List<Item>> _items = new Dictionary<InvItem.ItemType, List<Item>>();
 
-    public List<Item> Items
+    public Dictionary<InvItem.ItemType, List<Item>> Items
     {
         get { return _items; }
     }
@@ -22,11 +22,23 @@ public class Inventory : MonoBehaviour
     void Start()
     {   
         _inventory_manager.gameObject.SetActive(false);
+        _inventory_manager.SetInventory(this);
     }
 
     public void AddItem(GameObject item)
     {
-        _items.Add(item.GetComponent<Item>());
+        Item itemScript = item.GetComponent<Item>();
+        InvItem.ItemType itemType = itemScript.InvItem.itemType;
+        if (!_items.ContainsKey(itemType))
+        {
+            List<Item> catItemList = new List<Item>();
+            catItemList.Add(itemScript);
+            _items[itemType] = catItemList;
+        }
+        else
+        {
+            _items[itemType].Add(itemScript);
+        }
         //Make it invisible after picking it up
         item.SetActive(false);
         _inventory_manager.ShowItems();
@@ -34,15 +46,11 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (Item item in _items)
-        {
-            item.Print();
-        }
-
         if (Input.GetButtonDown("OpenInventory"))
         {
             ToggleInventory();
         }
+        
 
     }
 

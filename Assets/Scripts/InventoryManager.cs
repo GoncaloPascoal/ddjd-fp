@@ -9,26 +9,28 @@ public class InventoryManager : MonoBehaviour
     private Inventory _inventory;
 
     [SerializeField]
-    private GameObject _item_slots_obj;
+    private GameObject _item_slots_parent;
 
+    [SerializeField] private GameObject _item_slot_prefab;
+    
     private List<Image> _slots = new List<Image>();
 
     [SerializeField]
     private Sprite _default_icon;
 
+    private bool isFiltering = false;
+    private InvItem.ItemType _current_filter = 0;
 
-    private List<Item> _currently_shown_items = new List<Item>();
-
-    private string _current_filter = "";
+    private Inventory inventory;
 
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < _item_slots_obj.transform.childCount; i++)
+        for(int i = 0; i < _item_slots_parent.transform.childCount; i++)
         {
-            _slots.Add(_item_slots_obj.transform.GetChild(i).GetComponent<Image>());
+            _slots.Add(_item_slots_parent.transform.GetChild(i).GetChild(0).GetComponent<Image>());
         }
-        ShowItems();
+        //ShowItems();
     }
 
     // Update is called once per frame
@@ -36,88 +38,128 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetButtonDown("tmp1"))
         {
-            FilterItems("Sword");
+            SetFilter("Sword");
             ShowItems();
         }
         if (Input.GetButtonDown("tmp2"))
         {
-            FilterItems("Potion");
+            SetFilter("Potion");
             ShowItems();
         }
     }
 
-    public void FilterItems(string item_type)
+    public void SetInventory(Inventory inv)
     {
-        if (item_type == "")
+        inventory = inv;
+    }
+
+    public void SetFilter(string itemType)
+    {
+        if (itemType == "")
         {
-            FilterItems();
+            isFiltering = false;
+            _current_filter = 0;
             return;
         }
-        _current_filter = item_type;
-        InvItem.ItemType _enum_item_type = (InvItem.ItemType) System.Enum.Parse(typeof(InvItem.ItemType), item_type);
-
-        _currently_shown_items.Clear();
-        foreach(Item _item in _inventory.Items)
-        {
-            if(_item.InvItem.itemType == _enum_item_type)
-            {
-                _currently_shown_items.Add(_item);
-            }
-        }
-
+        SetFilter((InvItem.ItemType) System.Enum.Parse(typeof(InvItem.ItemType), itemType));
     }
 
-    public void FilterItems()
+    public void SetFilter(InvItem.ItemType filter)
     {
-        _current_filter = "";
-        _currently_shown_items.Clear();
-        foreach (Item item in _inventory.Items)
-        {
-            _currently_shown_items.Add(item);
-        }
+        _current_filter = filter; 
+        isFiltering = true;
     }
 
-    public void FilterAndShowItems(string itemType)
+    void ShowNothing()
     {
-        Debug.Log(itemType);
-        FilterItems(itemType);
-        ShowItems();
-    }
-
-    public void HelloWorld()
-    {
-        Debug.Log(("Hello, World!"));
-    }
-    
-    public void ShowAllItems()
-    {
-        FilterItems();
         for (int i = 0; i < _slots.Count; i++)
         {
-            if (_currently_shown_items.Count > i)
-            {
-                _slots[i].sprite = _currently_shown_items[i].InvItem.icon;
-            }
-            else
-            {
-                _slots[i].sprite = _default_icon;
-            }
+            _slots[i].transform.parent.gameObject.SetActive(false);
         }
     }
 
     public void ShowItems()
     {
-        FilterItems(_current_filter);
+
+        if (!isFiltering)
+        {
+            ShowAllItems();
+        }
+
+        if (!inventory.Items.ContainsKey(_current_filter))
+        {
+            ShowNothing();
+            return;
+        }
+        
+        List<Item> items = inventory.Items[_current_filter];
+
+        if (items == null)
+            return;
+        
+        SetSlots(items.Count);
+        
         for (int i = 0; i < _slots.Count; i++)
         {
-            if(_currently_shown_items.Count > i)
+            if (items.Count > i)
             {
-                _slots[i].sprite = _currently_shown_items[i].InvItem.icon;
+                _slots[i].transform.parent.gameObject.SetActive(true);
+                _slots[i].sprite = items[i].InvItem.icon;
             }
             else
             {
-                _slots[i].sprite = _default_icon;
+                _slots[i].transform.parent.gameObject.SetActive(false);
+                //_slots[i].sprite = _default_icon;
             }
         }
+        
     }
+
+    public void ShowAllItems()
+    {
+        isFiltering = false;
+        int i = 0;
+        Debug.Log("Num buttons: " + _slots.Count);
+        foreach (var invItem in inventory.Items)
+        {
+            for (int j = 0; j < invItem.Value.Count; j++)
+            {
+                if (_slots.Count > i)
+                {
+                    _slots[i].transform.parent.gameObject.SetActive(true);
+                    _slots[i].sprite = invItem.Value[j].InvItem.icon;
+                }
+                else
+                {
+                    AddSlot();
+                    _slots[i].transform.parent.gameObject.SetActive(true);
+                    _slots[i].sprite = invItem.Value[j].InvItem.icon;
+                }
+                i++; 
+            }
+            
+        }
+
+        for (int j = i; j < _slots.Count; j++)
+        {
+            _slots[j].transform.parent.gameObject.SetActive(false);
+        }
+    }
+
+    public void AddSlot()
+    {
+        var newItemSlot = Instantiate(_item_slot_prefab, _item_slots_parent.transform);
+        _slots.Add(newItemSlot.transform.GetChild(0).GetComponent<Image>());
+    }
+    
+    public void SetSlots(int numSlots)
+    {
+        if (numSlots == _slots.Count)
+            return;
+        while (numSlots > _slots.Count)
+        {
+            AddSlot();
+        }
+    }
+    
 }
