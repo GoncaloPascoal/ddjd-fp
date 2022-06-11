@@ -181,19 +181,24 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 
 			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
-			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
-				.transform.Find("PlayerSpawn").transform;
+			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
 
-			_controller.enabled = false;
-			
-			transform.position = spawnPoint.position;
-			transform.rotation = spawnPoint.rotation;
-			
-			_controller.enabled = true;
 
-			if (GameData.InCheckpoint)
+			if (checkPoint != null)
 			{
-				InCheckpoint(currentCheckpoint);
+				var spawnPoint = checkPoint.transform.Find("PlayerSpawn").transform;
+
+				_controller.enabled = false;
+			
+				transform.position = spawnPoint.position;
+				transform.rotation = spawnPoint.rotation;
+			
+				_controller.enabled = true;
+
+				if (GameData.InCheckpoint)
+				{
+					InCheckpoint(currentCheckpoint);
+				}
 			}
 		}
 
