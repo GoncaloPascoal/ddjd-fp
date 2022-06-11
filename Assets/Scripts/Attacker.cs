@@ -64,14 +64,17 @@ public class Attacker : MonoBehaviour
         }
     }
 
-    public void AttackNotBuffered()
+    //Plays an attack animation without having to make any animation buffer
+    public void AttackNotBuffered(List<string> possibleAnimations)
     {
         if (IsAttacking())
             return;
+        
+        int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
         isAttacking = true;
         weapon.Attack();
-        _animator.SetTrigger("AttackNormal");
+        _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 
     public bool IsAttacking()
@@ -88,20 +91,4 @@ public class Attacker : MonoBehaviour
         }
         return false;
     }
-    
-    // public bool IsAttacking()
-    // {
-    //     foreach (var state in attackingStates)
-    //     {
-    //         if (_animator.GetCurrentAnimatorStateInfo(0).IsName(state))
-    //         {
-    //             if (!gameObject.CompareTag("Player"))
-    //                 Debug.Log("ATTACKING");
-    //             return true;
-    //         }
-    //     }
-    //     if (!gameObject.CompareTag("Player"))
-    //         Debug.Log("NOT ATTACKING");
-    //     return false;
-    // }
 }
