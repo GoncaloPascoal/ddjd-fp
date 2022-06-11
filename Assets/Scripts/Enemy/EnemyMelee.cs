@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyMelee : Enemy
 {
@@ -15,6 +18,9 @@ public class EnemyMelee : Enemy
 
     private Attacker _attacker;
     
+    private float _attackCooldown = 0.0f;
+
+
     // animation IDs
     private int _animIDSpeed;
     private int _animIDMotionSpeed;
@@ -39,53 +45,67 @@ public class EnemyMelee : Enemy
         var position = transform.position;
         var distanceToTarget = Vector2.Distance(new Vector2(position.x,position.z), new Vector2(targetPos.x, targetPos.z));
         
+        _attackCooldown -= Time.deltaTime;
+
         // if near target (attack range)
         if (distanceToTarget <= meleeDistance)
         {
             // is chasing - will look at player to attack, or player is too close
             
-            NavMeshAgent.SetDestination(gameObject.transform.position);
+            // NavMeshAgent.SetDestination(gameObject.transform.position);
+            NavMeshAgent.isStopped = true;
+            NavMeshAgent.ResetPath();
+            NavMeshAgent.speed = 0f;
+            
+
             if (_chasingTarget || distanceToTarget <= unconditionalDetectionRange)
             {
-                NavMeshAgent.speed = 0f;
                 LookAtTarget();
+
+                if (_attackCooldown <= 0)
+                {
+                    _attacker.AttackNotBuffered(new List<String> { "AttackNormal", "MultipleSlashes" });
+                    _attackCooldown = 3f;
+                }
                 
-                _attacker.AttackNotBuffered();
-                
+                _animator.SetFloat(_animIDSpeed, 0);
+
                 base.Update();
                 return;
             }
             // else, player is standing behind unsuspecting enemy
         }
-
-        if (detectingTarget)
+        else if (!_attacker.IsAttacking())
         {
-            if (!_chasingTarget)
+            if (detectingTarget)
             {
-                _chasingTime = chaseCooldown;
-            }
+                if (!_chasingTarget)
+                {
+                    _chasingTime = chaseCooldown;
+                }
 
-            ChaseTarget();
-        }
-        else if (_chasingTarget)
-        {
-            if (distanceToTarget <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
-            {
                 ChaseTarget();
+            }
+            else if (_chasingTarget)
+            {
+                if (distanceToTarget <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
+                {
+                    ChaseTarget();
+                }
+                else
+                {
+                    _chasingTarget = false;
+                    GoToSpawn();
+                }
             }
             else
             {
-                _chasingTarget = false;
-                GoToSpawn();
-            }
-        }
-        else
-        {
-            // if near spawn, reset to initial orientation
-            if (Vector3.Distance(transform.position, _spawn.position) <= 0.2)
-            {
-                NavMeshAgent.speed = 0f;
-                transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
+                // if near spawn, reset to initial orientation
+                if (Vector3.Distance(transform.position, _spawn.position) <= 0.2)
+                {
+                    NavMeshAgent.speed = 0f;
+                    transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
+                }
             }
         }
         
