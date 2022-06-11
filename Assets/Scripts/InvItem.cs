@@ -7,6 +7,7 @@ public class InvItem : ScriptableObject
 {
     public int id;
     public string itemName;
+    public string description;
     public float value; 
     public Sprite icon;
     public ItemType itemType;
@@ -14,6 +15,7 @@ public class InvItem : ScriptableObject
     public enum ItemType
     {
         Potion,
-        Sword
+        Sword,
+        Other
     }
 }
