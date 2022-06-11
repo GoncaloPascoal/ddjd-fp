@@ -30,6 +30,12 @@ public class DamageableEnemy : Damageable
                 }
             }
 
+            // make the ragdoll rigidbodies not kinematic
+            foreach (var rb in GetComponentsInChildren<Rigidbody>())
+            {
+                rb.isKinematic = false;
+            }
+
             _animator.applyRootMotion = true;
             _animator.SetTrigger("Die");
         }
