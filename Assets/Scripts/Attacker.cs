@@ -40,6 +40,7 @@ public class Attacker : MonoBehaviour
         else
         {
             isAttacking = false;
+            weapon.EndAttack();
         }
     }
 
