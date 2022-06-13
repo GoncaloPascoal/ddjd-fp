@@ -27,10 +27,6 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (_wielderAnimator == null)
-            return;
-
-        _collider.enabled = _wielderAnimator.GetCurrentAnimatorStateInfo(0).IsName("AttackNormal");
     }
 
     public void Attack()
@@ -39,7 +35,7 @@ public class Weapon : MonoBehaviour
         _alreadyHit = new List<GameObject>();
     }
 
-    public void EndAttack()
+    public void DisableColider()
     {
         _collider.enabled = false;
     }
@@ -52,7 +48,6 @@ public class Weapon : MonoBehaviour
         if (wielder.transform.root != obstacle.gameObject.transform.root)
         {
             var hittable = obstacle.GetComponent<Hittable>();
-            
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
             {
                 hittable.Hit(baseDamage);
