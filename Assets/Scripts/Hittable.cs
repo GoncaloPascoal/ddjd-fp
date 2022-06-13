@@ -16,7 +16,8 @@ public class Hittable : MonoBehaviour
     public void Hit(int damage)
     {
         _damageable.ChangeHealth(-damage);
-        _enemy.setFOV(360);
-        Debug.Log("Ouch! Current HP: " + _damageable.Health + ".");
+        if(_enemy != null){
+            _enemy.setFOV(720); //it's not the player
+        }
     }
 }

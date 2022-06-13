@@ -67,6 +67,8 @@ public abstract class Enemy : MonoBehaviour
     {
         Vector3 rayDirection = GetTargetPos() - transform.position;
         
+        
+        
         // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
             return false;
@@ -79,7 +81,11 @@ public abstract class Enemy : MonoBehaviour
         if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
         {
             if (!mindControlled)
-                return hit.transform.CompareTag("Player");
+            {
+               
+                return hit.transform.CompareTag("Player") || hit.transform.CompareTag("MindControlled");
+            }
+
             return hit.transform.CompareTag("Enemy");
         }
         
