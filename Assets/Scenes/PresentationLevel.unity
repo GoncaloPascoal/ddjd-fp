@@ -13859,6 +13859,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyMelee
       objectReference: {fileID: 0}
+    - target: {fileID: 2964434105271433080, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3015757680746888218, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.910383e-11
@@ -14085,11 +14089,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4859425220239947484, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4859425220239947484, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5045494073678125050, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x

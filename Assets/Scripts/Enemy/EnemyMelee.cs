@@ -37,6 +37,11 @@ public class EnemyMelee : Enemy
         _animator.SetFloat(_animIDMotionSpeed, 1f);
     }
 
+    private bool CanChase(float distanceToTarget)
+    {
+        return _chasingTarget || distanceToTarget <= unconditionalDetectionRange || fieldOfView >= 360f;
+    }
+    
     private new void Update()
     {
         if (backstabbed) return;
@@ -50,15 +55,13 @@ public class EnemyMelee : Enemy
         // if near target (attack range)
         if (distanceToTarget <= meleeDistance)
         {
-            // is chasing - will look at player to attack, or player is too close
-            
             // NavMeshAgent.SetDestination(gameObject.transform.position);
             NavMeshAgent.isStopped = true;
             NavMeshAgent.ResetPath();
             NavMeshAgent.speed = 0f;
             
-
-            if (_chasingTarget || distanceToTarget <= unconditionalDetectionRange)
+            // is chasing - will look at player to attack, or player is too close
+            if (CanChase(distanceToTarget))
             {
                 LookAtTarget();
 
@@ -105,6 +108,7 @@ public class EnemyMelee : Enemy
                 {
                     NavMeshAgent.speed = 0f;
                     transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
+                    setFOV(initialFOV);
                 }
             }
         }
@@ -113,7 +117,7 @@ public class EnemyMelee : Enemy
 
         base.Update();
     }
-    
+
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash("Speed");
