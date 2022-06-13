@@ -24,7 +24,7 @@ public class Inventory : MonoBehaviour
         _inventory_manager.gameObject.SetActive(false);
         _inventory_manager.SetInventory(this);
     }
-
+    
     public void AddItem(GameObject item)
     {
         Item itemScript = item.GetComponent<Item>();
@@ -50,8 +50,24 @@ public class Inventory : MonoBehaviour
         {
             ToggleInventory();
         }
-        
 
+        if (_is_on)
+        {
+            if (Input.GetButtonDown("InvSortAll"))
+            {
+                _inventory_manager.ShowAllItems();
+            }
+            if (Input.GetButtonDown("InvSortFirst"))
+            {
+                _inventory_manager.SetFilter("Sword");
+                _inventory_manager.ShowItems();
+            }
+            if (Input.GetButtonDown("InvSortSecond"))
+            {
+                _inventory_manager.SetFilter("Potion");
+                _inventory_manager.ShowItems();
+            }
+        }
     }
 
     void ToggleInventory()

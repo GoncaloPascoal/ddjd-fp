@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : Selectable
 {
     [SerializeField]
     private Inventory _inventory;
@@ -36,16 +36,7 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("tmp1"))
-        {
-            SetFilter("Sword");
-            ShowItems();
-        }
-        if (Input.GetButtonDown("tmp2"))
-        {
-            SetFilter("Potion");
-            ShowItems();
-        }
+        
     }
 
     public void SetInventory(Inventory inv)
@@ -143,6 +134,13 @@ public class InventoryManager : MonoBehaviour
         for (int j = i; j < _slots.Count; j++)
         {
             _slots[j].transform.parent.gameObject.SetActive(false);
+        }
+        
+        if(_slots.Count > 0){
+            if (_slots[0].transform.parent.gameObject.activeSelf)
+            {
+                _slots[0].transform.parent.gameObject.GetComponent<Button>().Select();
+            }
         }
     }
 
