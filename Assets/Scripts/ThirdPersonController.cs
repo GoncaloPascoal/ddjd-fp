@@ -563,5 +563,10 @@ namespace StarterAssets
 		{
 			_inCheckpoint = -1;
 		}
+
+		public bool IsRolling()
+		{
+			return _isRolling;
+		}
 	}
 }
