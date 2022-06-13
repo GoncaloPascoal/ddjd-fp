@@ -1,15 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 
 public abstract class Damageable : MonoBehaviour
 {
     [SerializeField] public Bar healthBar;
+    private ThirdPersonController _player;
 
     protected void Start()
     {
         if (healthBar == null) return;
+        _player = gameObject.GetComponent<ThirdPersonController>();
+        Debug.Log(_player);
         OnMaxHealthChanged += () => healthBar.SetMaxValue(MaxHealth);
         OnHealthChanged += () => healthBar.SetValue(Health);
     }
@@ -40,6 +44,7 @@ public abstract class Damageable : MonoBehaviour
 
     public void ChangeHealth(int delta)
     {
+        if (_player != null && _player.IsRolling()) return;
         Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
         if (Health == 0) Die();
     }
