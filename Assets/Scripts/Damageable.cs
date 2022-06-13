@@ -13,7 +13,6 @@ public abstract class Damageable : MonoBehaviour
     {
         if (healthBar == null) return;
         _player = gameObject.GetComponent<ThirdPersonController>();
-        Debug.Log(_player);
         OnMaxHealthChanged += () => healthBar.SetMaxValue(MaxHealth);
         OnHealthChanged += () => healthBar.SetValue(Health);
     }

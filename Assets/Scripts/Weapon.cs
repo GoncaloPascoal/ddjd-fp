@@ -45,10 +45,9 @@ public class Weapon : MonoBehaviour
         // Only hit if the collider is not part of the weapon wielder layer
         // (if player is wielding weapon, they can not hit themselves or other players
         // and enemies cannot hit each other)
-        if (wielder.layer != obstacle.gameObject.layer)
+        if (wielder.transform.root != obstacle.gameObject.transform.root)
         {
             var hittable = obstacle.GetComponent<Hittable>();
-
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
             {
                 hittable.Hit(baseDamage);

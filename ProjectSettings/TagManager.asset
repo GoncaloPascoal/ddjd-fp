@@ -9,6 +9,8 @@ TagManager:
   - Pickup
   - Message
   - Checkpoint
+  - MindControlled
+  - Dead
   layers:
   - Default
   - TransparentFX
