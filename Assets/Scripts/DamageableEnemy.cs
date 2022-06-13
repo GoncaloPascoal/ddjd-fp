@@ -38,6 +38,7 @@ public class DamageableEnemy : Damageable
 
             _animator.applyRootMotion = true;
             _animator.SetTrigger("Die");
+            gameObject.tag = "Dead";
         }
     }
 
