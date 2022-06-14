@@ -54,7 +54,7 @@ public abstract class Enemy : MonoBehaviour
         initialFOV = fieldOfView;
 
         _animator = GetComponent<Animator>();
-
+        
         OnEnemyCreated.Invoke(this);
     }
 
