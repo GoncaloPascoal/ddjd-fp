@@ -5,11 +5,18 @@ using UnityEngine;
 public class DamageableEnemy : Damageable
 {
     private Animator _animator;
+    protected GameObject _souls;
+    private Attacker _attacker;
+    private Hittable _hittable;
+
 
     private new void Start()
     {
         base.Start();
         _animator = GetComponent<Animator>();
+        _attacker = GetComponent<Attacker>();
+        _hittable = GetComponent<Hittable>();
+        _souls = gameObject.transform.Find("FloatingSoul").gameObject;
     }
 
     protected override void Die()
@@ -22,18 +29,10 @@ public class DamageableEnemy : Damageable
         }
         else
         {
-            foreach (var comp in GetComponents(typeof(Component)))
+            
+            foreach (var comp in GetComponents(typeof(CapsuleCollider)))
             {
-                if (comp != _animator && comp != transform && comp != this)
-                {
-                    Destroy(comp);
-                }
-            }
-
-            // make the ragdoll rigidbodies not kinematic
-            foreach (var rb in GetComponentsInChildren<Rigidbody>())
-            {
-                rb.isKinematic = false;
+                ((CapsuleCollider) comp).enabled = false;
             }
 
             _animator.applyRootMotion = true;
@@ -44,8 +43,17 @@ public class DamageableEnemy : Damageable
 
     public void EndDeath()
     {
-        Destroy(_animator);
-        Destroy(healthBar.gameObject);
-        Destroy(this);
+        _souls.SetActive(true);
+        // _animator.gameObject.SetActive(false);
+        healthBar.gameObject.SetActive(false);
+        _hittable.enabled = false;
+        _attacker.enabled = false;
+        foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+        {
+            ((CapsuleCollider) comp).enabled = false;
+        }
+        
+        
+        enabled = false;
     }
 }
