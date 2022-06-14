@@ -14,7 +14,7 @@ public class InputManager
       new Dictionary<ActionType, ISet<string>> {
             { ActionType.Game, new HashSet<string>
             {
-                  "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "Attack"
+                  "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "Attack", "Interact"
             } },
             { ActionType.Menu, new HashSet<string>() }
       };
