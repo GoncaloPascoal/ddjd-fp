@@ -103,8 +103,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0c84bb8bf31e95419beddea54b94ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackDistance: 3
-  walkDistance: 10
+  attackDistance: 4
+  walkDistance: 7
 --- !u!206 &-3883051858934200826
 BlendTree:
   m_ObjectHideFlags: 1

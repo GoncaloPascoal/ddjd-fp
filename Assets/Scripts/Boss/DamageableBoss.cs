@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class DamageableBoss : Damageable
 {
-    [SerializeField] private int _maxHealth;
-
-    private Damageable _damageable;
-    
     // Start is called before the first frame update
     void Start()
     {
-        _damageable = GetComponent<Damageable>();
-        _damageable.InitializeMaxHealth(_maxHealth);
+        
+    }
+
+    protected override void Die()
+    {
+        throw new System.NotImplementedException();
     }
 
     // Update is called once per frame
