@@ -8,6 +8,8 @@ public class DamageableEnemy : Damageable
     protected GameObject _souls;
     private Attacker _attacker;
     private Hittable _hittable;
+    private bool _alreadyDied;
+
 
 
     private new void Start()
@@ -17,8 +19,33 @@ public class DamageableEnemy : Damageable
         _attacker = GetComponent<Attacker>();
         _hittable = GetComponent<Hittable>();
         _souls = gameObject.transform.Find("FloatingSoul").gameObject;
+        _alreadyDied = false;
     }
 
+    public void DeleteComps()
+    {
+        foreach (var comp in GetComponents(typeof(Component)))
+        {
+            if (comp != _animator && comp != transform && comp != this)
+            {
+                Destroy(comp);
+            }
+        }
+
+        // make the ragdoll rigidbodies not kinematic
+        foreach (var rb in GetComponentsInChildren<Rigidbody>())
+        {
+            rb.isKinematic = false;
+        }
+    }
+
+    public void DeleteAnimator()
+    {
+        Destroy(_animator);
+        Destroy(healthBar.gameObject);
+        Destroy(this);
+    }
+    
     protected override void Die()
     {
         var enemy = GetComponent<Enemy>();
@@ -29,11 +56,18 @@ public class DamageableEnemy : Damageable
         }
         else
         {
-            
-            foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+            if (_alreadyDied)
             {
-                ((CapsuleCollider) comp).enabled = false;
+                DeleteComps();
             }
+            else
+            {
+                foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+                {
+                    ((CapsuleCollider) comp).enabled = false;
+                }   
+            }
+            
 
             _animator.applyRootMotion = true;
             _animator.SetTrigger("Die");
@@ -43,17 +77,25 @@ public class DamageableEnemy : Damageable
 
     public void EndDeath()
     {
-        _souls.SetActive(true);
-        // _animator.gameObject.SetActive(false);
-        healthBar.gameObject.SetActive(false);
-        _hittable.enabled = false;
-        _attacker.enabled = false;
-        foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+        if (!_alreadyDied)
         {
-            ((CapsuleCollider) comp).enabled = false;
+            _souls.SetActive(true);
+            _alreadyDied = true;
+
+            // _animator.gameObject.SetActive(false);
+            healthBar.gameObject.SetActive(false);
+            _hittable.enabled = false;
+            _attacker.enabled = false;
+            foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+            {
+                ((CapsuleCollider) comp).enabled = false;
+            }
+
+
+            enabled = false;
+            return;
         }
         
-        
-        enabled = false;
+        DeleteAnimator();
     }
 }
