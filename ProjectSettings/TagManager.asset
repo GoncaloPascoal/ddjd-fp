@@ -12,6 +12,8 @@ TagManager:
   - MindControlled
   - Dead
   - Boss
+  - PressurePlate
+  - Door
   layers:
   - Default
   - TransparentFX
