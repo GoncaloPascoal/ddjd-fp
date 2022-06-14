@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,9 @@ public class Boss_movement : StateMachineBehaviour
     public float attackDistance;
     public float walkDistance;
 
+    private float _animationBlend;
+    private float _targetSpeed;
+
     private Transform _player;
     private Animator _animator;
     private Boss _boss;
@@ -15,7 +19,7 @@ public class Boss_movement : StateMachineBehaviour
 
     private string lastTrigger = "";
     
-    private int speedIdHash = Animator.StringToHash("Speed");
+    private int _speedIdHash = Animator.StringToHash("Speed");
     
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -43,6 +47,10 @@ public class Boss_movement : StateMachineBehaviour
             Vector3 playerPos = _player.transform.position;
             animator.GetComponent<NavMeshAgent>().SetDestination(playerPos);
         }
+
+        _animationBlend = Mathf.Lerp(_animationBlend, _targetSpeed, Time.deltaTime);
+        
+        _animator.SetFloat(_speedIdHash, _animationBlend);
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -55,13 +63,13 @@ public class Boss_movement : StateMachineBehaviour
     private float SpeedOnPlayerDistance()
     {
         float distanceToPlayer = Vector3.Distance(_animator.transform.position, _player.transform.position);
-        
-        if (distanceToPlayer > walkDistance) 
-            _animator.SetFloat(speedIdHash, 1f);
-        else if (distanceToPlayer > attackDistance) 
-            _animator.SetFloat(speedIdHash, 0.5f);
-        else 
-            _animator.SetFloat(speedIdHash, 0);
+
+        if (distanceToPlayer > walkDistance)
+            _targetSpeed = 1f;
+        else if (distanceToPlayer > attackDistance)
+            _targetSpeed = 0.5f;
+        else
+            _targetSpeed = 0f;
 
         return distanceToPlayer;
     }
