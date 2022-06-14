@@ -144,16 +144,6 @@ namespace StarterAssets
 
 		private int _inCheckpoint = -1;
 
-		private void Awake()
-		{
-			// get a reference to our main camera
-			if (_mainCamera == null)
-			{
-				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			}
-
-		}
-
 		private void Start()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
@@ -182,6 +172,12 @@ namespace StarterAssets
 
 			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
 			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
+			
+			// get a reference to our main camera
+			if (_mainCamera == null)
+			{
+				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			}
 
 
 			if (checkPoint != null)
