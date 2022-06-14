@@ -11,6 +11,7 @@ TagManager:
   - Checkpoint
   - MindControlled
   - Dead
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Ground
   - EnemySkeleton
   - PlayerSkeleton
-  - 
+  - BossSkeleton
   - 
   - 
   - 
