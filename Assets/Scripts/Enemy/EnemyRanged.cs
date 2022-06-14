@@ -27,7 +27,7 @@ public class EnemyRanged : Enemy
     private new void Update()
     {
         
-        if (backstabbed) return;
+        if (backstabbed || gameObject.CompareTag("Dead")) return;
 
         if (_state == EnemyRangedState.NotAlert)
         {
