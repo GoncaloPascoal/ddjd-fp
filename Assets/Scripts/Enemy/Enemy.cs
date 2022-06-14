@@ -29,7 +29,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Transform PlayerTransform;
     protected ThirdPersonController playerTPC;
-
+    
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;

@@ -44,7 +44,7 @@ public class EnemyMelee : Enemy
     
     private new void Update()
     {
-        if (backstabbed) return;
+        if (backstabbed || gameObject.CompareTag("Dead")) return;
         var detectingTarget = DetectTarget();
         var targetPos = GetTargetPos();
         var position = transform.position;
