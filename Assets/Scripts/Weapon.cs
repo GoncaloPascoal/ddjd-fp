@@ -47,7 +47,7 @@ public class Weapon : MonoBehaviour
         // and enemies cannot hit each other)
         if (wielder.transform.root != obstacle.gameObject.transform.root)
         {
-            var hittable = obstacle.GetComponent<Hittable>();
+            var hittable = obstacle.GetComponentInParent<Hittable>();
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
             {
                 hittable.Hit(baseDamage);
