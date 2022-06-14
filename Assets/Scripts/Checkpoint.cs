@@ -23,7 +23,7 @@ public class Checkpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Interact"))
+        if (InputManager.GetButtonDown("Interact"))
         {
             if (_playerInRange && !_player.IsInCheckpoint())
             {
