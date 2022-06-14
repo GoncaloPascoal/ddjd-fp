@@ -1,14 +1,11 @@
 fileFormatVersion: 2
-guid: e0a57abaa2dc67247a42519697c3a475
+guid: d2873fdb8453b8945984256676e07b40
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
     second: mixamo.com
-  - first:
-      74: -6253949204020797367
-    second: DeathFall
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -29,7 +26,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -38,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: DeathFall
+      name: mixamo.com
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 217
+      lastFrame: 231
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -63,9 +60,9 @@ ModelImporter:
       curves: []
       events:
       - time: 1
-        functionName: EndDeath
+        functionName: FinishedResurrection
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 7a6f911115d8e954e940424baf7a8ef0, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 5b6a2ff6ae4bb3c4f94e67b71f67faa2, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
