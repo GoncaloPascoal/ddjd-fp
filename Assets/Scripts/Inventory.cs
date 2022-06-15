@@ -67,6 +67,7 @@ public class Inventory : MonoBehaviour
                 _inventory_manager.SetFilter("Potion");
                 _inventory_manager.ShowItems();
             }
+            _inventory_manager.MoveCursor(Input.GetKeyDown(KeyCode.A), Input.GetKeyDown(KeyCode.D), Input.GetKeyDown(KeyCode.W), Input.GetKeyDown(KeyCode.S));
         }
     }
 

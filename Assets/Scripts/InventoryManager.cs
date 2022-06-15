@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryManager : Selectable
+public class InventoryManager : MonoBehaviour
 {
     [SerializeField]
     private Inventory _inventory;
@@ -13,7 +13,15 @@ public class InventoryManager : Selectable
 
     [SerializeField] private GameObject _item_slot_prefab;
     
+    
+    private List<Item> _slot_items = new List<Item>();
     private List<Image> _slots = new List<Image>();
+
+    private int _slot = 0;
+
+    [SerializeField] private int _slots_per_row = 6;
+    
+    [SerializeField] private int _slots_in_inventory = 36;
 
     [SerializeField]
     private Sprite _default_icon;
@@ -23,6 +31,14 @@ public class InventoryManager : Selectable
 
     private Inventory inventory;
 
+    [Header("Description parts")] [SerializeField]
+    private Image descImage;
+    [SerializeField]
+    private Text descTitle;
+    [SerializeField]
+    private Text descText;
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +46,7 @@ public class InventoryManager : Selectable
         {
             _slots.Add(_item_slots_parent.transform.GetChild(i).GetChild(0).GetComponent<Image>());
         }
-        //ShowItems();
+        ShowAllItems();
     }
 
     // Update is called once per frame
@@ -65,8 +81,11 @@ public class InventoryManager : Selectable
     {
         for (int i = 0; i < _slots.Count; i++)
         {
-            _slots[i].transform.parent.gameObject.SetActive(false);
+            _slots[i].gameObject.SetActive(false);
+            _slot_items.Clear();
         }
+        
+        ShowDescription();
     }
 
     public void ShowItems()
@@ -84,47 +103,48 @@ public class InventoryManager : Selectable
         }
         
         List<Item> items = inventory.Items[_current_filter];
+        _slot_items.Clear();
+        for (int i = 0; i < items.Count; i++)
+        {
+            _slot_items.Add(items[i]);
+        }
 
         if (items == null)
             return;
         
-        SetSlots(items.Count);
         
         for (int i = 0; i < _slots.Count; i++)
         {
             if (items.Count > i)
             {
-                _slots[i].transform.parent.gameObject.SetActive(true);
+                _slots[i].gameObject.SetActive(true);
                 _slots[i].sprite = items[i].InvItem.icon;
             }
             else
             {
-                _slots[i].transform.parent.gameObject.SetActive(false);
-                //_slots[i].sprite = _default_icon;
+                Debug.Log("A");
+                _slots[i].gameObject.SetActive(false);
             }
         }
         
+        ShowDescription();
     }
 
     public void ShowAllItems()
     {
         isFiltering = false;
         int i = 0;
-        Debug.Log("Num buttons: " + _slots.Count);
+        
+        _slot_items.Clear();
         foreach (var invItem in inventory.Items)
         {
             for (int j = 0; j < invItem.Value.Count; j++)
             {
                 if (_slots.Count > i)
                 {
-                    _slots[i].transform.parent.gameObject.SetActive(true);
+                    _slots[i].gameObject.SetActive(true);
                     _slots[i].sprite = invItem.Value[j].InvItem.icon;
-                }
-                else
-                {
-                    AddSlot();
-                    _slots[i].transform.parent.gameObject.SetActive(true);
-                    _slots[i].sprite = invItem.Value[j].InvItem.icon;
+                    _slot_items.Add(invItem.Value[j]);
                 }
                 i++; 
             }
@@ -133,31 +153,66 @@ public class InventoryManager : Selectable
 
         for (int j = i; j < _slots.Count; j++)
         {
-            _slots[j].transform.parent.gameObject.SetActive(false);
+            _slots[j].gameObject.SetActive(false);
         }
-        
-        if(_slots.Count > 0){
-            if (_slots[0].transform.parent.gameObject.activeSelf)
-            {
-                _slots[0].transform.parent.gameObject.GetComponent<Button>().Select();
-            }
-        }
+
+        ShowDescription();
     }
 
-    public void AddSlot()
+    private void ShowDescription()
     {
-        var newItemSlot = Instantiate(_item_slot_prefab, _item_slots_parent.transform);
-        _slots.Add(newItemSlot.transform.GetChild(0).GetComponent<Image>());
+        if (_slot_items.Count > _slot)
+        {
+            descImage.gameObject.SetActive(true);
+            descImage.sprite = _slots[_slot].sprite;
+            descTitle.text = _slot_items[_slot].InvItem.itemName;
+            descText.text = _slot_items[_slot].InvItem.description;
+        }
+        else
+        {
+            descImage.gameObject.SetActive(false);
+            descTitle.text = "";
+            descText.text = "";
+        }
     }
     
-    public void SetSlots(int numSlots)
-    {
-        if (numSlots == _slots.Count)
-            return;
-        while (numSlots > _slots.Count)
+    public void MoveCursor(bool left, bool right, bool up, bool down){
+        if (left)
         {
-            AddSlot();
+            _slot -= 1;
+            if (_slot < 0)
+            {
+                _slot += _slots_per_row;
+            }
+            else if (_slot % _slots_per_row == 5)
+            {
+                _slot += _slots_per_row;
+            }
         }
+        if (right)
+        {
+            _slot += 1;
+            if (_slot % _slots_per_row == 0)
+            {
+                _slot -= 6;
+            }
+        }  
+        if (up)
+        {
+            _slot -= _slots_per_row;
+            if (_slot < 0)
+            {
+                _slot += _slots_in_inventory;
+            }
+        }
+        if (down)
+        {
+            _slot += _slots_per_row;
+            _slot = _slot % _slots_in_inventory;
+        }  
+        Debug.Log(_slot);
+        if(up || down || left || right)
+            ShowDescription();
     }
     
 }
