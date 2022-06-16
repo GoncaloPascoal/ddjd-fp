@@ -13,8 +13,21 @@ public class Inventory : MonoBehaviour
         get { return _items; }
     }
 
-    public Item _equip_item_sword;
-    public Item _equip_item_armour;
+    private Item _equip_item_sword;
+    
+    public Item EquipItemSword
+    {
+        get { return _equip_item_sword; }
+        set { _equip_item_sword = value; }
+    }
+    
+    private Item _equip_item_armour;
+    
+    public Item EquipItemArmour
+    {
+        get { return _equip_item_armour; }
+        set { _equip_item_armour = value; }
+    }
     
     private bool _is_on = false;
 

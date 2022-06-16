@@ -17,7 +17,7 @@ public abstract class Damageable : MonoBehaviour
         OnHealthChanged += () => healthBar.SetValue(Health);
     }
 
-    private int _maxHealth;
+    [SerializeField] private int _maxHealth;
     public int MaxHealth
     {
         get => _maxHealth;
@@ -28,7 +28,7 @@ public abstract class Damageable : MonoBehaviour
         }
     }
 
-    private int _health;
+    [SerializeField] private int _health;
     public int Health
     {
         get => _health;

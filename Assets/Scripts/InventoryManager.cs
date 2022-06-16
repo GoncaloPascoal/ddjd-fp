@@ -50,7 +50,7 @@ public class InventoryManager : MonoBehaviour
             _slots.Add(_item_slots_parent.transform.GetChild(i).GetChild(0).GetComponent<Image>());
         }
 
-        _current_item_cursor.transform.parent = _slots[0].transform.parent;
+        _current_item_cursor.transform.SetParent(_slots[0].transform.parent);
         isFiltering = false;
         ShowAllItems();
     }
@@ -219,7 +219,7 @@ public class InventoryManager : MonoBehaviour
 
         if (up || down || left || right)
         {
-            _current_item_cursor.transform.parent = _slots[_slot].transform.parent;
+            _current_item_cursor.transform.SetParent(_slots[_slot].transform.parent);
             _current_item_cursor.transform.localPosition = Vector3.zero;
             Debug.Log(_slot);
             ShowDescription();
@@ -233,9 +233,11 @@ public class InventoryManager : MonoBehaviour
             if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Potion)
             {
                 Debug.Log("Using item");
-                _slot_items[_slot].Use();
-                _inventory.Items[InvItem.ItemType.Potion].Remove(_slot_items[_slot]);
-                ShowItems();
+                if (_slot_items[_slot].Use())
+                {
+                    _inventory.Items[InvItem.ItemType.Potion].Remove(_slot_items[_slot]);
+                    ShowItems();
+                }
             }
             else if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Sword)
             {
@@ -253,21 +255,21 @@ public class InventoryManager : MonoBehaviour
         Item tmp = null;
         if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Sword)
         {
-            tmp = _inventory._equip_item_sword;
+            tmp = _inventory.EquipItemSword;
             if(tmp != null)
                 _inventory.Items[InvItem.ItemType.Sword].Add(tmp);
-            _inventory._equip_item_sword = _slot_items[_slot];
-            _inventory.Items[InvItem.ItemType.Sword].Remove(_inventory._equip_item_sword);
-            _equip_sword_img.sprite = _inventory._equip_item_sword.InvItem.icon;
+            _inventory.EquipItemSword = _slot_items[_slot];
+            _inventory.Items[InvItem.ItemType.Sword].Remove(_inventory.EquipItemSword);
+            _equip_sword_img.sprite = _inventory.EquipItemSword.InvItem.icon;
         }
         else if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Armour)
         {
-            tmp = _inventory._equip_item_armour;
+            tmp = _inventory.EquipItemArmour;
             if(tmp != null)
                 _inventory.Items[InvItem.ItemType.Armour].Add(tmp);
-            _inventory._equip_item_armour = _slot_items[_slot];
-            _inventory.Items[InvItem.ItemType.Armour].Remove(_inventory._equip_item_armour);
-            _equip_armour_img.sprite = _inventory._equip_item_armour.InvItem.icon;
+            _inventory.EquipItemArmour = _slot_items[_slot];
+            _inventory.Items[InvItem.ItemType.Armour].Remove(_inventory.EquipItemArmour);
+            _equip_armour_img.sprite = _inventory.EquipItemArmour.InvItem.icon;
         }
         ShowItems();
     }
