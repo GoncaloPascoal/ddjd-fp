@@ -14,9 +14,12 @@ public class InputManager
       new Dictionary<ActionType, ISet<string>> {
             { ActionType.Game, new HashSet<string>
             {
-                  "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "Attack", "Interact"
+                  "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "Attack", "Interact", "OpenInventory"
             } },
-            { ActionType.Menu, new HashSet<string>() }
+            { ActionType.Menu, new HashSet<string>
+            {
+                  "OpenInventory"
+            } }
       };
 
       public static ActionType CurrentActionType = ActionType.Game;
@@ -24,6 +27,7 @@ public class InputManager
       public static bool GetButtonDown(string action)
       {
             if (!ActionsByType[CurrentActionType].Contains(action)) return false;
+            
             return Input.GetButtonDown(action);
       }
 
