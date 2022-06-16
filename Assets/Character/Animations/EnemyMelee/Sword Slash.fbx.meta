@@ -72,14 +72,14 @@ ModelImporter:
       - time: 0.30140844
         functionName: StopStagger
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.99624413
         functionName: ActivateStaggerNormalAttack
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
