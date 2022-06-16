@@ -82,7 +82,6 @@ public class EnemyRanged : Enemy
 
     void Shoot()
     {
-        Debug.Log("Shot");
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
         
