@@ -27,7 +27,7 @@ public class EnemyRanged : Enemy
     private new void Update()
     {
         
-        if (backstabbed) return;
+        if (backstabbed || gameObject.CompareTag("Dead")) return;
 
         if (_state == EnemyRangedState.NotAlert)
         {
@@ -82,7 +82,6 @@ public class EnemyRanged : Enemy
 
     void Shoot()
     {
-        Debug.Log("Shot");
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
         
