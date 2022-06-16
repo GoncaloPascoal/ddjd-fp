@@ -1422,7 +1422,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackingStates:
-  - AttackNormal
+  - Attack1
+  - Attack2
+  - Attack3
   weapon: {fileID: 5331836338879897050}
 --- !u!114 &-4521213889600835716
 MonoBehaviour:
