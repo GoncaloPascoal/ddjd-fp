@@ -221,7 +221,6 @@ public class InventoryManager : MonoBehaviour
         {
             _current_item_cursor.transform.SetParent(_slots[_slot].transform.parent);
             _current_item_cursor.transform.localPosition = Vector3.zero;
-            Debug.Log(_slot);
             ShowDescription();
         }
     }
@@ -232,7 +231,6 @@ public class InventoryManager : MonoBehaviour
         {
             if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Potion)
             {
-                Debug.Log("Using item");
                 if (_slot_items[_slot].Use())
                 {
                     _inventory.Items[InvItem.ItemType.Potion].Remove(_slot_items[_slot]);
