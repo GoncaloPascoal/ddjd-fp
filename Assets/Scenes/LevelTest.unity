@@ -4345,6 +4345,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 423026774712006885, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: attackingStates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 423026774712006885, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: attackingStates.Array.data[0]
+      value: Attack1
+      objectReference: {fileID: 0}
+    - target: {fileID: 423026774712006885, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: attackingStates.Array.data[1]
+      value: Attack2
+      objectReference: {fileID: 0}
+    - target: {fileID: 423026774712006885, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: attackingStates.Array.data[2]
+      value: Attack3
+      objectReference: {fileID: 0}
     - target: {fileID: 461605777184063948, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Layer
       value: 12
