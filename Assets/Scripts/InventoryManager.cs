@@ -41,6 +41,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private Image _equip_sword_img;
     [SerializeField] private Image _equip_armour_img;
 
+    [SerializeField] private Image _current_item_cursor;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +50,7 @@ public class InventoryManager : MonoBehaviour
             _slots.Add(_item_slots_parent.transform.GetChild(i).GetChild(0).GetComponent<Image>());
         }
 
+        _current_item_cursor.transform.parent = _slots[0].transform.parent;
         isFiltering = false;
         ShowAllItems();
     }
@@ -217,6 +219,8 @@ public class InventoryManager : MonoBehaviour
 
         if (up || down || left || right)
         {
+            _current_item_cursor.transform.parent = _slots[_slot].transform.parent;
+            _current_item_cursor.transform.localPosition = Vector3.zero;
             Debug.Log(_slot);
             ShowDescription();
         }
