@@ -52,7 +52,7 @@ public class Inventory : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("OpenInventory"))
+        if (InputManager.GetButtonDown("OpenInventory"))
         {
             ToggleInventory();
         }
@@ -90,6 +90,8 @@ public class Inventory : MonoBehaviour
     void ToggleInventory()
     {
         _is_on = !_is_on;
+        if (_is_on) InputManager.CurrentActionType = ActionType.Menu;
+        else InputManager.CurrentActionType = ActionType.Game;
         _inventory_manager.gameObject.SetActive(_is_on);
         _inventory_manager.ShowAllItems();
     }
