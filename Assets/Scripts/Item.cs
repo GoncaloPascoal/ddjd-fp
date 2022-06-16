@@ -18,6 +18,11 @@ public class Item : MonoBehaviour
     {
         //Debug.Log(name);
     }
+
+    public void Use()
+    {
+        Destroy(gameObject);
+    }
     
     // Update is called once per frame
     void Update()

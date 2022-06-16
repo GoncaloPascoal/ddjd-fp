@@ -15,6 +15,7 @@ public class InvItem : ScriptableObject
     {
         Potion,
         Sword,
+        Armour,
         Other
     }
 }
