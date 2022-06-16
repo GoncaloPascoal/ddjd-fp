@@ -13,6 +13,9 @@ public class Inventory : MonoBehaviour
         get { return _items; }
     }
 
+    public Item _equip_item_sword;
+    public Item _equip_item_armour;
+    
     private bool _is_on = false;
 
     [SerializeField]
@@ -41,7 +44,10 @@ public class Inventory : MonoBehaviour
         }
         //Make it invisible after picking it up
         item.SetActive(false);
-        _inventory_manager.ShowItems();
+        if (_is_on)
+        {
+            _inventory_manager.ShowItems();
+        }
     }
     // Update is called once per frame
     void Update()
@@ -57,15 +63,25 @@ public class Inventory : MonoBehaviour
             {
                 _inventory_manager.ShowAllItems();
             }
-            if (Input.GetButtonDown("InvSortFirst"))
+            if (Input.GetButtonDown("InvSortConsumable"))
             {
                 _inventory_manager.SetFilter("Sword");
                 _inventory_manager.ShowItems();
             }
-            if (Input.GetButtonDown("InvSortSecond"))
+            if (Input.GetButtonDown("InvSortSword"))
             {
                 _inventory_manager.SetFilter("Potion");
                 _inventory_manager.ShowItems();
+            }
+            if (Input.GetButtonDown("InvSortArmour"))
+            {
+                _inventory_manager.SetFilter("Armour");
+                _inventory_manager.ShowItems();
+            }
+            if (Input.GetButtonDown("SelectItem"))
+            {
+                Debug.Log("A");
+                _inventory_manager.UseCurrentItem();
             }
             _inventory_manager.MoveCursor(Input.GetKeyDown(KeyCode.A), Input.GetKeyDown(KeyCode.D), Input.GetKeyDown(KeyCode.W), Input.GetKeyDown(KeyCode.S));
         }
