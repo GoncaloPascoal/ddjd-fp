@@ -17,7 +17,7 @@ public abstract class Damageable : MonoBehaviour
         OnHealthChanged += () => healthBar.SetValue(Health);
     }
 
-    private int _maxHealth;
+    [SerializeField] private int _maxHealth;
     public int MaxHealth
     {
         get => _maxHealth;
@@ -28,7 +28,7 @@ public abstract class Damageable : MonoBehaviour
         }
     }
 
-    private int _health;
+    [SerializeField] private int _health;
     public int Health
     {
         get => _health;
@@ -46,6 +46,18 @@ public abstract class Damageable : MonoBehaviour
         if (_player != null && _player.IsRolling()) return;
         Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
         if (Health == 0) Die();
+    }
+
+    public void AlwaysChangeHealth(int delta)
+    {
+        Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
+        if (Health == 0) Die();
+    }
+
+    public void ChangeMaxHealth(int delta)
+    {
+        MaxHealth = Mathf.Clamp(MaxHealth + delta, 0, MaxHealth);
+        Health = Mathf.Clamp(Health, 0, MaxHealth);
     }
 
     public void InitializeMaxHealth(int value)

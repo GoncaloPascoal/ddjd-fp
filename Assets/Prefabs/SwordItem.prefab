@@ -108,5 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f10952f98e6455f8e80194c0c7ee639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  damage: 0
+  name: Sword
+  _inv_item: {fileID: 11400000, guid: 9e77b063c843faf45b058b96e967e3b7, type: 2}
+  damage: 3
