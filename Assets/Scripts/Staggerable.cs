@@ -18,6 +18,11 @@ public class Staggerable : MonoBehaviour
     {
         
     }
+
+    public void Stagger()
+    {
+        _animator.SetTrigger("Stagger");
+    }
     
     public void StopStagger()
     {
