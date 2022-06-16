@@ -25,6 +25,18 @@ public class Item : MonoBehaviour
         return true;
     }
     
+    public virtual void Equip()
+    {
+        Debug.Log("bruh 1");
+        return;
+    }
+    
+    public virtual void Unequip()
+    {
+        Debug.Log("bruh");
+        return;
+    }
+    
     // Update is called once per frame
     void Update()
     {

@@ -55,7 +55,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -3625337045755692066, guid: 09bfa91e72dce66458431eca30688a63, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 09bfa91e72dce66458431eca30688a63, type: 3}
 --- !u!1 &3527586502637917470 stripped
 GameObject:
@@ -79,4 +80,3 @@ MonoBehaviour:
   effect: 
   effectTime: 0
   healingPercent: 0.4
-  damageablePlayer: {fileID: 0}
