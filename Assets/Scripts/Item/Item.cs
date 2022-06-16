@@ -19,9 +19,10 @@ public class Item : MonoBehaviour
         //Debug.Log(name);
     }
 
-    public void Use()
+    public virtual bool Use()
     {
         Destroy(gameObject);
+        return true;
     }
     
     // Update is called once per frame
