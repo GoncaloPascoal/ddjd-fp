@@ -19,6 +19,12 @@ public class Staggerable : MonoBehaviour
         
     }
 
+    public bool isStaggered()
+    {
+        Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger"));
+        return _animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger");
+    }
+    
     public void Stagger()
     {
         _animator.SetTrigger("Stagger");
