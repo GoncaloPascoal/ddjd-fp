@@ -7,6 +7,17 @@ public class EnemyCanvas : MonoBehaviour
 {
     private void Awake()
     {
-        Enemy.OnEnemyCreated += enemy => enemy.SetupHealthBar(GetComponentInChildren<Canvas>());
+        Enemy.OnEnemyCreated += SetupEnemyBar;
+        // Enemy.OnEnemyCreated += enemy => enemy.SetupHealthBar(GetComponentInChildren<Canvas>());
+    }
+
+    private void SetupEnemyBar(Enemy enemy)
+    {
+        enemy.SetupHealthBar(GetComponentInChildren<Canvas>());
+    }
+
+    private void OnDestroy()
+    {
+        Enemy.OnEnemyCreated -= SetupEnemyBar;
     }
 }

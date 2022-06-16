@@ -39,7 +39,9 @@ public class Attacker : MonoBehaviour
         }
         else
         {
+            // Debug.Log("ENDING");
             isAttacking = false;
+            weapon.DisableColider();
         }
     }
 
