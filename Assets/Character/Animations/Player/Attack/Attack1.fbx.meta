@@ -83,7 +83,7 @@ ModelImporter:
       - time: 1
         functionName: EndAttack
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 050d19806f2d5ae458825baaca2dcaa5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
@@ -91,6 +91,20 @@ ModelImporter:
         functionName: ActivateStaggerNormalAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: EndAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.7183098
+        functionName: AttackSound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 050d19806f2d5ae458825baaca2dcaa5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
