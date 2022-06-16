@@ -45,6 +45,8 @@ public abstract class Damageable : MonoBehaviour
     {
         if (_player != null && _player.IsRolling()) return;
         Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
+        Debug.Log(delta);
+        Debug.Log(Health);
         if (Health == 0) Die();
     }
 
