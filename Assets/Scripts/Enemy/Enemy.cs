@@ -18,6 +18,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
+    protected float initialFOV;
 
     [SerializeField] protected float chaseSpeed = 3f;
     [SerializeField] protected float walkSpeed = 1.5f;
@@ -28,7 +29,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Transform PlayerTransform;
     protected ThirdPersonController playerTPC;
-
+    
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
@@ -50,9 +51,10 @@ public abstract class Enemy : MonoBehaviour
         InitialOrientation = transform.rotation;
         mindControlled = false;
         backstabbed = false;
+        initialFOV = fieldOfView;
 
         _animator = GetComponent<Animator>();
-
+        
         OnEnemyCreated.Invoke(this);
     }
 
@@ -64,7 +66,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool DetectTarget()
     {
         Vector3 rayDirection = GetTargetPos() - transform.position;
-        
+
         // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
             return false;
@@ -77,32 +79,17 @@ public abstract class Enemy : MonoBehaviour
         if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
         {
             if (!mindControlled)
-                return hit.transform.CompareTag("Player");
+            {
+               
+                return hit.transform.CompareTag("Player") || hit.transform.CompareTag("MindControlled");
+            }
+
             return hit.transform.CompareTag("Enemy");
         }
         
         return false;
     }
 
-    Transform GetClosestEnemy()
-    {
-        Transform bestTarget = null;
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-        foreach(GameObject potentialTarget in GameObject.FindGameObjectsWithTag("Enemy"))
-        {
-            if(GameObject.ReferenceEquals(this.gameObject, potentialTarget)) continue;
-            Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if(dSqrToTarget < closestDistanceSqr)
-            {
-                closestDistanceSqr = dSqrToTarget;
-                bestTarget = potentialTarget.transform;
-            }
-        }
-        return bestTarget;
-    }
-    
     protected Vector3 GetTargetPos()
     {
         var headPos = playerTPC.playerHeadTransform.position;
@@ -112,18 +99,44 @@ public abstract class Enemy : MonoBehaviour
         
         if (!mindControlled)
         {
-            return playerPos;
+            return GetClosestWithTags(new List<String> { "Player", "MindControlled" }).position + new Vector3(0, 0.5f, 0);
         }
-        var closestEnemy = GetClosestEnemy();
+        var closestEnemy = GetClosestWithTags(new List<String> { "Enemy" });
         if (closestEnemy != null)
-            return GetClosestEnemy().position + new Vector3(0, 0.5f, 0);
+            return closestEnemy.position + new Vector3(0, 0.5f, 0);
 
         // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
-        mindControlled = false;
         return playerPos;
-        
     }
 
+    Transform GetClosestWithTags(List<String> tags)
+    {
+        Transform bestTarget = null;
+        float closestDistanceSqr = Mathf.Infinity;
+        Vector3 currentPosition = transform.position;
+        foreach (string tag in tags)
+        {
+            foreach(GameObject potentialTarget in GameObject.FindGameObjectsWithTag(tag))
+            {
+                if(GameObject.ReferenceEquals(this.gameObject, potentialTarget)) continue;
+                Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if(dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialTarget.transform;
+                }
+            }
+        }
+        
+        return bestTarget;
+    }
+
+    public void setFOV(float fov)
+    {
+        fieldOfView = fov;
+    }
+    
     protected void LookAtTarget()
     {
         Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
@@ -150,6 +163,7 @@ public abstract class Enemy : MonoBehaviour
     public void MindControl()
     {
         mindControlled = true;
+        gameObject.tag = "MindControlled";
     }
 
     public void SetupHealthBar(Canvas canvas)

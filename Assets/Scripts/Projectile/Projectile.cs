@@ -8,7 +8,7 @@ public class Projectile : MonoBehaviour
     private bool _shot = false;
     private Rigidbody _rb;
     
-    [Header("Stats")] [SerializeField] private int damage = 1;
+    [Header("Stats")] [SerializeField] private int damage = -10;
     
     [Header("Layers")]
     [SerializeField]
@@ -76,18 +76,23 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider col)
     {
+
+        if (mindControl && col.CompareTag("MindControlled")) return;       
         // If colliding with a player layer 
         // or enemy layer and is mind controlled
         if ((playerLayers.value & (1 << col.gameObject.layer)) > 0 || 
             (mindControl && (enemyLayers.value & (1 << col.gameObject.layer)) > 0))
         {
             Damageable damageable = col.gameObject.GetComponent<Damageable>();
+            
             if (damageable == null)
             {
                 Debug.LogWarning("Projectile collided with entity, but it doesn't have a Damageable component!");
             }
             else
             {
+                Debug.Log("Hit");
+                Debug.Log(damageable);
                 damageable.ChangeHealth(damage);
             }
             Destroy(gameObject);

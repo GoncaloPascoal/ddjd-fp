@@ -14,7 +14,8 @@ public class Attacker : MonoBehaviour
 
     private bool _bufferedAttack = false;
 
-    private bool isAttacking = false;
+    private bool _isAttacking = false;
+    private bool _isStartingAttacking = false;
     
     // Start is called before the first frame update
     void Start()
@@ -28,18 +29,34 @@ public class Attacker : MonoBehaviour
         
     }
 
+    public void StartAttack()
+    {
+        Debug.Log("start attack");
+        _animator.SetBool("AttackNormal", false);
+        _isStartingAttacking = true;
+    }
+
+    public void AttackMoment()
+    {
+        _isStartingAttacking = false;
+    }
+
     public void EndAttack()
     {
+        Debug.Log("EndAttack called");
         if (_bufferedAttack)
         {
             weapon.Attack();
             _bufferedAttack = false;
-            isAttacking = true;
-            _animator.SetTrigger("AttackNormal");
+            _isAttacking = true;
+            // _animator.SetTrigger("AttackNormal");
         }
         else
         {
-            isAttacking = false;
+            // Debug.Log("ENDING");
+            _isAttacking = false;
+            weapon.DisableColider();
+            _animator.applyRootMotion = false;
         }
     }
 
@@ -52,31 +69,54 @@ public class Attacker : MonoBehaviour
         // if already attacking, buffer next attack if the attack animation if at least half-way through
         if (IsAttacking())
         {
-            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.5f)
+            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.2f)
+            {
                 _bufferedAttack = true;
+                _animator.SetBool("AttackNormal", true);
+                _animator.applyRootMotion = true;
+            }
         }
         else
         {
-            isAttacking = true;
+            _isAttacking = true;
             weapon.Attack();
-            _animator.SetTrigger("AttackNormal");
-
+            _animator.SetBool("AttackNormal", true);
+            _animator.applyRootMotion = true;
         }
     }
 
-    public void AttackNotBuffered()
+    //Plays an attack animation without having to make any animation buffer
+    public void AttackNotBuffered(List<string> possibleAnimations)
     {
         if (IsAttacking())
             return;
+        
+        
+        int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
-        isAttacking = true;
+        _isAttacking = true;
         weapon.Attack();
-        _animator.SetTrigger("AttackNormal");
+        _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 
     public bool IsAttacking()
     {
-        return isAttacking;
+        return _isAttacking;
+    }
+
+    public bool IsStartingAttack()
+    {
+        if (_isAttacking)
+        {
+            return _isStartingAttacking;
+        }
+
+        return false;
+    }
+
+    public void ResetAlreadyHit()
+    {
+        weapon.ResetAlreadyHit();
     }
 
     private bool inAttackingState(AnimatorStateInfo stateInfo)
@@ -88,20 +128,4 @@ public class Attacker : MonoBehaviour
         }
         return false;
     }
-    
-    // public bool IsAttacking()
-    // {
-    //     foreach (var state in attackingStates)
-    //     {
-    //         if (_animator.GetCurrentAnimatorStateInfo(0).IsName(state))
-    //         {
-    //             if (!gameObject.CompareTag("Player"))
-    //                 Debug.Log("ATTACKING");
-    //             return true;
-    //         }
-    //     }
-    //     if (!gameObject.CompareTag("Player"))
-    //         Debug.Log("NOT ATTACKING");
-    //     return false;
-    // }
 }

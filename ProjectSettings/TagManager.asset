@@ -9,6 +9,11 @@ TagManager:
   - Pickup
   - Message
   - Checkpoint
+  - MindControlled
+  - Dead
+  - Boss
+  - PressurePlate
+  - Door
   layers:
   - Default
   - TransparentFX
@@ -23,7 +28,7 @@ TagManager:
   - Ground
   - EnemySkeleton
   - PlayerSkeleton
-  - 
+  - BossSkeleton
   - 
   - 
   - 

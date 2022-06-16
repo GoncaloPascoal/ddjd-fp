@@ -144,16 +144,6 @@ namespace StarterAssets
 
 		private int _inCheckpoint = -1;
 
-		private void Awake()
-		{
-			// get a reference to our main camera
-			if (_mainCamera == null)
-			{
-				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			}
-
-		}
-
 		private void Start()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
@@ -181,19 +171,30 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 
 			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
-			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
-				.transform.Find("PlayerSpawn").transform;
-
-			_controller.enabled = false;
+			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
 			
-			transform.position = spawnPoint.position;
-			transform.rotation = spawnPoint.rotation;
-			
-			_controller.enabled = true;
-
-			if (GameData.InCheckpoint)
+			// get a reference to our main camera
+			if (_mainCamera == null)
 			{
-				InCheckpoint(currentCheckpoint);
+				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			}
+
+
+			if (checkPoint != null)
+			{
+				var spawnPoint = checkPoint.transform.Find("PlayerSpawn").transform;
+
+				_controller.enabled = false;
+			
+				transform.position = spawnPoint.position;
+				transform.rotation = spawnPoint.rotation;
+			
+				_controller.enabled = true;
+
+				if (GameData.InCheckpoint)
+				{
+					InCheckpoint(currentCheckpoint);
+				}
 			}
 		}
 
@@ -267,8 +268,9 @@ namespace StarterAssets
 			Vector2 movement;
 
 			bool isAttacking = _attacker.IsAttacking();
+			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 
-			if (isAttacking)
+			if (isAttacking && !isAttackingCanRotate)
 				movement = Vector2.zero;
 			else 
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
@@ -353,6 +355,22 @@ namespace StarterAssets
 				{
 					_animator.SetFloat(_animIDSpeed, _animationBlend);
 					_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+				}
+			}
+
+			if (isAttackingCanRotate)
+			{
+				Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
+				
+				if (movement != Vector2.zero)
+				{
+					_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+					                  _mainCamera.transform.eulerAngles.y;
+					float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
+						ref _rotationVelocity, RotationSmoothTime);
+
+					// rotate to face input direction relative to camera position
+					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 				}
 			}
 		}
@@ -557,6 +575,11 @@ namespace StarterAssets
 		public void OnExitCheckpointEnd()
 		{
 			_inCheckpoint = -1;
+		}
+
+		public bool IsRolling()
+		{
+			return _isRolling;
 		}
 	}
 }

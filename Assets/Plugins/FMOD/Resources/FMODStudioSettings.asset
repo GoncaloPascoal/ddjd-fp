@@ -269,15 +269,15 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   SwitchSettingsMigration: 1
-  HasSourceProject: 1
-  HasPlatforms: 1
+  HasSourceProject: 0
+  HasPlatforms: 0
   sourceProjectPath: Assets/teste/teste.fspro
-  sourceBankPath: Assets/teste/Build
+  sourceBankPath: Assets/Sounds/Build/Desktop
   SourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
-  AutomaticEventLoading: 1
-  BankLoadType: 0
+  AutomaticEventLoading: 0
+  BankLoadType: 1
   AutomaticSampleLoading: 0
   EncryptionKey: 
   ImportType: 0
@@ -295,9 +295,23 @@ MonoBehaviour:
   RealChannelSettings: []
   Plugins: []
   MasterBanks:
+  - Desktop/Master
+  Banks:
+  - Desktop/Ambient
+  - Desktop/Character
+  - Desktop/Enemy
+  - Desktop/Menu
+  - Desktop/Mind Control
+  - Desktop/Weapons
+  BanksToLoad:
+  - Ambient
+  - Character
+  - Enemy
   - Master
-  Banks: []
-  BanksToLoad: []
+  - Master.strings
+  - Menu
+  - Mind Control
+  - Weapons
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
   AndroidUseOBB: 0
