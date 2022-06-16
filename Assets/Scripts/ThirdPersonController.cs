@@ -268,8 +268,9 @@ namespace StarterAssets
 			Vector2 movement;
 
 			bool isAttacking = _attacker.IsAttacking();
+			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 
-			if (isAttacking)
+			if (isAttacking && !isAttackingCanRotate)
 				movement = Vector2.zero;
 			else 
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
@@ -354,6 +355,22 @@ namespace StarterAssets
 				{
 					_animator.SetFloat(_animIDSpeed, _animationBlend);
 					_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+				}
+			}
+
+			if (isAttackingCanRotate)
+			{
+				Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
+				
+				if (movement != Vector2.zero)
+				{
+					_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+					                  _mainCamera.transform.eulerAngles.y;
+					float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
+						ref _rotationVelocity, RotationSmoothTime);
+
+					// rotate to face input direction relative to camera position
+					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 				}
 			}
 		}

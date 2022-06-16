@@ -14,7 +14,8 @@ public class Attacker : MonoBehaviour
 
     private bool _bufferedAttack = false;
 
-    private bool isAttacking = false;
+    private bool _isAttacking = false;
+    private bool _isStartingAttacking = false;
     
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,12 @@ public class Attacker : MonoBehaviour
     {
         Debug.Log("start attack");
         _animator.SetBool("AttackNormal", false);
+        _isStartingAttacking = true;
+    }
+
+    public void AttackMoment()
+    {
+        _isStartingAttacking = false;
     }
 
     public void EndAttack()
@@ -40,13 +47,13 @@ public class Attacker : MonoBehaviour
         {
             weapon.Attack();
             _bufferedAttack = false;
-            isAttacking = true;
+            _isAttacking = true;
             // _animator.SetTrigger("AttackNormal");
         }
         else
         {
             // Debug.Log("ENDING");
-            isAttacking = false;
+            _isAttacking = false;
             weapon.DisableColider();
             _animator.applyRootMotion = false;
         }
@@ -70,7 +77,7 @@ public class Attacker : MonoBehaviour
         }
         else
         {
-            isAttacking = true;
+            _isAttacking = true;
             weapon.Attack();
             _animator.SetBool("AttackNormal", true);
             _animator.applyRootMotion = true;
@@ -85,14 +92,24 @@ public class Attacker : MonoBehaviour
         
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
-        isAttacking = true;
+        _isAttacking = true;
         weapon.Attack();
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 
     public bool IsAttacking()
     {
-        return isAttacking;
+        return _isAttacking;
+    }
+
+    public bool IsStartingAttack()
+    {
+        if (_isAttacking)
+        {
+            return _isStartingAttacking;
+        }
+
+        return false;
     }
 
     private bool inAttackingState(AnimatorStateInfo stateInfo)
