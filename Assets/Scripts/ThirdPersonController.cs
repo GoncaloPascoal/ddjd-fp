@@ -144,16 +144,6 @@ namespace StarterAssets
 
 		private int _inCheckpoint = -1;
 
-		private void Awake()
-		{
-			// get a reference to our main camera
-			if (_mainCamera == null)
-			{
-				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			}
-
-		}
-
 		private void Start()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
@@ -181,19 +171,30 @@ namespace StarterAssets
 			_fallTimeoutDelta = FallTimeout;
 
 			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
-			var spawnPoint = GameObject.Find("Checkpoint" + PlayerPrefs.GetInt("Checkpoint"))
-				.transform.Find("PlayerSpawn").transform;
-
-			_controller.enabled = false;
+			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
 			
-			transform.position = spawnPoint.position;
-			transform.rotation = spawnPoint.rotation;
-			
-			_controller.enabled = true;
-
-			if (GameData.InCheckpoint)
+			// get a reference to our main camera
+			if (_mainCamera == null)
 			{
-				InCheckpoint(currentCheckpoint);
+				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			}
+
+
+			if (checkPoint != null)
+			{
+				var spawnPoint = checkPoint.transform.Find("PlayerSpawn").transform;
+
+				_controller.enabled = false;
+			
+				transform.position = spawnPoint.position;
+				transform.rotation = spawnPoint.rotation;
+			
+				_controller.enabled = true;
+
+				if (GameData.InCheckpoint)
+				{
+					InCheckpoint(currentCheckpoint);
+				}
 			}
 		}
 
@@ -557,6 +558,11 @@ namespace StarterAssets
 		public void OnExitCheckpointEnd()
 		{
 			_inCheckpoint = -1;
+		}
+
+		public bool IsRolling()
+		{
+			return _isRolling;
 		}
 	}
 }
