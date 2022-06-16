@@ -112,6 +112,11 @@ public class Attacker : MonoBehaviour
         return false;
     }
 
+    public void ResetAlreadyHit()
+    {
+        weapon.ResetAlreadyHit();
+    }
+
     private bool inAttackingState(AnimatorStateInfo stateInfo)
     {
         foreach (var state in attackingStates)

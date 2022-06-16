@@ -56,6 +56,11 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    public void ResetAlreadyHit()
+    {
+        _alreadyHit = new List<GameObject>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(_collider.enabled)
