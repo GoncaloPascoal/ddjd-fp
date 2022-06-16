@@ -66,9 +66,7 @@ public abstract class Enemy : MonoBehaviour
     protected bool DetectTarget()
     {
         Vector3 rayDirection = GetTargetPos() - transform.position;
-        
-        
-        
+
         // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
             return false;
@@ -105,10 +103,9 @@ public abstract class Enemy : MonoBehaviour
         }
         var closestEnemy = GetClosestWithTags(new List<String> { "Enemy" });
         if (closestEnemy != null)
-            return GetClosestWithTags(new List<String> { "Enemy" }).position + new Vector3(0, 0.5f, 0);
+            return closestEnemy.position + new Vector3(0, 0.5f, 0);
 
         // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
-        mindControlled = false;
         return playerPos;
     }
 

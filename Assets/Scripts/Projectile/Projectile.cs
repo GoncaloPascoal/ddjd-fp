@@ -76,6 +76,8 @@ public class Projectile : MonoBehaviour
     
     private void OnTriggerEnter(Collider col)
     {
+
+        if (mindControl && col.CompareTag("MindControlled")) return;       
         // If colliding with a player layer 
         // or enemy layer and is mind controlled
         if ((playerLayers.value & (1 << col.gameObject.layer)) > 0 || 
