@@ -8,6 +8,7 @@ public class FloatingSoulScript : MonoBehaviour
 {
     private GameObject _enemy;
     private Animator _animator;
+    private Attacker _attacker;
     [SerializeField] private Bar _bar;
     [SerializeField] private float resurrectionTime = 10f;
     private DamageableEnemy _damageable;
@@ -17,6 +18,7 @@ public class FloatingSoulScript : MonoBehaviour
         _enemy = gameObject.transform.parent.gameObject;
         _animator = _enemy.GetComponent<Animator>();
         _damageable = _enemy.GetComponent<DamageableEnemy>();
+        _attacker = _enemy.GetComponent<Attacker>();
     }
 
     // Update is called once per frame
@@ -36,7 +38,8 @@ public class FloatingSoulScript : MonoBehaviour
         _enemy.GetComponent<Enemy>().MindControl();
         _bar.gameObject.SetActive(true);
         _enemy.GetComponent<Hittable>().enabled = true;
-        _enemy.GetComponent<Attacker>().enabled = true;
+        if(_attacker != null) _attacker.enabled = true; //ranged enemy does not have an attacker
+        _enemy.transform.Find("Backstab").gameObject.GetComponent<BoxCollider>().enabled = true;
         _damageable.enabled = true;
         _damageable.ChangeHealth(_damageable.MaxHealth/2);
 

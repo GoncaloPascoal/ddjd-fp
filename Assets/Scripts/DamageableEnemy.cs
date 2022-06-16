@@ -8,6 +8,7 @@ public class DamageableEnemy : Damageable
     protected GameObject _souls;
     private Attacker _attacker;
     private Hittable _hittable;
+    private BoxCollider _backstab;
     private bool _alreadyDied;
 
 
@@ -18,7 +19,8 @@ public class DamageableEnemy : Damageable
         _animator = GetComponent<Animator>();
         _attacker = GetComponent<Attacker>();
         _hittable = GetComponent<Hittable>();
-       //_souls = gameObject.transform.Find("FloatingSoul").gameObject;
+        _backstab = gameObject.transform.Find("Backstab").gameObject.GetComponent<BoxCollider>();
+        _souls = gameObject.transform.Find("FloatingSoul").gameObject;
         _alreadyDied = false;
     }
 
@@ -85,7 +87,8 @@ public class DamageableEnemy : Damageable
             // _animator.gameObject.SetActive(false);
             healthBar.gameObject.SetActive(false);
             _hittable.enabled = false;
-            _attacker.enabled = false;
+            if(_attacker != null) _attacker.enabled = false; // ranged enemy does not have the attacker script
+            _backstab.enabled = false;
             foreach (var comp in GetComponents(typeof(CapsuleCollider)))
             {
                 ((CapsuleCollider) comp).enabled = false;
