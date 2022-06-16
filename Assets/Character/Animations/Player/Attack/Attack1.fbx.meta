@@ -66,15 +66,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
-        functionName: EndAttack
+      - time: 0.52405065
+        functionName: AttackSound
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 050d19806f2d5ae458825baaca2dcaa5, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.5669014
         functionName: AttackMoment
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: EndAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
         floatParameter: 0
