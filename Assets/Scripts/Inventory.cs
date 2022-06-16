@@ -93,7 +93,6 @@ public class Inventory : MonoBehaviour
             }
             if (Input.GetButtonDown("SelectItem"))
             {
-                Debug.Log("A");
                 _inventory_manager.UseCurrentItem();
             }
             _inventory_manager.MoveCursor(Input.GetKeyDown(KeyCode.A), Input.GetKeyDown(KeyCode.D), Input.GetKeyDown(KeyCode.W), Input.GetKeyDown(KeyCode.S));
