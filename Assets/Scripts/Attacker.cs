@@ -28,6 +28,12 @@ public class Attacker : MonoBehaviour
         
     }
 
+    public void StartAttack()
+    {
+        Debug.Log("start attack");
+        _animator.SetBool("AttackNormal", false);
+    }
+
     public void EndAttack()
     {
         if (_bufferedAttack)
@@ -35,13 +41,14 @@ public class Attacker : MonoBehaviour
             weapon.Attack();
             _bufferedAttack = false;
             isAttacking = true;
-            _animator.SetTrigger("AttackNormal");
+            // _animator.SetTrigger("AttackNormal");
         }
         else
         {
             // Debug.Log("ENDING");
             isAttacking = false;
             weapon.DisableColider();
+            _animator.applyRootMotion = false;
         }
     }
 
@@ -54,15 +61,19 @@ public class Attacker : MonoBehaviour
         // if already attacking, buffer next attack if the attack animation if at least half-way through
         if (IsAttacking())
         {
-            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.5f)
+            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.2f)
+            {
                 _bufferedAttack = true;
+                _animator.SetBool("AttackNormal", true);
+                _animator.applyRootMotion = true;
+            }
         }
         else
         {
             isAttacking = true;
             weapon.Attack();
-            _animator.SetTrigger("AttackNormal");
-
+            _animator.SetBool("AttackNormal", true);
+            _animator.applyRootMotion = true;
         }
     }
 
