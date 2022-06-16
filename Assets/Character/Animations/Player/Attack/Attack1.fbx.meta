@@ -66,6 +66,20 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.5669014
+        functionName: AttackMoment
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.65821594
+        functionName: StopStagger
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
         functionName: EndAttack
         data: 
@@ -73,10 +87,10 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.5669014
-        functionName: AttackMoment
+      - time: 0.98685443
+        functionName: ActivateStaggerNormalAttack
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

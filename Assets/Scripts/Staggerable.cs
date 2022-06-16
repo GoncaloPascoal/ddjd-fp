@@ -21,19 +21,16 @@ public class Staggerable : MonoBehaviour
     
     public void StopStagger()
     {
-        Debug.Log("Cant be staggered anymore");
         _animator.SetBool("WillNotStagger",true);
     }
 
     public void ActivateStaggerNormalAttack()
     {
-        Debug.Log("ActivateStaggerNormalAttack");
         _animator.SetBool("WillNotStagger",false);
     }
     
     public void ActivateStagger()
     {
-        Debug.Log("ActivateStagger");
         _attacker.EndAttack();
         _animator.SetBool("WillNotStagger",false);
     }
