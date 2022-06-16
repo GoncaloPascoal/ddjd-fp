@@ -254,20 +254,29 @@ public class InventoryManager : MonoBehaviour
         if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Sword)
         {
             tmp = _inventory.EquipItemSword;
-            if(tmp != null)
+            if (tmp != null)
+            {
+                tmp.Unequip();
                 _inventory.Items[InvItem.ItemType.Sword].Add(tmp);
+            }
             _inventory.EquipItemSword = _slot_items[_slot];
             _inventory.Items[InvItem.ItemType.Sword].Remove(_inventory.EquipItemSword);
             _equip_sword_img.sprite = _inventory.EquipItemSword.InvItem.icon;
+            _inventory.EquipItemSword.Equip();
         }
         else if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Armour)
         {
             tmp = _inventory.EquipItemArmour;
-            if(tmp != null)
+            if (tmp != null)
+            {
+                tmp.Unequip();
                 _inventory.Items[InvItem.ItemType.Armour].Add(tmp);
+            }
+
             _inventory.EquipItemArmour = _slot_items[_slot];
             _inventory.Items[InvItem.ItemType.Armour].Remove(_inventory.EquipItemArmour);
             _equip_armour_img.sprite = _inventory.EquipItemArmour.InvItem.icon;
+            _inventory.EquipItemArmour.Equip();
         }
         ShowItems();
     }

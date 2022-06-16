@@ -43,11 +43,21 @@ public abstract class Damageable : MonoBehaviour
 
     public void ChangeHealth(int delta)
     {
-        Debug.Log("delta: " + delta);
         if (_player != null && _player.IsRolling()) return;
         Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
-        Debug.Log("new hp: " + Health);
         if (Health == 0) Die();
+    }
+
+    public void AlwaysChangeHealth(int delta)
+    {
+        Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
+        if (Health == 0) Die();
+    }
+
+    public void ChangeMaxHealth(int delta)
+    {
+        MaxHealth = Mathf.Clamp(MaxHealth + delta, 0, MaxHealth);
+        Health = Mathf.Clamp(Health, 0, MaxHealth);
     }
 
     public void InitializeMaxHealth(int value)

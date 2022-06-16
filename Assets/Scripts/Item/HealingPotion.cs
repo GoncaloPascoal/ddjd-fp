@@ -21,7 +21,7 @@ public class HealingPotion : Potion
         if (!CanUse())
             return false;
 
-        _damageable_player.ChangeHealth((int)(_damageable_player.Health + healingPercent * _damageable_player.MaxHealth));
+        _damageable_player.AlwaysChangeHealth((int)(_damageable_player.Health + healingPercent * _damageable_player.MaxHealth));
         Destroy(gameObject);
         return true;
     }
