@@ -13,8 +13,6 @@ public class Boss : MonoBehaviour
 
     public float defaultAttackCooldown = 2f;
     
-    private float _attackCooldown;
-    
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +22,7 @@ public class Boss : MonoBehaviour
         _animator = GetComponent<Animator>();
         _attacker = GetComponent<Attacker>();
 
-        _attackCooldown = defaultAttackCooldown;
+        _animator.SetFloat("Cooldown", defaultAttackCooldown);
     }
 
     // Update is called once per frame
@@ -33,9 +31,9 @@ public class Boss : MonoBehaviour
         
     }
 
-    public void Attack()
+    public void Attack(string attack)
     {
-        _attacker.AttackNotBuffered(new List<string> {"Multiple Slashes"});
+        _attacker.AttackNotBuffered(new List<string> {attack});
     }
 
     public void LookAtTarget(Vector3 target)
@@ -46,21 +44,5 @@ public class Boss : MonoBehaviour
         transform.rotation =
             Quaternion.Lerp(transform.rotation, lookRotation,
                 Time.deltaTime * 5f);
-    }
-
-    public float GetAttackCooldown()
-    {
-        return _attackCooldown;
-    }
-
-    public float ReduceAttackCooldown()
-    {
-        _attackCooldown -= Time.deltaTime;
-        return _attackCooldown;
-    }
-    
-    public void SetAttackCooldown(float cooldown)
-    {
-        _attackCooldown = cooldown;
     }
 }
