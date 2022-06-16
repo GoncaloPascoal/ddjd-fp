@@ -18,7 +18,7 @@ public class DamageableEnemy : Damageable
         _animator = GetComponent<Animator>();
         _attacker = GetComponent<Attacker>();
         _hittable = GetComponent<Hittable>();
-        _souls = gameObject.transform.Find("FloatingSoul").gameObject;
+       //_souls = gameObject.transform.Find("FloatingSoul").gameObject;
         _alreadyDied = false;
     }
 
