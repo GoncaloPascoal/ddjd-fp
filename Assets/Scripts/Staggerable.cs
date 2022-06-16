@@ -27,11 +27,13 @@ public class Staggerable : MonoBehaviour
     public void ActivateStaggerNormalAttack()
     {
         _animator.SetBool("WillNotStagger",false);
+        _animator.ResetTrigger("Stagger");
     }
     
     public void ActivateStagger()
     {
         _attacker.EndAttack();
         _animator.SetBool("WillNotStagger",false);
+        _animator.ResetTrigger("Stagger");
     }
 }
