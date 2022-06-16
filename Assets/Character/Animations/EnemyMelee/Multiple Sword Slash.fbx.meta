@@ -59,10 +59,31 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.43755865
+        functionName: StopStagger
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.99624413
+        functionName: ActivateStaggerNormalAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
         functionName: EndAttack
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9915493
+        functionName: ActivateStaggerNormalAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

@@ -41,7 +41,7 @@ public class EnemyMelee : Enemy
     {
         return _chasingTarget || distanceToTarget <= unconditionalDetectionRange || fieldOfView >= 360f;
     }
-    
+
     private new void Update()
     {
         if (backstabbed || gameObject.CompareTag("Dead")) return;
@@ -59,7 +59,7 @@ public class EnemyMelee : Enemy
             NavMeshAgent.isStopped = true;
             NavMeshAgent.ResetPath();
             NavMeshAgent.speed = 0f;
-            
+
             // is chasing - will look at player to attack, or player is too close
             if (CanChase(distanceToTarget))
             {
@@ -114,7 +114,7 @@ public class EnemyMelee : Enemy
         }
         
         _animator.SetFloat(_animIDSpeed, AnimationBlend);
-
+        
         base.Update();
     }
 
