@@ -43,6 +43,7 @@ public class Attacker : MonoBehaviour
 
     public void EndAttack()
     {
+        Debug.Log("EndAttack called");
         if (_bufferedAttack)
         {
             weapon.Attack();
@@ -90,6 +91,7 @@ public class Attacker : MonoBehaviour
         if (IsAttacking())
             return;
         
+        
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
         _isAttacking = true;
@@ -110,6 +112,11 @@ public class Attacker : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void ResetAlreadyHit()
+    {
+        weapon.ResetAlreadyHit();
     }
 
     private bool inAttackingState(AnimatorStateInfo stateInfo)
