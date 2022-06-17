@@ -13,8 +13,9 @@ public class Boss : MonoBehaviour
 
     public float defaultAttackCooldown = 2f;
 
-    private int nPhase = 1;
-    [SerializeField] private int numberOfPhases = 2;
+    public bool HasNextPhase = false;
+
+    [SerializeField] private GameObject nextPhaseCutscene;
     
     // Start is called before the first frame update
     void Start()
@@ -51,21 +52,14 @@ public class Boss : MonoBehaviour
 
     public void Reset()
     {
-        
-    }
-
-    public int PhaseNumber()
-    {
-        return nPhase;
+        _damageable.RestoreToMaxHealth();
     }
 
     public void ChangePhase()
     {
-        nPhase++;
-        if (nPhase <= numberOfPhases)
+        if (HasNextPhase)
         {
-            _animator.SetTrigger("Phase" + nPhase);
-            _damageable.RestoreToMaxHealth();
+            nextPhaseCutscene.SetActive(true);
         }
         else
             _animator.SetTrigger("Die");

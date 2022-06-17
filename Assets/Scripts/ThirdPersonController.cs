@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -179,6 +180,8 @@ namespace StarterAssets
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
 			}
 
+			GameObject.Find("PlayerFollowCamera").GetComponent<CinemachineVirtualCamera>().Follow =
+				CinemachineCameraTarget.transform;
 
 			if (checkPoint != null)
 			{
