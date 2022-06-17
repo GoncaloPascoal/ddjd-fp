@@ -89,7 +89,7 @@ namespace StarterAssets
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
 
-		private float _maxStamina = 100.0f;
+		private const float MaxStamina = 100.0f;
 
 		private float _stamina;
 		private float Stamina
@@ -97,7 +97,7 @@ namespace StarterAssets
 			get => _stamina;
 			set
 			{
-				_stamina = Mathf.Clamp(value, 0.0f, _maxStamina);
+				_stamina = Mathf.Clamp(value, 0.0f, MaxStamina);
 				_staminaBarScript.SetValue(_stamina);
 			}
 		}
@@ -129,9 +129,11 @@ namespace StarterAssets
 
 		private bool _hasAnimator;
 
-		
+		private Inventory _inventory;
+		private StatsDictionary _baseStats;
+
 		// Roll
-		// TODO: change so that roll is only invunerable in some frames
+		// TODO: change so that roll is only invulnerable in some frames
 		[Header("Roll")]
 		private bool _isRolling;
 
@@ -143,6 +145,20 @@ namespace StarterAssets
 		private GameObject _currentTarget;
 
 		private int _inCheckpoint = -1;
+
+		private void Awake()
+		{
+			_inventory = GetComponent<Inventory>();
+			_baseStats = new StatsDictionary()
+			{
+				{StatName.Health, PlayerMaxHealth},
+				{StatName.Stamina, MaxStamina},
+				{StatName.StaminaRecovery, StaminaRecovery},
+				{StatName.Damage, 5},
+				{StatName.Armor, 0},
+				{StatName.Stability, 0},
+			};
+		}
 
 		private void Start()
 		{
@@ -156,9 +172,9 @@ namespace StarterAssets
 			_damageable.InitializeMaxHealth(PlayerMaxHealth);
 
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
-			_staminaBarScript.SetMaxValue(_maxStamina);
-			_staminaBarScript.SetValueInstantly(_maxStamina);
-			_stamina = _maxStamina;
+			_staminaBarScript.SetMaxValue(MaxStamina);
+			_staminaBarScript.SetValueInstantly(MaxStamina);
+			_stamina = MaxStamina;
 
 			_isBackstabbing = false;
 			
@@ -373,6 +389,11 @@ namespace StarterAssets
 					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
 				}
 			}
+		}
+
+		public float GetStatValue(StatName stat)
+		{
+			return _baseStats[stat] + _inventory.GetEquipmentStatBonus(stat);
 		}
 
 		public void BackstabAttack()
