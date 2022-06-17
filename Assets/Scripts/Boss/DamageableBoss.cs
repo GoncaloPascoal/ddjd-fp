@@ -6,6 +6,6 @@ public class DamageableBoss : Damageable
 {
     protected override void Die()
     {
-        throw new System.NotImplementedException();
+        gameObject.GetComponent<Boss>().ChangePhase();
     }
 }
