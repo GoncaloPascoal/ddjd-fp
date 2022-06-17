@@ -14,7 +14,8 @@ public class Attacker : MonoBehaviour
 
     private bool _bufferedAttack = false;
 
-    private bool isAttacking = false;
+    private bool _isAttacking = false;
+    private bool _isStartingAttacking = false;
     
     // Start is called before the first frame update
     void Start()
@@ -28,20 +29,33 @@ public class Attacker : MonoBehaviour
         
     }
 
+    public void StartAttack()
+    {
+        Debug.Log("start attack");
+        _animator.SetBool("AttackNormal", false);
+        _isStartingAttacking = true;
+    }
+
+    public void AttackMoment()
+    {
+        _isStartingAttacking = false;
+    }
+
     public void EndAttack()
     {
         if (_bufferedAttack)
         {
             weapon.Attack();
             _bufferedAttack = false;
-            isAttacking = true;
-            _animator.SetTrigger("AttackNormal");
+            _isAttacking = true;
+            // _animator.SetTrigger("AttackNormal");
         }
         else
         {
             // Debug.Log("ENDING");
-            isAttacking = false;
+            _isAttacking = false;
             weapon.DisableColider();
+            _animator.applyRootMotion = false;
         }
     }
 
@@ -54,15 +68,19 @@ public class Attacker : MonoBehaviour
         // if already attacking, buffer next attack if the attack animation if at least half-way through
         if (IsAttacking())
         {
-            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.5f)
+            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.2f)
+            {
                 _bufferedAttack = true;
+                _animator.SetBool("AttackNormal", true);
+                _animator.applyRootMotion = true;
+            }
         }
         else
         {
-            isAttacking = true;
+            _isAttacking = true;
             weapon.Attack();
-            _animator.SetTrigger("AttackNormal");
-
+            _animator.SetBool("AttackNormal", true);
+            _animator.applyRootMotion = true;
         }
     }
 
@@ -74,14 +92,29 @@ public class Attacker : MonoBehaviour
         
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
-        isAttacking = true;
+        _isAttacking = true;
         weapon.Attack();
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 
     public bool IsAttacking()
     {
-        return isAttacking;
+        return _isAttacking;
+    }
+
+    public bool IsStartingAttack()
+    {
+        if (_isAttacking)
+        {
+            return _isStartingAttacking;
+        }
+
+        return false;
+    }
+
+    public void ResetAlreadyHit()
+    {
+        weapon.ResetAlreadyHit();
     }
 
     private bool inAttackingState(AnimatorStateInfo stateInfo)
