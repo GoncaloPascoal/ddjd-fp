@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4426748857562521589}
-  - component: {fileID: 4426748857562521590}
   - component: {fileID: 4426748857562521591}
+  - component: {fileID: 4426748857562521590}
   m_Layer: 0
   m_Name: OpenCoffin
   m_TagString: Checkpoint
@@ -33,19 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4426748857562521590
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4426748857562521588}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.155672, y: 0.6303206, z: 2.8320618}
-  m_Center: {x: -0.02008295, y: 0.35107926, z: -0.007267952}
 --- !u!114 &4426748857562521591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   checkpointNumber: 1
+--- !u!65 &4426748857562521590
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4426748857562521588}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.155672, y: 0.6303206, z: 2.8320618}
+  m_Center: {x: -0.02008295, y: 0.35107926, z: -0.007267952}
 --- !u!1001 &4426748857027395680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -113,6 +113,22 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 69bc7c9e48644464a975711f152c8f66, type: 3}
       propertyPath: m_Name
       value: Open_Coffin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837891815931559565, guid: 69bc7c9e48644464a975711f152c8f66, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6837891815931559565, guid: 69bc7c9e48644464a975711f152c8f66, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 8994201510939590168, guid: 69bc7c9e48644464a975711f152c8f66, type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8994201510939590168, guid: 69bc7c9e48644464a975711f152c8f66, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69bc7c9e48644464a975711f152c8f66, type: 3}
