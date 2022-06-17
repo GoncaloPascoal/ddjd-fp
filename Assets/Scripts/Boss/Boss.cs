@@ -12,6 +12,9 @@ public class Boss : MonoBehaviour
     private Attacker _attacker;
 
     public float defaultAttackCooldown = 2f;
+
+    private int nPhase = 1;
+    [SerializeField] private int numberOfPhases = 2;
     
     // Start is called before the first frame update
     void Start()
@@ -44,5 +47,27 @@ public class Boss : MonoBehaviour
         transform.rotation =
             Quaternion.Lerp(transform.rotation, lookRotation,
                 Time.deltaTime * 5f);
+    }
+
+    public void Reset()
+    {
+        
+    }
+
+    public int PhaseNumber()
+    {
+        return nPhase;
+    }
+
+    public void ChangePhase()
+    {
+        nPhase++;
+        if (nPhase <= numberOfPhases)
+        {
+            _animator.SetTrigger("Phase" + nPhase);
+            _damageable.RestoreToMaxHealth();
+        }
+        else
+            _animator.SetTrigger("Die");
     }
 }
