@@ -124,6 +124,7 @@ namespace StarterAssets
 		private CharacterController _controller;
 		private StarterAssetsInputs _input;
 		private GameObject _mainCamera;
+		private Staggerable _staggerable;
 
 		private const float Threshold = 0.01f;
 
@@ -149,6 +150,7 @@ namespace StarterAssets
 			_hasAnimator = TryGetComponent(out _animator);
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
+			_staggerable = GetComponent<Staggerable>();
 
 			_backstabTargets = new List<GameObject>();
 
@@ -270,7 +272,7 @@ namespace StarterAssets
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 
-			if (isAttacking && !isAttackingCanRotate)
+			if (isAttacking && !isAttackingCanRotate || _staggerable.isStaggered())
 				movement = Vector2.zero;
 			else 
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
@@ -418,7 +420,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				if (!_attacker.IsAttacking())
+				if (!_attacker.IsAttacking() && !_staggerable.isStaggered())
 				{
 					// Roll
 					if (InputManager.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
@@ -487,7 +489,10 @@ namespace StarterAssets
 		{
 			if (_inCheckpoint != -1)
 				return;
-			
+
+			if (_staggerable.isStaggered())
+				return;
+
 			if (!InputManager.GetButtonDown("Attack") || !Grounded)
 				return;
 
