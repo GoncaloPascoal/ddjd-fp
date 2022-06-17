@@ -7838,6 +7838,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 417615628}
+  _maxHealth: 0
+  _health: 0
 --- !u!1001 &580935793
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13566,6 +13568,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 1115022567}
+  _maxHealth: 0
+  _health: 0
 --- !u!114 &1052322920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20329,7 +20333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8740794697415286337, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8814124777822534346, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.x
