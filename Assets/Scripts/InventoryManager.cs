@@ -1,284 +1,306 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using StarterAssets;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InventoryManager : MonoBehaviour
 {
-    [SerializeField]
+    [SerializeField] private GameObject itemSlots;
+
+    [SerializeField] private int slotsPerRow = 5;
+    [SerializeField] private int inventorySlots = 30;
+    [SerializeField] private Image cursor;
+    [SerializeField] private Sprite defaultIcon;
+
+    [Header("Equipment Panel")]
+    [SerializeField] private int equipmentSlotsPerRow = 2;
+    [SerializeField] private GameObject equipmentSlots;
+    [SerializeField] private GameObject playerStatDisplays;
+
+    [Header("Description Panel")]
+    [SerializeField] private GameObject itemContainer;
+    [SerializeField] private Image itemIcon;
+    [SerializeField] private TMP_Text itemName;
+    [SerializeField] private TMP_Text itemDescription;
+    [SerializeField] private GameObject statsPanel, statDisplays;
+
     private Inventory _inventory;
+    private bool _visible, _equipped, _filtering;
+    private int _currentSlot;
+    private List<Image> _slotIcons;
+    private List<Item> _slotItems;
 
-    [SerializeField]
-    private GameObject _item_slots_parent;
+    private List<EquipmentDisplay> _equipmentDisplays;
 
-    [SerializeField] private GameObject _item_slot_prefab;
+    private ThirdPersonController _player;
     
-    
-    private List<Item> _slot_items = new List<Item>();
-    private List<Image> _slots = new List<Image>();
-
-    private int _slot = 0;
-
-    [SerializeField] private int _slots_per_row = 6;
-    
-    [SerializeField] private int _slots_in_inventory = 36;
-
-    [SerializeField]
-    private Sprite _default_icon;
-
-    private bool isFiltering = false;
-    private InvItem.ItemType _current_filter = 0;
-
-    private Inventory inventory;
-
-    [Header("Description parts")] [SerializeField]
-    private Image descImage;
-    [SerializeField]
-    private Text descTitle;
-    [SerializeField]
-    private Text descText;
-    
-    [SerializeField] private Image _equip_sword_img;
-    [SerializeField] private Image _equip_armour_img;
-
-    [SerializeField] private Image _current_item_cursor;
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        for(int i = 0; i < _item_slots_parent.transform.childCount; i++)
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        _player = playerObj.GetComponent<ThirdPersonController>();
+        _inventory = playerObj.GetComponent<Inventory>();
+
+        _visible = false;
+        _equipped = false;
+        _filtering = false;
+        _currentSlot = 0;
+
+        _slotIcons = new List<Image>(inventorySlots);
+        _slotItems = Enumerable.Repeat<Item>(null, inventorySlots).ToList();
+        for (int i = 0; i < itemSlots.transform.childCount; ++i)
         {
-            _slots.Add(_item_slots_parent.transform.GetChild(i).GetChild(0).GetComponent<Image>());
+            _slotIcons.Add(itemSlots.transform.GetChild(i).GetChild(0).GetComponent<Image>());
         }
 
-        _current_item_cursor.transform.SetParent(_slots[0].transform.parent);
-        isFiltering = false;
-        ShowAllItems();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void SetInventory(Inventory inv)
-    {
-        inventory = inv;
-    }
-
-    public void SetFilter(string itemType)
-    {
-        if (itemType == "")
+        _equipmentDisplays = new List<EquipmentDisplay>(equipmentSlots.transform.childCount);
+        for (int i = 0; i < equipmentSlots.transform.childCount; ++i)
         {
-            isFiltering = false;
-            _current_filter = 0;
-            return;
-        }
-        SetFilter((InvItem.ItemType) System.Enum.Parse(typeof(InvItem.ItemType), itemType));
-    }
-
-    public void SetFilter(InvItem.ItemType filter)
-    {
-        _current_filter = filter; 
-        isFiltering = true;
-    }
-
-    void ShowNothing()
-    {
-        for (int i = 0; i < _slots.Count; i++)
-        {
-            _slots[i].gameObject.SetActive(false);
-            _slot_items.Clear();
-        }
-        
-        ShowDescription();
-    }
-
-    public void ShowItems()
-    {
-
-        if (!isFiltering)
-        {
-            ShowAllItems();
-            return;
+            _equipmentDisplays.Add(equipmentSlots.transform.GetChild(i).GetComponent<EquipmentDisplay>());
         }
 
-        if (!inventory.Items.ContainsKey(_current_filter))
+        UpdateInterface();
+    }
+
+    private void Update()
+    {
+        if (InputManager.GetButtonDown("ToggleInventory"))
         {
-            ShowNothing();
-            return;
-        }
-        
-        List<Item> items = inventory.Items[_current_filter];
-        _slot_items.Clear();
-        for (int i = 0; i < items.Count; i++)
-        {
-            _slot_items.Add(items[i]);
+            ToggleInventory();
         }
 
-        if (items == null)
-            return;
-        
-        
-        for (int i = 0; i < _slots.Count; i++)
+        // if (Input.GetButtonDown("InvSortAll"))
+        // {
+        //     ShowAllItems();
+        // }
+        // if (Input.GetButtonDown("InvSortConsumable"))
+        // {
+        //     SetFilter("Sword");
+        //     ShowItems();
+        // }
+        // if (Input.GetButtonDown("InvSortSword"))
+        // {
+        //     SetFilter("Potion");
+        //     ShowItems();
+        // }
+        // if (Input.GetButtonDown("InvSortArmour"))
+        // {
+        //     SetFilter("Armour");
+        //     ShowItems();
+        // }
+
+        if (InputManager.GetButtonDown("InventoryToggleEquipped"))
         {
-            if (items.Count > i)
+            ToggleEquipped();
+        }
+
+        if (InputManager.GetButtonDown("InventoryItemAction"))
+        {
+            ItemAction();
+        }
+
+        MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
+            InputManager.GetButtonDown("MenuUp"), InputManager.GetButtonDown("MenuDown"));
+    }
+
+    private void ToggleInventory()
+    {
+        _visible = !_visible;
+        InputManager.CurrentActionType = _visible ? ActionType.Menu : ActionType.Game;
+        transform.GetChild(0).gameObject.SetActive(_visible);
+        UpdateInterface();
+    }
+
+    private void ToggleEquipped()
+    {
+        _equipped = !_equipped;
+        _currentSlot = 0;
+        UpdateCursorPosition();
+    }
+
+    private void UpdateInterface()
+    {
+        UpdateItems();
+        UpdateEquipmentDisplay();
+        UpdateItemDisplay();
+        UpdatePlayerStats();
+        UpdateCursorPosition();
+    }
+
+    private void UpdateCursorPosition()
+    {
+        cursor.transform.position = _equipped ?
+            _equipmentDisplays[_currentSlot].transform.position :
+            _slotIcons[_currentSlot].transform.position;
+    }
+
+    private void UpdateEquipmentDisplay()
+    {
+        foreach (EquipmentDisplay display in _equipmentDisplays)
+        {
+            display.UpdateDisplay(_inventory);
+        }
+    }
+
+    private void UpdatePlayerStats()
+    {
+        for (int i = 0; i < playerStatDisplays.transform.childCount; ++i)
+        {
+            GameObject obj = playerStatDisplays.transform.GetChild(i).gameObject;
+            StatDisplay display = obj.GetComponent<StatDisplay>();
+            display.SetValue(_player.GetStatValue(display.stat));
+        }
+    }
+
+    // public void SetFilter(string itemType)
+    // {
+    //     if (itemType == "")
+    //     {
+    //         _filtering = false;
+    //         _current_filter = 0;
+    //         return;
+    //     }
+    //     SetFilter((Item.ItemType) System.Enum.Parse(typeof(Item.ItemType), itemType));
+    // }
+    //
+    // public void SetFilter(Item.ItemType filter)
+    // {
+    //     _current_filter = filter; 
+    //     _filtering = true;
+    // }
+
+    private void UpdateItems()
+    {
+        int slot = 0;
+
+        foreach (List<Equipment> equipmentList in _inventory.Equipment.Values)
+        {
+            foreach (Equipment equipment in equipmentList)
             {
-                _slots[i].gameObject.SetActive(true);
-                _slots[i].sprite = items[i].InvItem.icon;
+                if (_inventory.Equipped[equipment.slot] == equipment) continue;
+
+                if (slot == inventorySlots) return;
+                _slotIcons[slot].sprite = equipment.icon;
+                _slotItems[slot++] = equipment;
             }
-            else
-            {
-                _slots[i].gameObject.SetActive(false);
-            }
         }
-        
-        ShowDescription();
+
+        foreach (Consumable consumable in _inventory.Consumables.Keys)
+        {
+            if (slot == inventorySlots) return;
+            _slotIcons[slot].sprite = consumable.icon;
+            _slotItems[slot++] = consumable;
+        }
+
+        while (slot != inventorySlots)
+        {
+            _slotIcons[slot].sprite = defaultIcon;
+            _slotItems[slot++] = null;
+        }
     }
 
-    public void ShowAllItems()
+    private void UpdateItemDisplay()
     {
-        isFiltering = false;
-        int i = 0;
-        
-        _slot_items.Clear();
-        foreach (var invItem in inventory.Items)
+        DisplayItem(_equipped ? _inventory.Equipped[_equipmentDisplays[_currentSlot].slot] : _slotItems[_currentSlot]);
+    }
+
+    private void DisplayItem(Item item)
+    {
+        if (item == null)
         {
-            for (int j = 0; j < invItem.Value.Count; j++)
+            HideItemDisplay();
+            return;
+        }
+
+        itemContainer.SetActive(true);
+        itemName.text = item.itemName;
+        itemDescription.text = item.description;
+        itemIcon.sprite = item.icon;
+
+        if (item is Equipment equipment)
+        {
+            statsPanel.SetActive(true);
+
+            for (int i = 0; i < statDisplays.transform.childCount; ++i)
             {
-                if (_slots.Count > i)
+                GameObject obj = statDisplays.transform.GetChild(i).gameObject;
+                StatDisplay display = obj.GetComponent<StatDisplay>();
+                if (equipment.GetStatValue(display.stat) != 0)
                 {
-                    _slots[i].gameObject.SetActive(true);
-                    _slots[i].sprite = invItem.Value[j].InvItem.icon;
-                    _slot_items.Add(invItem.Value[j]);
+                    display.SetValue(equipment.GetStatValue(display.stat));
                 }
-                i++; 
+                else
+                {
+                    obj.SetActive(false);
+                }
             }
-            
-        }
-
-        for (int j = i; j < _slots.Count; j++)
-        {
-            _slots[j].gameObject.SetActive(false);
-        }
-
-        ShowDescription();
-    }
-
-    private void ShowDescription()
-    {
-        if (_slot_items.Count > _slot)
-        {
-            descImage.gameObject.SetActive(true);
-            descImage.sprite = _slots[_slot].sprite;
-            descTitle.text = _slot_items[_slot].InvItem.itemName;
-            descText.text = _slot_items[_slot].InvItem.description;
         }
         else
         {
-            descImage.gameObject.SetActive(false);
-            descTitle.text = "";
-            descText.text = "";
+            statsPanel.SetActive(false);
         }
     }
-    
-    public void MoveCursor(bool left, bool right, bool up, bool down){
+
+    private void HideItemDisplay()
+    {
+        itemContainer.SetActive(false);
+    }
+
+    private void MoveCursor(bool left, bool right, bool up, bool down)
+    {
+        int row = _equipped ? equipmentSlotsPerRow : slotsPerRow;
+        int total = _equipped ? _equipmentDisplays.Count : inventorySlots;
+
         if (left)
         {
-            _slot -= 1;
-            if (_slot < 0)
-            {
-                _slot += _slots_per_row;
-            }
-            else if (_slot % _slots_per_row == 5)
-            {
-                _slot += _slots_per_row;
-            }
+            _currentSlot -= 1;
+            if (_currentSlot < 0 || _currentSlot % row == row - 1) _currentSlot += row;
         }
+
         if (right)
         {
-            _slot += 1;
-            if (_slot % _slots_per_row == 0)
-            {
-                _slot -= 6;
-            }
-        }  
+            _currentSlot += 1;
+            if (_currentSlot % row == 0) _currentSlot -= row;
+        }
+
         if (up)
         {
-            _slot -= _slots_per_row;
-            if (_slot < 0)
-            {
-                _slot += _slots_in_inventory;
-            }
+            _currentSlot -= row;
+            if (_currentSlot < 0) _currentSlot += total;
         }
+
         if (down)
         {
-            _slot += _slots_per_row;
-            _slot = _slot % _slots_in_inventory;
+            _currentSlot = (_currentSlot + row) % total;
         }
 
         if (up || down || left || right)
         {
-            _current_item_cursor.transform.SetParent(_slots[_slot].transform.parent);
-            _current_item_cursor.transform.localPosition = Vector3.zero;
-            ShowDescription();
+            UpdateCursorPosition();
+            UpdateItemDisplay();
         }
     }
 
-    public void UseCurrentItem()
+    private void ItemAction()
     {
-        if (_slot_items.Count > _slot)
-        {
-            if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Potion)
-            {
-                if (_slot_items[_slot].Use())
-                {
-                    _inventory.Items[InvItem.ItemType.Potion].Remove(_slot_items[_slot]);
-                    ShowItems();
-                }
-            }
-            else if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Sword)
-            {
-                EquipItem();
-            }
-            else if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Armour)
-            {
-                EquipItem();
-            }
-        }
-    }
+        Item currentItem = _equipped ? _inventory.Equipped[_equipmentDisplays[_currentSlot].slot] : _slotItems[_currentSlot];
+        if (currentItem == null) return;
 
-    public void EquipItem()
-    {
-        Item tmp = null;
-        if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Sword)
+        switch (currentItem)
         {
-            tmp = _inventory.EquipItemSword;
-            if (tmp != null)
-            {
-                tmp.Unequip();
-                _inventory.Items[InvItem.ItemType.Sword].Add(tmp);
-            }
-            _inventory.EquipItemSword = _slot_items[_slot];
-            _inventory.Items[InvItem.ItemType.Sword].Remove(_inventory.EquipItemSword);
-            _equip_sword_img.sprite = _inventory.EquipItemSword.InvItem.icon;
-            _inventory.EquipItemSword.Equip();
+            case Consumable consumable:
+                _inventory.Use(consumable);
+                break;
+            case Equipment equipment:
+                if (_equipped)
+                    _inventory.Unequip(equipment.slot);
+                else
+                    _inventory.Equip(equipment);
+                break;
         }
-        else if (_slot_items[_slot].InvItem.itemType == InvItem.ItemType.Armour)
-        {
-            tmp = _inventory.EquipItemArmour;
-            if (tmp != null)
-            {
-                tmp.Unequip();
-                _inventory.Items[InvItem.ItemType.Armour].Add(tmp);
-            }
 
-            _inventory.EquipItemArmour = _slot_items[_slot];
-            _inventory.Items[InvItem.ItemType.Armour].Remove(_inventory.EquipItemArmour);
-            _equip_armour_img.sprite = _inventory.EquipItemArmour.InvItem.icon;
-            _inventory.EquipItemArmour.Equip();
-        }
-        ShowItems();
+        UpdateInterface();
     }
-    
 }

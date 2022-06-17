@@ -12,7 +12,10 @@ public enum StatName
 }
 
 [Serializable]
+public class StatsDictionary : SerializableDictionary<StatName, float> { }
+
+[Serializable]
 public class Stats
 {
-    public SerializableDictionary<StatName, float> baseValues;
+    public StatsDictionary values;
 }

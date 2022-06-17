@@ -9,11 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 047d58d69a900004982a15cb294e0aff, type: 3}
-  m_Name: Armour
+  m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
+  m_Name: Armor
   m_EditorClassIdentifier: 
-  id: 0
-  itemName: Armour
-  description: Armour_1
+  id: armor
+  itemName: Armor
+  description: Provides decent protection
   icon: {fileID: 21300000, guid: 12969e2b0c4a66846924328b6fa35a4c, type: 3}
-  itemType: 2
+  statValues:
+    m_keys: 04000000
+    m_values:
+    - 25
+  slot: 0

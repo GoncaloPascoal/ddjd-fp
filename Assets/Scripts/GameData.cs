@@ -1,5 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+
+[CustomPropertyDrawer(typeof(StatsDictionary))]
+[CustomPropertyDrawer(typeof(ItemPickupDictionary))]
+public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer { }
 
 public static class GameData
 {
