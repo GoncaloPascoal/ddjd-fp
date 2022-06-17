@@ -14,6 +14,7 @@ TagManager:
   - Boss
   - PressurePlate
   - Door
+  - Cutscene
   layers:
   - Default
   - TransparentFX

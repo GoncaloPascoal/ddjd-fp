@@ -73,6 +73,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneElements: {fileID: 0}
+  neededInCutscene: []
+  objectsToDestroy: []
+  objectsNotToSpawn: []
 --- !u!114 &387321094642642919
 MonoBehaviour:
   m_ObjectHideFlags: 0
