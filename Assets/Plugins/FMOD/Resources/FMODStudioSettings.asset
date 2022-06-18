@@ -276,8 +276,8 @@ MonoBehaviour:
   SourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
-  AutomaticEventLoading: 1
-  BankLoadType: 0
+  AutomaticEventLoading: 0
+  BankLoadType: 1
   AutomaticSampleLoading: 0
   EncryptionKey: 
   ImportType: 0
@@ -303,7 +303,15 @@ MonoBehaviour:
   - Menu
   - Mind Control
   - Weapons
-  BanksToLoad: []
+  BanksToLoad:
+  - Ambient
+  - Character
+  - Enemy
+  - Master
+  - Master.strings
+  - Menu
+  - Mind Control
+  - Weapons
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
   AndroidUseOBB: 0
