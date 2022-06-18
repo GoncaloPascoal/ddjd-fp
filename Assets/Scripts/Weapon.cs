@@ -15,8 +15,6 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private List<string> targetsTags;
     
-    private Animator _wielderAnimator;
-
     private List<GameObject> _alreadyHit;
     
 
@@ -24,7 +22,6 @@ public class Weapon : MonoBehaviour
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
-        _wielderAnimator = wielder.GetComponent<Animator>();
         _alreadyHit = new List<GameObject>();
     }
 
@@ -62,6 +59,11 @@ public class Weapon : MonoBehaviour
     public void ResetAlreadyHit()
     {
         _alreadyHit = new List<GameObject>();
+    }
+
+    public void SetTargetTags(List<string> newTags)
+    {
+        targetsTags = newTags;
     }
 
     private void OnTriggerEnter(Collider other)

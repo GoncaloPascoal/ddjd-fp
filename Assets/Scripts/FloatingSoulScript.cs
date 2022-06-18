@@ -38,13 +38,14 @@ public class FloatingSoulScript : MonoBehaviour
 
     public void EndResurrection()
     {
-        _enemy.GetComponent<Enemy>().MindControl();
         _bar.gameObject.SetActive(true);
         _enemy.GetComponent<Hittable>().enabled = true;
         if(_attacker != null) _attacker.enabled = true; //ranged enemy does not have an attacker
         _enemy.transform.Find("Backstab").gameObject.GetComponent<BoxCollider>().enabled = true;
         _damageable.enabled = true;
         _damageable.ChangeHealth(_damageable.MaxHealth/2);
+        _attacker.EndAttack();
+        _enemy.GetComponent<Enemy>().MindControl();
 
         foreach (var comp in _damageable.gameObject.GetComponents(typeof(CapsuleCollider)))
         {

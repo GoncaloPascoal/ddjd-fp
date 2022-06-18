@@ -119,6 +119,11 @@ public class Attacker : MonoBehaviour
         weapon.ResetAlreadyHit();
     }
 
+    public void SetTargets(List<string> newTargets)
+    {
+        weapon.SetTargetTags(newTargets);
+    }
+
     private bool inAttackingState(AnimatorStateInfo stateInfo)
     {
         foreach (var state in attackingStates)
