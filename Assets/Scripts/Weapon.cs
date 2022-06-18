@@ -13,9 +13,12 @@ public class Weapon : MonoBehaviour
     [SerializeField] 
     private GameObject wielder;
 
+    [SerializeField] private List<string> targetsTags;
+    
     private Animator _wielderAnimator;
 
     private List<GameObject> _alreadyHit;
+    
 
     private void Start()
     {
@@ -45,7 +48,7 @@ public class Weapon : MonoBehaviour
         // Only hit if the collider is not part of the weapon wielder layer
         // (if player is wielding weapon, they can not hit themselves or other players
         // and enemies cannot hit each other)
-        if (wielder.transform.root != obstacle.gameObject.transform.root)
+        if (wielder.transform.root != obstacle.gameObject.transform.root && targetsTags.Contains(obstacle.tag))
         {
             var hittable = obstacle.GetComponentInParent<Hittable>();
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
