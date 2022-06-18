@@ -9788,6 +9788,10 @@ PrefabInstance:
       propertyPath: unconditionalDetectionRange
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: targetsWhileMindControlled.Array.data[0]
+      value: Boss
+      objectReference: {fileID: 0}
     - target: {fileID: 4859425220239947484, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -9848,6 +9852,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6844314189971927368, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: _bar
+      value: 
+      objectReference: {fileID: 4419833417145607803}
     - target: {fileID: 7871345399609547215, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_ConnectedAnchor.y
       value: -0.008462161
@@ -9867,3 +9875,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6779535482803635006, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
   m_PrefabInstance: {fileID: 8713668988039028029}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &4419833417145607803 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5024694283907251014, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+  m_PrefabInstance: {fileID: 8713668988039028029}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 160cb88ca84e7188fa8812396325e726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
