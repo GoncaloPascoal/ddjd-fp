@@ -80,7 +80,7 @@ public class EnemyMelee : Enemy
         }
         else if (!_attacker.IsAttacking())
         {
-            if (detectingTarget)
+            if (detectingTarget || distanceToTarget <= unconditionalDetectionRange)
             {
                 if (!_chasingTarget)
                 {

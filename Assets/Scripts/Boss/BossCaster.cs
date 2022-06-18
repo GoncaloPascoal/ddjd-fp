@@ -12,6 +12,9 @@ public class BossCaster : MonoBehaviour
 
     [SerializeField] private GameObject spellProjectilePrefab;
 
+    [SerializeField] private GameObject summonedEnemyPrefab;
+    [SerializeField] private List<Transform> summonPoints;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +56,14 @@ public class BossCaster : MonoBehaviour
             var position = firstPosition - offset * i;
             var newProjectile = Instantiate(spellProjectilePrefab, transform.position, transform.rotation);
             newProjectile.GetComponent<ProjectileSpell>().InitializeWithPositionTarget(position, target, timeBeforeShooting);
+        }
+    }
+
+    public void SummonEnemies()
+    {
+        foreach (var summonPoint in summonPoints)
+        {
+            Instantiate(summonedEnemyPrefab, summonPoint.position, summonPoint.rotation);
         }
     }
 }
