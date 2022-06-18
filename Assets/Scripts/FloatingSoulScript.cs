@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 
 public class FloatingSoulScript : MonoBehaviour
 {
     private GameObject _enemy;
-    private Animator _animator;
+    private Animator _enemyAnimator;
+    private ThirdPersonController _player;
     private Attacker _attacker;
     [SerializeField] private Bar _bar;
     [SerializeField] private float resurrectionTime = 10f;
@@ -16,9 +18,10 @@ public class FloatingSoulScript : MonoBehaviour
     void Start()
     {
         _enemy = gameObject.transform.parent.gameObject;
-        _animator = _enemy.GetComponent<Animator>();
+        _enemyAnimator = _enemy.GetComponent<Animator>();
         _damageable = _enemy.GetComponent<DamageableEnemy>();
         _attacker = _enemy.GetComponent<Attacker>();
+        _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
     }
 
     // Update is called once per frame
@@ -47,7 +50,7 @@ public class FloatingSoulScript : MonoBehaviour
         {
             ((CapsuleCollider) comp).enabled = true;
         }
-        _animator.applyRootMotion = false;
+        _enemyAnimator.applyRootMotion = false;
         Destroy(gameObject);
     }
     
@@ -55,7 +58,7 @@ public class FloatingSoulScript : MonoBehaviour
     {
         if (other.CompareTag("Player") && InputManager.GetButtonDown("Interact"))
         {
-            _animator.SetTrigger("Resurrect");
+            _player.StartResurrection(_enemyAnimator);
         }
     }
 }
