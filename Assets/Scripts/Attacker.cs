@@ -31,7 +31,7 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
-        Debug.Log("start attack");
+        // Debug.Log("start attack");
         _animator.SetBool("AttackNormal", false);
         _isStartingAttacking = true;
     }
@@ -43,7 +43,7 @@ public class Attacker : MonoBehaviour
 
     public void EndAttack()
     {
-        Debug.Log("EndAttack called");
+        // Debug.Log("EndAttack called");
         if (_bufferedAttack)
         {
             weapon.Attack();

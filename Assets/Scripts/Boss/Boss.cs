@@ -50,6 +50,11 @@ public class Boss : MonoBehaviour
                 Time.deltaTime * 5f);
     }
 
+    public void LookAtPlayer()
+    {
+        LookAtTarget(GameObject.FindWithTag("Player").transform.position);
+    }
+
     public void Reset()
     {
         _damageable.RestoreToMaxHealth();
