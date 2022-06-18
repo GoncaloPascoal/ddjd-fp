@@ -11,12 +11,15 @@ public class BossAttack : StateMachineBehaviour
     [SerializeField] private float cooldown;
     [SerializeField] private float chanceOfEndingCombo;
     [SerializeField] private List<string> possibleFollowUps;
+    [SerializeField] private bool usesWeapon = true;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _attacker = animator.GetComponent<AttackerBoss>();
-        _attacker.AttackBoss();
+        
+        if (usesWeapon)
+            _attacker.AttackBoss();
         
         animator.SetFloat("Cooldown", cooldown);
         

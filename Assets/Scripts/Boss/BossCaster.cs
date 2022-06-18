@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BossCaster : MonoBehaviour
 {
@@ -9,7 +10,9 @@ public class BossCaster : MonoBehaviour
     [SerializeField] private float aoeInitialDistance = 0.5f;
     [SerializeField] private int aoeNumberOfParts = 10;
 
-        // Start is called before the first frame update
+    [SerializeField] private GameObject spellProjectilePrefab;
+
+    // Start is called before the first frame update
     void Start()
     {
         
@@ -31,5 +34,25 @@ public class BossCaster : MonoBehaviour
             position + direction * aoeInitialDistance, 
             Quaternion.LookRotation(direction));
         newAoeObject.GetComponent<SwordAOE>().InitializeWithDirection(direction, aoeNumberOfParts);
+    }
+
+    public void CastProjectilesPlayer()
+    {
+        var player = GameObject.FindWithTag("Player");
+        CastProjectiles(player);
+    }
+
+    public void CastProjectiles(GameObject target)
+    {
+        var offset = transform.right;
+        var firstPosition = transform.position + Vector3.up * 3 + offset * 2;
+        
+        for (int i = 0; i < 4; ++i)
+        {
+            var timeBeforeShooting = Random.Range(2f, 5f);
+            var position = firstPosition - offset * i;
+            var newProjectile = Instantiate(spellProjectilePrefab, transform.position, transform.rotation);
+            newProjectile.GetComponent<ProjectileSpell>().InitializeWithPositionTarget(position, target, timeBeforeShooting);
+        }
     }
 }
