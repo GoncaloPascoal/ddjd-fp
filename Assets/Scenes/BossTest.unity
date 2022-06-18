@@ -10647,6 +10647,20 @@ CapsuleCollider:
   m_Height: 0.7749923
   m_Direction: 0
   m_Center: {x: -0.38749614, y: 0, z: 0}
+--- !u!114 &580935839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580935795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25638d497ea0404ca48cee8683988a24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackingStates: []
+  weapon: {fileID: 277779656}
 --- !u!136 &580935850
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10673,21 +10687,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &580935852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580935795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackingStates:
-  - Multiple Slashes
-  weapon: {fileID: 277779656}
 --- !u!1 &591458469
 GameObject:
   m_ObjectHideFlags: 0
@@ -13922,11 +13921,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1052322915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+  m_Script: {fileID: 11500000, guid: 25638d497ea0404ca48cee8683988a24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackingStates:
-  - Multiple Slashes
+  attackingStates: []
   weapon: {fileID: 1791320365}
 --- !u!114 &1052322918
 MonoBehaviour:
