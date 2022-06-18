@@ -14,7 +14,7 @@ public class Backstab : MonoBehaviour
     private void Start()
     {
         _backStabArea = GetComponent<BoxCollider>();
-        _player = GameObject.Find("PlayerArmature").GetComponent<ThirdPersonController>();
+        _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
     }
 
     private void OnTriggerEnter(Collider other)

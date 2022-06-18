@@ -1280,6 +1280,11 @@ MonoBehaviour:
   chaseCooldown: 5
   _spawn: {fileID: 3586084888711922195}
   speedChangeRate: 10
+  targetsWhileMindControlled:
+  - Enemy
+  normalTargets:
+  - Player
+  - MindControlled
   meleeDistance: 1.5
   unconditionalDetectionRange: 0
   alertRange: 5
@@ -3084,6 +3089,14 @@ PrefabInstance:
       propertyPath: wielder
       value: 
       objectReference: {fileID: 4733572487229046735}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.data[0]
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5320520710714484002, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
       propertyPath: m_RootOrder
       value: 5

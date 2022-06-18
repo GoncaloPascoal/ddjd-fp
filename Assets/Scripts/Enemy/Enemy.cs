@@ -38,13 +38,16 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator _animator;
 
+    [SerializeField] private List<string> targetsWhileMindControlled = new List<string>{"Enemy"};
+    [SerializeField] private List<string> normalTargets = new List<string> {"Player", "MindControlled"};
+
     protected void Start()
     {
         _damageable = GetComponent<Damageable>();
         _damageable.InitializeMaxHealth(EnemyMaxHealth);
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
+        PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
 
         _spawn.position = transform.position;
@@ -80,11 +83,11 @@ public abstract class Enemy : MonoBehaviour
         {
             if (!mindControlled)
             {
-               
-                return hit.transform.CompareTag("Player") || hit.transform.CompareTag("MindControlled");
+                return normalTargets.Contains(hit.transform.tag);
             }
+            Debug.Log(targetsWhileMindControlled.Contains(hit.transform.tag));
 
-            return hit.transform.CompareTag("Enemy");
+            return targetsWhileMindControlled.Contains(hit.transform.tag);
         }
         
         return false;
@@ -99,9 +102,10 @@ public abstract class Enemy : MonoBehaviour
         
         if (!mindControlled)
         {
-            return GetClosestWithTags(new List<String> { "Player", "MindControlled" }).position + new Vector3(0, 0.5f, 0);
+            return GetClosestWithTags(normalTargets).position + new Vector3(0, 0.5f, 0);
         }
-        var closestEnemy = GetClosestWithTags(new List<String> { "Enemy" });
+        var closestEnemy = GetClosestWithTags(targetsWhileMindControlled);
+        Debug.Log("closest enemy: " + closestEnemy.tag);
         if (closestEnemy != null)
             return closestEnemy.position + new Vector3(0, 0.5f, 0);
 
