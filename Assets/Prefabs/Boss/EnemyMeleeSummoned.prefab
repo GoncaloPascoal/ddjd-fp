@@ -9780,9 +9780,33 @@ PrefabInstance:
       propertyPath: m_ConnectedAnchor.z
       value: -0.00000095130235
       objectReference: {fileID: 0}
+    - target: {fileID: 2925433915054098924, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: targetsTags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925433915054098924, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: targetsTags.Array.data[0]
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2925433915054098924, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: targetsTags.Array.data[1]
+      value: Boss
+      objectReference: {fileID: 0}
     - target: {fileID: 2964434105271433080, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_Name
       value: EnemyMeleeSummoned
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: viewDistance
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: normalTargets.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: normalTargets.Array.data[1]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: unconditionalDetectionRange

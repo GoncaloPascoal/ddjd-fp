@@ -349,11 +349,6 @@ MonoBehaviour:
   attackDistance: 4
   walkDistance: 7
   possibleAttacks:
-  - MultipleSlashes
-  - QuickSlash
-  - Slash
-  - SlamAOE
-  - Spell1
   - Summon
 --- !u!206 &-3883051858934200826
 BlendTree:

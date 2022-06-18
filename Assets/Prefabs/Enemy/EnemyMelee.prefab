@@ -1280,6 +1280,11 @@ MonoBehaviour:
   chaseCooldown: 5
   _spawn: {fileID: 3586084888711922195}
   speedChangeRate: 10
+  targetsWhileMindControlled:
+  - Enemy
+  normalTargets:
+  - Player
+  - MindControlled
   meleeDistance: 1.5
   unconditionalDetectionRange: 0
   alertRange: 5
@@ -1347,6 +1352,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5024694283907251014}
+  _maxHealth: 0
+  _health: 0
 --- !u!114 &4155889300669106417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,6 +1391,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  superArmorMax: 100
+  superArmorReductionPerHit: 30
+  superArmorRegenPerSecond: 5
 --- !u!1 &5069041362607205264
 GameObject:
   m_ObjectHideFlags: 0
@@ -3079,6 +3089,14 @@ PrefabInstance:
       propertyPath: wielder
       value: 
       objectReference: {fileID: 4733572487229046735}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.data[0]
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5320520710714484002, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
       propertyPath: m_RootOrder
       value: 5
