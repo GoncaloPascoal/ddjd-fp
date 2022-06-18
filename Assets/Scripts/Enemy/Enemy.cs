@@ -85,7 +85,6 @@ public abstract class Enemy : MonoBehaviour
             {
                 return normalTargets.Contains(hit.transform.tag);
             }
-            Debug.Log(targetsWhileMindControlled.Contains(hit.transform.tag));
 
             return targetsWhileMindControlled.Contains(hit.transform.tag);
         }
@@ -105,11 +104,17 @@ public abstract class Enemy : MonoBehaviour
             return GetClosestWithTags(normalTargets).position + new Vector3(0, 0.5f, 0);
         }
         var closestEnemy = GetClosestWithTags(targetsWhileMindControlled);
-        Debug.Log("closest enemy: " + closestEnemy.tag);
+
         if (closestEnemy != null)
+        {
+            if (targetsWhileMindControlled.Contains("Player"))
+                targetsWhileMindControlled.Remove("Player");
+            
             return closestEnemy.position + new Vector3(0, 0.5f, 0);
+        }
 
         // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
+        targetsWhileMindControlled.Add("Player");
         return playerPos;
     }
 
@@ -168,7 +173,10 @@ public abstract class Enemy : MonoBehaviour
     {
         mindControlled = true;
         gameObject.tag = "MindControlled";
+        ChangeTargetsMindControl(targetsWhileMindControlled);
     }
+
+    protected abstract void ChangeTargetsMindControl(List<string> newTargets);
 
     public void SetupHealthBar(Canvas canvas)
     {

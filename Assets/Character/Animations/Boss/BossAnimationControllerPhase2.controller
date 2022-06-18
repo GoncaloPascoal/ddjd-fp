@@ -348,8 +348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDistance: 4
   walkDistance: 7
-  possibleAttacks:
-  - Summon
+  possibleAttacks: []
 --- !u!206 &-3883051858934200826
 BlendTree:
   m_ObjectHideFlags: 1

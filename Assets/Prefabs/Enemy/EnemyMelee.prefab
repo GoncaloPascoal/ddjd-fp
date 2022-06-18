@@ -3091,11 +3091,15 @@ PrefabInstance:
       objectReference: {fileID: 4733572487229046735}
     - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
       propertyPath: targetsTags.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
       propertyPath: targetsTags.Array.data[0]
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.data[1]
+      value: MindControlled
       objectReference: {fileID: 0}
     - target: {fileID: 5320520710714484002, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
       propertyPath: m_RootOrder

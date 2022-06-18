@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 enum EnemyRangedState
@@ -70,6 +71,13 @@ public class EnemyRanged : Enemy
         {
             _state = EnemyRangedState.NotAlert;
         } // else, the enemy will keep preparing the shot, even if player goes out of the area
+    }
+
+    protected override void ChangeTargetsMindControl(List<string> newTargets)
+    {
+        // TODO: enemy ranged should have list with target tags that it deals damage to
+        
+        throw new NotImplementedException(); 
     }
 
     void Prepare()
