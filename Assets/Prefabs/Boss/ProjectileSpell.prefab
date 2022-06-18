@@ -4847,3 +4847,4 @@ MonoBehaviour:
   timeBeforePosition: 1
   intoPositionSpeed: 10
   shootSpeed: 4
+  damage: 10

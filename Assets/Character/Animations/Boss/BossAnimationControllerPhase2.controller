@@ -352,7 +352,6 @@ MonoBehaviour:
   - MultipleSlashes
   - QuickSlash
   - Slash
-  - Slash2
   - SlamAOE
   - Spell1
   - Summon
@@ -578,7 +577,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BossAnimationController
+  m_Name: BossAnimationControllerPhase2
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Speed
