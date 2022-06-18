@@ -9,6 +9,7 @@ public class PlayerSounds : MonoBehaviour
     [SerializeField] private int numberFootsteps = 5;
     [SerializeField] private int numberAttacks = 5;
     [SerializeField] private int numberRolls = 6;
+    [SerializeField] private int numberSpells = 4;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +48,16 @@ public class PlayerSounds : MonoBehaviour
         int randomAnimation = Random.Range(1, numberRolls + 1);
         
         footsteps = FMODUnity.RuntimeManager.CreateInstance("event:/character/Dodge/Roll_" + randomAnimation);
+        footsteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
+        footsteps.start();
+        footsteps.release();
+    }
+
+    public void PlayResurrectSound()
+    {
+        int randomAnimation = Random.Range(1, numberSpells + 1);
+        
+        footsteps = FMODUnity.RuntimeManager.CreateInstance("event:/character/mind control/Spell_" + randomAnimation);
         footsteps.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));
         footsteps.start();
         footsteps.release();

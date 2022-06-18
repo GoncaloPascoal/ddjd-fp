@@ -130,6 +130,8 @@ namespace StarterAssets
 		private const float Threshold = 0.01f;
 
 		private bool _hasAnimator;
+		private bool _resurrecting;
+		private Animator _enemyToResurrect;
 
 		
 		// Roll
@@ -152,6 +154,7 @@ namespace StarterAssets
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
 			_staggerable = GetComponent<Staggerable>();
+			_enemyToResurrect = null;
 
 			_backstabTargets = new List<GameObject>();
 
@@ -164,6 +167,7 @@ namespace StarterAssets
 			_stamina = _maxStamina;
 
 			_isBackstabbing = false;
+			_resurrecting = false;
 			
 			_attacker = GetComponent<Attacker>();
 
@@ -279,97 +283,99 @@ namespace StarterAssets
 				movement = Vector2.zero;
 			else 
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
+
+			//Can't move
+			if (isAttacking || _isBackstabbing || _resurrecting) return;
 			
-			if (!isAttacking && !_isBackstabbing) {
-				bool sprint = InputManager.GetButton("Sprint");
+			bool sprint = InputManager.GetButton("Sprint");
 
-				// set target speed based on move speed, sprint speed and if sprint is pressed
-				float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
+			// set target speed based on move speed, sprint speed and if sprint is pressed
+			float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
 
-				if (Grounded && !_isRolling)
+			if (Grounded && !_isRolling)
+			{
+				if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
 				{
-					if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
-					{
-						StaminaNeededBeforeSprint = 0;
-						ChangeStamina(Time.deltaTime * StaminaUsageSprint);
-						if (Stamina <= 0.0f) StaminaNeededBeforeSprint = 25f;
-					}
-					else
-					{
-						ChangeStamina(Time.deltaTime * StaminaRecovery);
-					}
-				}
-				
-				// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-				// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-				// if there is no input, set the target speed to 0
-				if (movement == Vector2.zero) targetSpeed = 0.0f;
-
-				// a reference to the players current horizontal velocity
-				float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-				const float speedOffset = 0.1f;
-				float inputMagnitude = movement.magnitude;
-
-				// accelerate or decelerate to target speed
-				if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
-				{
-					// creates curved result rather than a linear one giving a more organic speed change
-					// note T in Lerp is clamped, so we don't need to clamp our speed
-					_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
-
-					// round speed to 3 decimal places
-					_speed = Mathf.Round(_speed * 1000f) / 1000f;
+					StaminaNeededBeforeSprint = 0;
+					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
+					if (Stamina <= 0.0f) StaminaNeededBeforeSprint = 25f;
 				}
 				else
 				{
-					_speed = targetSpeed;
-				}
-				_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-
-				// normalise input direction
-				Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
-
-				// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-				// if there is a move input rotate player when the player is moving
-				if (!_isRolling)
-				{
-					if (movement != Vector2.zero)
-					{
-						_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
-						                  _mainCamera.transform.eulerAngles.y;
-						float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
-							ref _rotationVelocity, RotationSmoothTime);
-
-						// rotate to face input direction relative to camera position
-						transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-					}
-
-					Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-					_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-					                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-				}
-				else if(!_controller.isGrounded)
-				{
-					_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-				}
-
-				// update animator if using character
-				if (_hasAnimator)
-				{
-					_animator.SetFloat(_animIDSpeed, _animationBlend);
-					_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+					ChangeStamina(Time.deltaTime * StaminaRecovery);
 				}
 			}
+			
+			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
-			if (isAttackingCanRotate)
+			// note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+			// if there is no input, set the target speed to 0
+			if (movement == Vector2.zero) targetSpeed = 0.0f;
+
+			// a reference to the players current horizontal velocity
+			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
+
+			const float speedOffset = 0.1f;
+			float inputMagnitude = movement.magnitude;
+
+			// accelerate or decelerate to target speed
+			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
 			{
-				Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
-				
+				// creates curved result rather than a linear one giving a more organic speed change
+				// note T in Lerp is clamped, so we don't need to clamp our speed
+				_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * SpeedChangeRate);
+
+				// round speed to 3 decimal places
+				_speed = Mathf.Round(_speed * 1000f) / 1000f;
+			}
+			else
+			{
+				_speed = targetSpeed;
+			}
+			_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
+
+			// normalise input direction
+			Vector3 direction = new Vector3(movement.x, 0.0f, movement.y);
+
+			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+			// if there is a move input rotate player when the player is moving
+			if (!_isRolling)
+			{
 				if (movement != Vector2.zero)
 				{
 					_targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg +
+					                  _mainCamera.transform.eulerAngles.y;
+					float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
+						ref _rotationVelocity, RotationSmoothTime);
+
+					// rotate to face input direction relative to camera position
+					transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+				}
+
+				Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+				_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
+				                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			}
+			else if(!_controller.isGrounded)
+			{
+				_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+			}
+
+			// update animator if using character
+			if (_hasAnimator)
+			{
+				_animator.SetFloat(_animIDSpeed, _animationBlend);
+				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+			}
+			
+
+			if (isAttackingCanRotate)
+			{
+				Vector3 dir = new Vector3(movement.x, 0.0f, movement.y);
+				
+				if (movement != Vector2.zero)
+				{
+					_targetRotation = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg +
 					                  _mainCamera.transform.eulerAngles.y;
 					float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation,
 						ref _rotationVelocity, RotationSmoothTime);
@@ -405,7 +411,7 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 			
-			if (Grounded && !_isBackstabbing)
+			if (Grounded && !_isBackstabbing && !_resurrecting)
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
@@ -588,6 +594,20 @@ namespace StarterAssets
 		public bool IsRolling()
 		{
 			return _isRolling;
+		}
+
+		public void StartResurrection(Animator enemy)
+		{
+			_animator.SetTrigger("Resurrection");
+			_resurrecting = true;
+			_enemyToResurrect = enemy;
+		}
+		
+		public void EndResurrection()
+		{
+			_animator.SetTrigger("EndResurrection");
+			_enemyToResurrect.SetTrigger("Resurrect");
+			_resurrecting = false;
 		}
 	}
 }
