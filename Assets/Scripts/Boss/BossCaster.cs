@@ -9,9 +9,10 @@ public class BossCaster : MonoBehaviour
     [SerializeField] private GameObject aoePrefab;
     [SerializeField] private float aoeInitialDistance = 0.5f;
     [SerializeField] private int aoeNumberOfParts = 10;
-
+    
     [SerializeField] private GameObject spellProjectilePrefab;
-
+    [SerializeField] private int numberOfProjectiles;
+    
     [SerializeField] private GameObject summonedEnemyPrefab;
     [SerializeField] private List<Transform> summonPoints;
 
@@ -48,9 +49,9 @@ public class BossCaster : MonoBehaviour
     public void CastProjectiles(GameObject target)
     {
         var offset = transform.right;
-        var firstPosition = transform.position + Vector3.up * 3 + offset * 2;
+        var firstPosition = transform.position + Vector3.up * 3 + offset * (numberOfProjectiles * 2);
         
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < numberOfProjectiles; ++i)
         {
             var timeBeforeShooting = Random.Range(2f, 5f);
             var position = firstPosition - offset * i;
