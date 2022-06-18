@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    private Animator _animator;
+    protected Animator _animator;
     
     [SerializeField]
     private List<string> attackingStates;
     
     [SerializeField]
-    private Weapon weapon;
+    protected Weapon weapon;
 
     private bool _bufferedAttack = false;
 
-    private bool _isAttacking = false;
+    protected bool _isAttacking = false;
     private bool _isStartingAttacking = false;
     
     // Start is called before the first frame update
