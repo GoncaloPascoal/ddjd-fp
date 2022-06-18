@@ -9,7 +9,7 @@ public class Boss : MonoBehaviour
     private Damageable _damageable;
 
     private Animator _animator;
-    private Attacker _attacker;
+    private AttackerBoss _attacker;
 
     public float defaultAttackCooldown = 2f;
 
@@ -24,7 +24,7 @@ public class Boss : MonoBehaviour
         _damageable.InitializeMaxHealth(_maxHealth);
 
         _animator = GetComponent<Animator>();
-        _attacker = GetComponent<Attacker>();
+        _attacker = GetComponent<AttackerBoss>();
 
         _animator.SetFloat("Cooldown", defaultAttackCooldown);
     }
@@ -35,9 +35,9 @@ public class Boss : MonoBehaviour
         
     }
 
-    public void Attack(string attack)
+    public void Attack(string nextAttack)
     {
-        _attacker.AttackNotBuffered(new List<string> {attack});
+        _animator.SetTrigger(nextAttack);
     }
 
     public void LookAtTarget(Vector3 target)
@@ -48,6 +48,11 @@ public class Boss : MonoBehaviour
         transform.rotation =
             Quaternion.Lerp(transform.rotation, lookRotation,
                 Time.deltaTime * 5f);
+    }
+
+    public void LookAtPlayer()
+    {
+        LookAtTarget(GameObject.FindWithTag("Player").transform.position);
     }
 
     public void Reset()

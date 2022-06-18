@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    private Animator _animator;
+    protected Animator _animator;
     
     [SerializeField]
     private List<string> attackingStates;
     
     [SerializeField]
-    private Weapon weapon;
+    protected Weapon weapon;
 
     private bool _bufferedAttack = false;
 
-    private bool _isAttacking = false;
+    protected bool _isAttacking = false;
     private bool _isStartingAttacking = false;
     
     // Start is called before the first frame update
@@ -31,7 +31,7 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
-        Debug.Log("start attack");
+        // Debug.Log("start attack");
         _animator.SetBool("AttackNormal", false);
         _isStartingAttacking = true;
     }
@@ -43,7 +43,7 @@ public class Attacker : MonoBehaviour
 
     public void EndAttack()
     {
-        Debug.Log("EndAttack called");
+        // Debug.Log("EndAttack called");
         if (_bufferedAttack)
         {
             weapon.Attack();

@@ -6,16 +6,21 @@ using Random = UnityEngine.Random;
 
 public class BossAttack : StateMachineBehaviour
 {
-    private Attacker _attacker;
+    private AttackerBoss _attacker;
 
     [SerializeField] private float cooldown;
     [SerializeField] private float chanceOfEndingCombo;
     [SerializeField] private List<string> possibleFollowUps;
+    [SerializeField] private bool usesWeapon = true;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _attacker = animator.GetComponent<Attacker>();
+        _attacker = animator.GetComponent<AttackerBoss>();
+        
+        if (usesWeapon)
+            _attacker.AttackBoss();
+        
         animator.SetFloat("Cooldown", cooldown);
         
         var willEnd= possibleFollowUps.Count == 0 || Random.Range(0f, 1f) <= chanceOfEndingCombo;
