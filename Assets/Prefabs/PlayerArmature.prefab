@@ -1498,6 +1498,7 @@ MonoBehaviour:
   numberFootsteps: 5
   numberAttacks: 5
   numberRolls: 6
+  numberSpells: 4
 --- !u!1 &4552572167694909163
 GameObject:
   m_ObjectHideFlags: 0
