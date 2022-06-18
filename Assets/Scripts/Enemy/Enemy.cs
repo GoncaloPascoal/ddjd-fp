@@ -44,7 +44,7 @@ public abstract class Enemy : MonoBehaviour
         _damageable.InitializeMaxHealth(EnemyMaxHealth);
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
+        PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
         playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
 
         _spawn.position = transform.position;
