@@ -48,8 +48,8 @@ public class BossCaster : MonoBehaviour
 
     public void CastProjectiles(GameObject target)
     {
-        var offset = transform.right;
-        var firstPosition = transform.position + Vector3.up * 3 + offset * (numberOfProjectiles * 2);
+        var offset = transform.right * 1.5f;
+        var firstPosition = transform.position + Vector3.up * 3 + offset * (numberOfProjectiles / 2);
         
         for (int i = 0; i < numberOfProjectiles; ++i)
         {

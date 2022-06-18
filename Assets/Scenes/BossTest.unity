@@ -515,7 +515,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23414
+  m_Name: pb_Mesh23418
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9776,7 +9776,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 42214eb8acb3e4b4d818203fa0843d4e, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: c79990a1a67ca954e86fabb897151b73, type: 2}
+      objectReference: {fileID: 9100000, guid: bc242719153e5884da10e6f063966929, type: 2}
     - target: {fileID: 5866666021909216657, guid: 42214eb8acb3e4b4d818203fa0843d4e, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 1
@@ -14053,6 +14053,7 @@ MonoBehaviour:
   aoeInitialDistance: 1
   aoeNumberOfParts: 10
   spellProjectilePrefab: {fileID: 3097093939111664365, guid: 9b42a55a9a181c84484643c54a88c151, type: 3}
+  numberOfProjectiles: 5
   summonedEnemyPrefab: {fileID: 5894898396235754053, guid: 585c4f874a405f0438ebca59e2cd0ef3, type: 3}
   summonPoints:
   - {fileID: 1810299033}
@@ -20157,7 +20158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918481, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: staminaBar
