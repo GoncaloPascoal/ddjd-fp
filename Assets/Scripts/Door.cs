@@ -21,7 +21,6 @@ public class Door : MonoBehaviour, Activatable
 
     public void activate()
     {
-        Debug.Log("Activate");
         _animator.SetTrigger("Open");
     }
 
