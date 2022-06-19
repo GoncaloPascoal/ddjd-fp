@@ -1495,10 +1495,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050d19806f2d5ae458825baaca2dcaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSounds:
+  - character/Dmg_taken/Hit_1
+  - character/Dmg_taken/Hit_2
+  - character/Dmg_taken/Hit_3
+  - character/Dmg_taken/Hit_4
+  - character/Dmg_taken/Hit_5
+  - character/Dmg_taken/Hit_6
+  - character/Dmg_taken/Hit_7
+  attackSounds: []
+  deathSounds: []
   numberFootsteps: 5
-  numberAttacks: 5
+  numberWeaponAttacks: 5
   numberRolls: 6
   numberSpells: 4
+  numberJumps: 6
+  numberBackstabs: 1
 --- !u!1 &4552572167694909163
 GameObject:
   m_ObjectHideFlags: 0
