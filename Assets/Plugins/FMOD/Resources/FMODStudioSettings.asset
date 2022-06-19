@@ -295,14 +295,14 @@ MonoBehaviour:
   RealChannelSettings: []
   Plugins: []
   MasterBanks:
-  - Desktop/Master
+  - Master
   Banks:
-  - Desktop/Ambient
-  - Desktop/Character
-  - Desktop/Enemy
-  - Desktop/Menu
-  - Desktop/Mind Control
-  - Desktop/Weapons
+  - Ambient
+  - Character
+  - Enemy
+  - Menu
+  - Mind Control
+  - Weapons
   BanksToLoad:
   - Ambient
   - Character
@@ -756,8 +756,8 @@ MonoBehaviour:
       Value: 
       HasValue: 0
     SpeakerMode:
-      Value: 0
-      HasValue: 0
+      Value: 3
+      HasValue: 1
     VirtualChannelCount:
       Value: 0
       HasValue: 0
