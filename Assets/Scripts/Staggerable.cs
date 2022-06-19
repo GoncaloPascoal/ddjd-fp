@@ -33,7 +33,7 @@ public class Staggerable : MonoBehaviour
         return _animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger");
     }
     
-    public void Stagger()
+    public bool Stagger()
     {
         _currentSuperArmor -= superArmorReductionPerHit;
         Debug.Log(_currentSuperArmor);
@@ -41,7 +41,10 @@ public class Staggerable : MonoBehaviour
         {
             _animator.SetTrigger("Stagger");
             _currentSuperArmor = superArmorMax;
+            return true;
         }
+
+        return false;
     }
     
     public void StopStagger()
