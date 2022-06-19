@@ -1215,6 +1215,7 @@ GameObject:
   - component: {fileID: 4155889300669106417}
   - component: {fileID: 3873376192940854281}
   - component: {fileID: 4208066854183962079}
+  - component: {fileID: 1130811846664304391}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -1366,6 +1367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSoundChance: 50
 --- !u!114 &3873376192940854281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1394,6 +1396,23 @@ MonoBehaviour:
   superArmorMax: 100
   superArmorReductionPerHit: 30
   superArmorRegenPerSecond: 5
+--- !u!114 &1130811846664304391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4733572487229046735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0dbf23732aa9444ba4b2b7b91a925b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSounds: []
+  attackSounds: []
+  deathSounds: []
+  numberWeaponAttacks: 5
+  numberFootsteps: 5
 --- !u!1 &5069041362607205264
 GameObject:
   m_ObjectHideFlags: 0
