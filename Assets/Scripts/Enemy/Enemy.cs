@@ -141,7 +141,7 @@ public abstract class Enemy : MonoBehaviour
         return bestTarget;
     }
 
-    public void setFOV(float fov)
+    public void SetFOV(float fov)
     {
         fieldOfView = fov;
     }

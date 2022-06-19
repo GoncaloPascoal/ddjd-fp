@@ -25,7 +25,7 @@ public class Hittable : MonoBehaviour
             _staggerable.Stagger();
         
         if(_enemy != null){
-            _enemy.setFOV(720); //it's not the player
+            _enemy.SetFOV(720); //it's not the player
         }
     }
     
