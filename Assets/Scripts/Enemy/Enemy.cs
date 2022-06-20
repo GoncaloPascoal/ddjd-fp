@@ -36,6 +36,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator _animator;
 
+    [SerializeField] private List<string> targetsWhileMindControlled = new List<string>{"Enemy"};
+    [SerializeField] private List<string> normalTargets = new List<string> {"Player", "MindControlled"};
+
     protected void Start()
     {
         Stats = GetComponent<Stats>();
@@ -44,6 +47,7 @@ public abstract class Enemy : MonoBehaviour
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        
         Player = PlayerTransform.GetComponent<ThirdPersonController>();
 
         _spawn.position = transform.position;
@@ -79,11 +83,10 @@ public abstract class Enemy : MonoBehaviour
         {
             if (!mindControlled)
             {
-               
-                return hit.transform.CompareTag("Player") || hit.transform.CompareTag("MindControlled");
+                return normalTargets.Contains(hit.transform.tag);
             }
 
-            return hit.transform.CompareTag("Enemy");
+            return targetsWhileMindControlled.Contains(hit.transform.tag);
         }
         
         return false;
@@ -98,13 +101,20 @@ public abstract class Enemy : MonoBehaviour
         
         if (!mindControlled)
         {
-            return GetClosestWithTags(new List<String> { "Player", "MindControlled" }).position + new Vector3(0, 0.5f, 0);
+            return GetClosestWithTags(normalTargets).position + new Vector3(0, 0.5f, 0);
         }
-        var closestEnemy = GetClosestWithTags(new List<String> { "Enemy" });
+        var closestEnemy = GetClosestWithTags(targetsWhileMindControlled);
+
         if (closestEnemy != null)
+        {
+            if (targetsWhileMindControlled.Contains("Player"))
+                targetsWhileMindControlled.Remove("Player");
+            
             return closestEnemy.position + new Vector3(0, 0.5f, 0);
+        }
 
         // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
+        targetsWhileMindControlled.Add("Player");
         return playerPos;
     }
 
@@ -163,7 +173,10 @@ public abstract class Enemy : MonoBehaviour
     {
         mindControlled = true;
         gameObject.tag = "MindControlled";
+        ChangeTargetsMindControl(targetsWhileMindControlled);
     }
+
+    protected abstract void ChangeTargetsMindControl(List<string> newTargets);
 
     public void SetupHealthBar(Canvas canvas)
     {

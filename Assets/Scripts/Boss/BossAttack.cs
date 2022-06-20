@@ -2,15 +2,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class BossAttack : StateMachineBehaviour
 {
-    private Attacker _attacker;
+    private AttackerBoss _attacker;
+
+    [SerializeField] private float cooldown;
+    [SerializeField] private float chanceOfEndingCombo;
+    [SerializeField] private List<string> possibleFollowUps;
+    [SerializeField] private bool usesWeapon = true;
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _attacker = animator.GetComponent<Attacker>();
+        _attacker = animator.GetComponent<AttackerBoss>();
+        
+        if (usesWeapon)
+            _attacker.AttackBoss();
+        
+        animator.SetFloat("Cooldown", cooldown);
+        
+        var willEnd= possibleFollowUps.Count == 0 || Random.Range(0f, 1f) <= chanceOfEndingCombo;
+
+        // choose follow up
+        if (!willEnd)
+        {
+            var followUp = Random.Range(0, possibleFollowUps.Count);
+            animator.SetTrigger(possibleFollowUps[followUp]);
+        }
+        // else, combo will end here
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -24,16 +45,4 @@ public class BossAttack : StateMachineBehaviour
     {
         _attacker.EndAttack();
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

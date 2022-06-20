@@ -14,11 +14,14 @@ public class Weapon : MonoBehaviour
 
     private readonly ISet<GameObject> _alreadyHit = new HashSet<GameObject>();
 
+    [SerializeField] private List<string> targetsTags;
+    
+
     private void Start()
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
-
+        
         _wielderStats = wielder.GetComponent<Stats>();
         _wielderAnimator = wielder.GetComponent<Animator>();
         _alreadyHit.Clear();
@@ -40,7 +43,7 @@ public class Weapon : MonoBehaviour
         // Only hit if the collider is not part of the weapon wielder layer
         // (if player is wielding weapon, they can not hit themselves or other players
         // and enemies cannot hit each other)
-        if (wielder.transform.root != obstacle.gameObject.transform.root)
+        if (wielder.transform.root != obstacle.gameObject.transform.root && targetsTags.Contains(obstacle.tag))
         {
             Hittable hittable = obstacle.GetComponentInParent<Hittable>();
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
@@ -50,7 +53,17 @@ public class Weapon : MonoBehaviour
             }
         }
     }
+    
+    public void ResetAlreadyHit()
+    {
+        _alreadyHit.Clear();
+    }
 
+    public void SetTargetTags(List<string> newTags)
+    {
+        targetsTags = newTags;
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if(_collider.enabled)

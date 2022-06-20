@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-    [SerializeField] private List<string> attackingStates;
-    [SerializeField] private Weapon weapon;
 
-    private Animator _animator;
+    [SerializeField] private List<string> attackingStates;
+    [SerializeField] protected Weapon weapon;
+
+    protected Animator _animator;
 
     private bool _bufferedAttack = false;
 
-    private bool _isAttacking = false;
+    protected bool _isAttacking = false;
     private bool _isStartingAttacking = false;
 
     private void Start()
@@ -92,6 +93,11 @@ public class Attacker : MonoBehaviour
     public bool IsStartingAttack()
     {
         return _isAttacking && _isStartingAttacking;
+    }
+    
+    public void SetTargets(List<string> newTargets)
+    {
+        weapon.SetTargetTags(newTargets);
     }
 
     private bool InAttackingState(AnimatorStateInfo stateInfo)

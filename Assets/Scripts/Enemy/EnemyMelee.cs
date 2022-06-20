@@ -80,7 +80,7 @@ public class EnemyMelee : Enemy
         }
         else if (!_attacker.IsAttacking())
         {
-            if (detectingTarget)
+            if (detectingTarget || distanceToTarget <= unconditionalDetectionRange)
             {
                 if (!_chasingTarget)
                 {
@@ -118,6 +118,11 @@ public class EnemyMelee : Enemy
         base.Update();
     }
 
+    protected override void ChangeTargetsMindControl(List<string> newTargets)
+    {
+        _attacker.SetTargets(newTargets);
+    }
+
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash("Speed");
@@ -146,4 +151,5 @@ public class EnemyMelee : Enemy
         var iconPos = new Vector3(position.x, position.y + 2.5f, position.z);
         Gizmos.DrawIcon(iconPos, "Meelee.png", true);
     }
+    
 }

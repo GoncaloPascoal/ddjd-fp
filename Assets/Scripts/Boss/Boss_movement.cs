@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Boss_movement : StateMachineBehaviour
 {
@@ -20,6 +21,8 @@ public class Boss_movement : StateMachineBehaviour
     private string lastTrigger = "";
     
     private int _speedIdHash = Animator.StringToHash("Speed");
+
+    [SerializeField] private List<string> possibleAttacks;
     
     
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -40,18 +43,27 @@ public class Boss_movement : StateMachineBehaviour
         
         float distance = SpeedOnPlayerDistance();
 
-        if (_boss.ReduceAttackCooldown() <= 0 && distance <= attackDistance)
+        float cooldown = animator.GetFloat("Cooldown");
+
+        if (cooldown <= 0 && distance <= attackDistance)
         {
-            _boss.Attack();
-            _animator.SetTrigger("Attack");
-            lastTrigger = "Attack";
+            _navMeshAgent.ResetPath();
+            var nextAttack = possibleAttacks[Random.Range(0, possibleAttacks.Count)];
+            _boss.Attack(nextAttack);
+            lastTrigger = nextAttack;
         }
         else
         {
+            animator.SetFloat("Cooldown", cooldown - Time.deltaTime);
+            
             if (distance > attackDistance)
             {
                 Vector3 playerPos = _player.transform.position;
-                animator.GetComponent<NavMeshAgent>().SetDestination(playerPos);
+               _navMeshAgent.SetDestination(playerPos);
+            }
+            else
+            {
+                _navMeshAgent.ResetPath();
             }
         }
 

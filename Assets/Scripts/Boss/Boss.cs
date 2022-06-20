@@ -9,11 +9,13 @@ public class Boss : MonoBehaviour
     private Damageable _damageable;
 
     private Animator _animator;
-    private Attacker _attacker;
+    private AttackerBoss _attacker;
 
     public float defaultAttackCooldown = 2f;
-    
-    private float _attackCooldown;
+
+    public bool HasNextPhase = false;
+
+    [SerializeField] private GameObject nextPhaseCutscene;
     
     // Start is called before the first frame update
     void Start()
@@ -22,9 +24,9 @@ public class Boss : MonoBehaviour
         _damageable.InitializeMaxHealth(_maxHealth);
 
         _animator = GetComponent<Animator>();
-        _attacker = GetComponent<Attacker>();
+        _attacker = GetComponent<AttackerBoss>();
 
-        _attackCooldown = defaultAttackCooldown;
+        _animator.SetFloat("Cooldown", defaultAttackCooldown);
     }
 
     // Update is called once per frame
@@ -33,9 +35,9 @@ public class Boss : MonoBehaviour
         
     }
 
-    public void Attack()
+    public void Attack(string nextAttack)
     {
-        _attacker.AttackNotBuffered(new List<string> {"Multiple Slashes"});
+        _animator.SetTrigger(nextAttack);
     }
 
     public void LookAtTarget(Vector3 target)
@@ -48,19 +50,23 @@ public class Boss : MonoBehaviour
                 Time.deltaTime * 5f);
     }
 
-    public float GetAttackCooldown()
+    public void LookAtPlayer()
     {
-        return _attackCooldown;
+        LookAtTarget(GameObject.FindWithTag("Player").transform.position);
     }
 
-    public float ReduceAttackCooldown()
+    public void Reset()
     {
-        _attackCooldown -= Time.deltaTime;
-        return _attackCooldown;
+        _damageable.RestoreToMaxHealth();
     }
-    
-    public void SetAttackCooldown(float cooldown)
+
+    public void ChangePhase()
     {
-        _attackCooldown = cooldown;
+        if (HasNextPhase)
+        {
+            nextPhaseCutscene.SetActive(true);
+        }
+        else
+            _animator.SetTrigger("Die");
     }
 }
