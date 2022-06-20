@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject statsPanel, statDisplays;
 
     private Inventory _inventory;
-    private bool _visible, _equipped, _filtering;
+    private bool _visible, _equipped;
     private int _currentSlot;
     private List<Image> _slotIcons;
     private List<Item> _slotItems;
@@ -45,7 +45,6 @@ public class InventoryManager : MonoBehaviour
 
         _visible = false;
         _equipped = false;
-        _filtering = false;
         _currentSlot = 0;
 
         _slotIcons = new List<Image>(inventorySlots);
@@ -60,8 +59,6 @@ public class InventoryManager : MonoBehaviour
         {
             _equipmentDisplays.Add(equipmentSlots.transform.GetChild(i).GetComponent<EquipmentDisplay>());
         }
-
-        UpdateInterface();
     }
 
     private void Update()
@@ -70,26 +67,6 @@ public class InventoryManager : MonoBehaviour
         {
             ToggleInventory();
         }
-
-        // if (Input.GetButtonDown("InvSortAll"))
-        // {
-        //     ShowAllItems();
-        // }
-        // if (Input.GetButtonDown("InvSortConsumable"))
-        // {
-        //     SetFilter("Sword");
-        //     ShowItems();
-        // }
-        // if (Input.GetButtonDown("InvSortSword"))
-        // {
-        //     SetFilter("Potion");
-        //     ShowItems();
-        // }
-        // if (Input.GetButtonDown("InvSortArmour"))
-        // {
-        //     SetFilter("Armour");
-        //     ShowItems();
-        // }
 
         if (InputManager.GetButtonDown("InventoryToggleEquipped"))
         {
@@ -110,7 +87,7 @@ public class InventoryManager : MonoBehaviour
         _visible = !_visible;
         InputManager.CurrentActionType = _visible ? ActionType.Menu : ActionType.Game;
         transform.GetChild(0).gameObject.SetActive(_visible);
-        UpdateInterface();
+        if (_visible) UpdateInterface();
     }
 
     private void ToggleEquipped()
@@ -153,23 +130,6 @@ public class InventoryManager : MonoBehaviour
             display.SetValue(_playerStats.GetStatValue(display.stat));
         }
     }
-
-    // public void SetFilter(string itemType)
-    // {
-    //     if (itemType == "")
-    //     {
-    //         _filtering = false;
-    //         _current_filter = 0;
-    //         return;
-    //     }
-    //     SetFilter((Item.ItemType) System.Enum.Parse(typeof(Item.ItemType), itemType));
-    // }
-    //
-    // public void SetFilter(Item.ItemType filter)
-    // {
-    //     _current_filter = filter; 
-    //     _filtering = true;
-    // }
 
     private void UpdateItems()
     {
@@ -276,7 +236,7 @@ public class InventoryManager : MonoBehaviour
             _currentSlot = (_currentSlot + row) % total;
         }
 
-        if (up || down || left || right)
+        if (left || right || up || down)
         {
             UpdateCursorPosition();
             UpdateItemDisplay();

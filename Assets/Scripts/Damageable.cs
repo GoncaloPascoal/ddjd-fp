@@ -9,7 +9,7 @@ public abstract class Damageable : MonoBehaviour
     [SerializeField] public Bar healthBar;
     private ThirdPersonController _player;
 
-    protected void Start()
+    protected virtual void Start()
     {
         if (healthBar == null) return;
         _player = gameObject.GetComponent<ThirdPersonController>();
@@ -17,18 +17,18 @@ public abstract class Damageable : MonoBehaviour
         OnHealthChanged += () => healthBar.SetValue(Health);
     }
 
-    [SerializeField] private int _maxHealth;
+    private int _maxHealth;
     public int MaxHealth
     {
         get => _maxHealth;
-        set
+        protected set
         {
             _maxHealth = value;
             OnMaxHealthChanged.Invoke();
         }
     }
 
-    [SerializeField] private int _health;
+    private int _health;
     public int Health
     {
         get => _health;

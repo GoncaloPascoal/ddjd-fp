@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
@@ -69,10 +70,7 @@ namespace StarterAssets
 		[Tooltip("Minimum dot product between player and enemy looking directions for backstab")]
 		public float backstabAngleOffset = 0.95f;
 
-		[Header("HUD")]
-		[SerializeField] public GameObject staminaBar;
-		
-		private Bar _staminaBarScript;
+		private Bar _staminaBar;
 
 		private Damageable _damageable;
 		private Attacker _attacker;
@@ -96,7 +94,7 @@ namespace StarterAssets
 			set
 			{
 				_stamina = Mathf.Clamp(value, 0f, _stats.GetStatValue(StatName.Stamina));
-				_staminaBarScript.SetValue(_stamina);
+				_staminaBar.SetValue(_stamina);
 			}
 		}
 
@@ -145,22 +143,10 @@ namespace StarterAssets
 
 		private int _inCheckpoint = -1;
 
-		private void Awake()
-		{
-			_stats = GetComponent<Stats>();
-			_stats.baseValues = new StatsDictionary()
-			{
-				{StatName.Health, 100f},
-				{StatName.Stamina, 100f},
-				{StatName.StaminaRecovery, 20f},
-				{StatName.Damage, 5f},
-				{StatName.Armor, 0f},
-				{StatName.Stability, 0f},
-			};
-		}
-
 		private void Start()
 		{
+			_stats = GetComponent<Stats>();
+
 			_hasAnimator = TryGetComponent(out _animator);
 			_controller = GetComponent<CharacterController>();
 			_input = GetComponent<StarterAssetsInputs>();
@@ -172,14 +158,15 @@ namespace StarterAssets
 			_damageable = GetComponent<Damageable>();
 			_damageable.InitializeMaxHealth((int) _stats.GetStatValue(StatName.Health));
 
-			_staminaBarScript = staminaBar.GetComponent<Bar>();
+			_staminaBar = HUD.Instance.staminaBar;
 			_stamina = _stats.GetStatValue(StatName.Stamina);
-			_staminaBarScript.SetMaxValue(_stamina);
-			_staminaBarScript.SetValueInstantly(_stamina);
+			_staminaBar.SetMaxValue(_stamina);
+			_staminaBar.SetValueInstantly(_stamina);
+			StartCoroutine(UpdateStaminaBar());
 
 			_isBackstabbing = false;
 			_resurrecting = false;
-			
+
 			_attacker = GetComponent<Attacker>();
 
 			AssignAnimationIDs();
@@ -215,6 +202,15 @@ namespace StarterAssets
 				{
 					InCheckpoint(currentCheckpoint);
 				}
+			}
+		}
+
+		private IEnumerator UpdateStaminaBar()
+		{
+			while (true)
+			{
+				yield return new WaitForSeconds(0.25f);
+				_staminaBar.SetMaxValue(_stats.GetStatValue(StatName.Stamina));
 			}
 		}
 
