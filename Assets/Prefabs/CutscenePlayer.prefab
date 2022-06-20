@@ -58,6 +58,14 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -3199228053027995760, guid: 489939b00d3f1a643be4a1dc9d8af2ad, type: 2}
     value: {fileID: 387321094642642919}
+  - key: {fileID: -6755512435809286580, guid: 489939b00d3f1a643be4a1dc9d8af2ad, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -7763616814032268370, guid: 489939b00d3f1a643be4a1dc9d8af2ad, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 6492699843695450739, guid: 489939b00d3f1a643be4a1dc9d8af2ad, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 9045016409498094469, guid: 489939b00d3f1a643be4a1dc9d8af2ad, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &387321094642642918
@@ -73,6 +81,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cutsceneElements: {fileID: 0}
+  neededInCutscene: []
+  objectsToDestroy: []
+  objectsNotToSpawn: []
 --- !u!114 &387321094642642919
 MonoBehaviour:
   m_ObjectHideFlags: 0

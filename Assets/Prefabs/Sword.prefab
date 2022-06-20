@@ -61,6 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 10
   wielder: {fileID: 0}
+  targetsTags: []
 --- !u!54 &6953150615432029739
 Rigidbody:
   m_ObjectHideFlags: 0

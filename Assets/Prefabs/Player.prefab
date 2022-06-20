@@ -1428,6 +1428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffaa419cc41d0eb489e72393c4798c36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inventory_manager: {fileID: 0}
 --- !u!114 &8896355497579845234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1467,6 +1468,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  superArmorMax: 100
+  superArmorReductionPerHit: 30
+  superArmorRegenPerSecond: 5
 --- !u!114 &8469139557399397877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1479,9 +1483,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050d19806f2d5ae458825baaca2dcaa5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSounds:
+  - character/Dmg_taken/Hit_1
+  - character/Dmg_taken/Hit_2
+  - character/Dmg_taken/Hit_3
+  - character/Dmg_taken/Hit_4
+  - character/Dmg_taken/Hit_5
+  - character/Dmg_taken/Hit_6
+  - character/Dmg_taken/Hit_7
+  attackSounds: []
+  deathSounds: []
   numberFootsteps: 5
-  numberAttacks: 5
+  numberWeaponAttacks: 5
   numberRolls: 6
+  numberSpells: 4
+  numberJumps: 6
+  numberBackstabs: 1
 --- !u!114 &1277793634251115024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3221,6 +3238,22 @@ PrefabInstance:
       propertyPath: wielder
       value: 
       objectReference: {fileID: 4416926081852918481}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.data[0]
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.data[1]
+      value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 2938432793520727664, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
+      propertyPath: targetsTags.Array.data[2]
+      value: MindControlled
+      objectReference: {fileID: 0}
     - target: {fileID: 5320520710714484002, guid: 4b0aaf8834e0bdb4e88f2f31beee040a, type: 3}
       propertyPath: m_RootOrder
       value: 5

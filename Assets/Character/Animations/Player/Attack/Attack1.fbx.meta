@@ -102,7 +102,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.7183098
-        functionName: AttackSound
+        functionName: WeaponAttackSound
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 050d19806f2d5ae458825baaca2dcaa5, type: 3}
         floatParameter: 0
