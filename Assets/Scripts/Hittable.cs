@@ -25,8 +25,7 @@ public class Hittable : MonoBehaviour
     {
         _damageable.ChangeHealth(-damage);
 
-        var isStaggered = false;
-        
+        bool isStaggered = false;
         if (_staggerable != null && _staggerable.enabled)
         {
             isStaggered = _staggerable.Stagger();
@@ -35,11 +34,8 @@ public class Hittable : MonoBehaviour
         if (_entitySounds != null)
             _entitySounds.GetHitSound(isStaggered ? 100 : hitSoundChance);
         
-
-        if(_enemy != null){
+        if (_enemy != null) {
             _enemy.SetFOV(720); //it's not the player
         }
     }
-    
-    
 }

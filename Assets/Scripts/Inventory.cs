@@ -1,111 +1,63 @@
-using System.Collections;
-using System.Collections.Generic;
-using StarterAssets;
-using UnityEngine;
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
-    private Dictionary<InvItem.ItemType, List<Item>> _items = new Dictionary<InvItem.ItemType, List<Item>>();
+    public Dictionary<Consumable, uint> Consumables { get; } = new Dictionary<Consumable, uint>();
+    public Dictionary<EquipmentSlot, List<Equipment>> Equipment { get; } = new Dictionary<EquipmentSlot, List<Equipment>>();
+    public Dictionary<EquipmentSlot, Equipment> Equipped { get; } = new Dictionary<EquipmentSlot, Equipment>();
 
-    public Dictionary<InvItem.ItemType, List<Item>> Items
+    private void Awake()
     {
-        get { return _items; }
-    }
-
-    private Item _equip_item_sword;
-    
-    public Item EquipItemSword
-    {
-        get { return _equip_item_sword; }
-        set { _equip_item_sword = value; }
-    }
-    
-    private Item _equip_item_armour;
-    
-    public Item EquipItemArmour
-    {
-        get { return _equip_item_armour; }
-        set { _equip_item_armour = value; }
-    }
-    
-    private bool _is_on = false;
-
-    [SerializeField]
-    private InventoryManager _inventory_manager;
-
-    // Start is called before the first frame update
-    void Start()
-    {   
-        _inventory_manager.gameObject.SetActive(false);
-        _inventory_manager.SetInventory(this);
-    }
-    
-    public void AddItem(GameObject item)
-    {
-        Item itemScript = item.GetComponent<Item>();
-        InvItem.ItemType itemType = itemScript.InvItem.itemType;
-        if (!_items.ContainsKey(itemType))
+        foreach (EquipmentSlot slot in Enum.GetValues(typeof(EquipmentSlot)))
         {
-            List<Item> catItemList = new List<Item>();
-            catItemList.Add(itemScript);
-            _items[itemType] = catItemList;
-        }
-        else
-        {
-            _items[itemType].Add(itemScript);
-        }
-        //Make it invisible after picking it up
-        item.SetActive(false);
-        if (_is_on)
-        {
-            _inventory_manager.ShowItems();
-        }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if (InputManager.GetButtonDown("OpenInventory"))
-        {
-            ToggleInventory();
-        }
-
-        if (_is_on)
-        {
-            if (Input.GetButtonDown("InvSortAll"))
-            {
-                _inventory_manager.ShowAllItems();
-            }
-            if (Input.GetButtonDown("InvSortConsumable"))
-            {
-                _inventory_manager.SetFilter("Sword");
-                _inventory_manager.ShowItems();
-            }
-            if (Input.GetButtonDown("InvSortSword"))
-            {
-                _inventory_manager.SetFilter("Potion");
-                _inventory_manager.ShowItems();
-            }
-            if (Input.GetButtonDown("InvSortArmour"))
-            {
-                _inventory_manager.SetFilter("Armour");
-                _inventory_manager.ShowItems();
-            }
-            if (Input.GetButtonDown("SelectItem"))
-            {
-                _inventory_manager.UseCurrentItem();
-            }
-            _inventory_manager.MoveCursor(Input.GetKeyDown(KeyCode.A), Input.GetKeyDown(KeyCode.D), Input.GetKeyDown(KeyCode.W), Input.GetKeyDown(KeyCode.S));
+            Equipment[slot] = new List<Equipment>();
+            Equipped[slot] = null;
         }
     }
 
-    void ToggleInventory()
+    public void AddItem(Item item, uint quantity = 1)
     {
-        _is_on = !_is_on;
-        if (_is_on) InputManager.CurrentActionType = ActionType.Menu;
-        else InputManager.CurrentActionType = ActionType.Game;
-        _inventory_manager.gameObject.SetActive(_is_on);
-        _inventory_manager.ShowAllItems();
+        switch (item)
+        {
+            case Consumable consumable when Consumables.ContainsKey(consumable):
+                Consumables[consumable] += quantity;
+                break;
+            case Consumable consumable:
+                Consumables[consumable] = quantity;
+                break;
+            case Equipment equipment:
+                for (uint _ = 0; _ < quantity; ++_)
+                    Equipment[equipment.slot].Add(equipment);
+                break;
+        }
     }
 
+    public void Equip(Equipment equipment)
+    {
+        Equipped[equipment.slot] = equipment;
+        equipment.Equip();
+    }
+
+    public void Unequip(EquipmentSlot slot)
+    {
+        Equipment equipment = Equipped[slot];
+        Equipped[slot] = null;
+        equipment.Unequip();
+    }
+
+    public void Use(Consumable consumable)
+    {
+        consumable.Use();
+        Consumables[consumable] -= 1;
+        if (Consumables[consumable] == 0) Consumables.Remove(consumable);
+    }
+
+    public float GetEquipmentStatBonus(StatName stat)
+    {
+        return Equipped.Values.Where(equipment => equipment != null).Sum(equipment => equipment.GetStatValue(stat));
+    }
 }

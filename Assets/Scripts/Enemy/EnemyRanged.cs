@@ -8,6 +8,7 @@ enum EnemyRangedState
     Recovering,
     Preparing
 }
+
 public class EnemyRanged : Enemy
 {
     [SerializeField] private float prepareTime = 3f;
@@ -27,7 +28,6 @@ public class EnemyRanged : Enemy
 
     private new void Update()
     {
-        
         if (backstabbed || gameObject.CompareTag("Dead")) return;
 
         if (_state == EnemyRangedState.NotAlert)
@@ -46,8 +46,8 @@ public class EnemyRanged : Enemy
             
             return;
         }
-        
-        var detectingPlayer = DetectTarget();
+
+        bool detectingPlayer = DetectTarget();
 
         if (detectingPlayer)
         {
@@ -62,7 +62,6 @@ public class EnemyRanged : Enemy
                     {
                         Prepare();
                     }
-
                     break;
                 }
             }
@@ -72,7 +71,7 @@ public class EnemyRanged : Enemy
             _state = EnemyRangedState.NotAlert;
         } // else, the enemy will keep preparing the shot, even if player goes out of the area
     }
-
+    
     protected override void ChangeTargetsMindControl(List<string> newTargets)
     {
         // TODO: enemy ranged should have list with target tags that it deals damage to
@@ -83,25 +82,25 @@ public class EnemyRanged : Enemy
     void Prepare()
     {
         Debug.Log("Preparing shot");
-        this._animator.SetTrigger("Aim");
+        _animator.SetTrigger("Aim");
         _state = EnemyRangedState.Preparing;
         _currentTime = prepareTime;
     }
 
-    void Shoot()
+    private void Shoot()
     {
         _currentTime = recoveryTime;
         _state = EnemyRangedState.Recovering;
-        
-        this._animator.SetTrigger("Shoot");
 
-        var shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
-        shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), mindControlled);
+        _animator.SetTrigger("Shoot");
+
+        GameObject shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
+        shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), (int) Stats.GetStatValue(StatName.Damage), mindControlled);
     }
 
     private void OnDrawGizmos()
     {
-        var iconPos = new Vector3(transform.position.x, transform.position.y + 2.5f, transform.position.z);
+        Vector3 iconPos = transform.position + Vector3.up * 2.5f;
         Gizmos.DrawIcon(iconPos, "Ranged.png", true);
     }
 

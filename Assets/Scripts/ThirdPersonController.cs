@@ -75,7 +75,6 @@ namespace StarterAssets
 		private Bar _staminaBarScript;
 
 		private Damageable _damageable;
-		private const int PlayerMaxHealth = 100;
 		private Attacker _attacker;
 		
 		// cinemachine
@@ -90,26 +89,23 @@ namespace StarterAssets
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
 
-		private float _maxStamina = 100.0f;
-
 		private float _stamina;
 		private float Stamina
 		{
 			get => _stamina;
 			set
 			{
-				_stamina = Mathf.Clamp(value, 0.0f, _maxStamina);
+				_stamina = Mathf.Clamp(value, 0f, _stats.GetStatValue(StatName.Stamina));
 				_staminaBarScript.SetValue(_stamina);
 			}
 		}
 
-		private const float StaminaUsageSprint = -15.0f;
-		private const float StaminaUsageJump = -20.0f;
-		private const float StaminaUsageRoll = -20.0f;
-		private const float StaminaRecovery = 20.0f;
-		private float StaminaNeededBeforeSprint;
+		private const float StaminaUsageSprint = -15f;
+		private const float StaminaUsageJump = -20f;
+		private const float StaminaUsageRoll = -20f;
+		private float _staminaNeededBeforeSprint;
 
-		// timeout deltatime
+		// timeout delta time
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
@@ -133,9 +129,10 @@ namespace StarterAssets
 		private bool _resurrecting;
 		private Animator _enemyToResurrect;
 
-		
+		private Stats _stats;
+
 		// Roll
-		// TODO: change so that roll is only invunerable in some frames
+		// TODO: change so that roll is only invulnerable in some frames
 		[Header("Roll")]
 		private bool _isRolling;
 
@@ -148,6 +145,20 @@ namespace StarterAssets
 
 		private int _inCheckpoint = -1;
 
+		private void Awake()
+		{
+			_stats = GetComponent<Stats>();
+			_stats.baseValues = new StatsDictionary()
+			{
+				{StatName.Health, 100f},
+				{StatName.Stamina, 100f},
+				{StatName.StaminaRecovery, 20f},
+				{StatName.Damage, 5f},
+				{StatName.Armor, 0f},
+				{StatName.Stability, 0f},
+			};
+		}
+
 		private void Start()
 		{
 			_hasAnimator = TryGetComponent(out _animator);
@@ -159,12 +170,12 @@ namespace StarterAssets
 			_backstabTargets = new List<GameObject>();
 
 			_damageable = GetComponent<Damageable>();
-			_damageable.InitializeMaxHealth(PlayerMaxHealth);
+			_damageable.InitializeMaxHealth((int) _stats.GetStatValue(StatName.Health));
 
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
-			_staminaBarScript.SetMaxValue(_maxStamina);
-			_staminaBarScript.SetValueInstantly(_maxStamina);
-			_stamina = _maxStamina;
+			_stamina = _stats.GetStatValue(StatName.Stamina);
+			_staminaBarScript.SetMaxValue(_stamina);
+			_staminaBarScript.SetValueInstantly(_stamina);
 
 			_isBackstabbing = false;
 			_resurrecting = false;
@@ -289,20 +300,22 @@ namespace StarterAssets
 			
 			bool sprint = InputManager.GetButton("Sprint");
 
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = (sprint && _stamina > StaminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
+			float targetSpeed = (sprint && _stamina > _staminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
+
 
 			if (Grounded && !_isRolling)
 			{
-				if (sprint && movement != Vector2.zero && _stamina > StaminaNeededBeforeSprint)
+				if (sprint && movement != Vector2.zero && _stamina > _staminaNeededBeforeSprint)
 				{
-					StaminaNeededBeforeSprint = 0;
+					_staminaNeededBeforeSprint = 0;
 					ChangeStamina(Time.deltaTime * StaminaUsageSprint);
-					if (Stamina <= 0.0f) StaminaNeededBeforeSprint = 25f;
+					if (Stamina <= 0.0f) _staminaNeededBeforeSprint = 25f;
 				}
 				else
 				{
-					ChangeStamina(Time.deltaTime * StaminaRecovery);
+					ChangeStamina(Time.deltaTime * _stats.GetStatValue(StatName.StaminaRecovery));
 				}
 			}
 			
@@ -388,10 +401,10 @@ namespace StarterAssets
 
 		public void BackstabAttack()
 		{
-			// TODO: change hardcoded damage
-			_currentTarget.GetComponent<Enemy>().Backstab(20);
+			// TODO: Add backstab modifier to weapon?
+			_currentTarget.GetComponent<Enemy>().Backstab(2 * (int) _stats.GetStatValue(StatName.Damage));
 		}
-		
+
 		public void EndRoll()
 		{
 			_isRolling = false;
@@ -507,6 +520,7 @@ namespace StarterAssets
 
 			if (_backstabTargets.Count > 0)
 			{
+				_currentTarget = null;
 				foreach (var target in _backstabTargets)
 				{
 					var dotProd = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);

@@ -1,60 +1,62 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using StarterAssets;
+
+[Serializable]
+public class ItemPickupDictionary : SerializableDictionary<Item, uint> { }
 
 public class Pickup : MonoBehaviour
 {
     private string _labelText;
 
-    private List<GameObject> _items;
+    [SerializeField] private ItemPickupDictionary items;
+    private Inventory _inventory;
 
-    private Inventory _inventoryScript;
-    // Start is called before the first frame update
-    void Start()
+    private bool _active;
+
+    private void Start()
     {
-        _inventoryScript = GetComponent<Inventory>();
-        _items = new List<GameObject>();
+        _inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         _labelText = "Hit E to pick up";
+        _active = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        if (!_active) return;;
+
         if (Input.GetButtonDown("Interact"))
         {
-                if (_items.Count > 0)
-                {
-                    if (_items[0] != null)
-                    {
-                        _inventoryScript.AddItem(_items[0]);
-                    }
-                    _items.RemoveAt(0);
-                }
+            foreach (Item item in items.Keys)
+            {
+                _inventory.AddItem(item, items[item]);
+            }
+            items.Clear();
+            Destroy(gameObject);
         }
     }
-    
+
     private void OnGUI()
     {
-        if (_items.Count > 0)
+        if (_active)
         {
-            GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),(_labelText));
+            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), _labelText);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Pickup"))
+        if (other.CompareTag("Player"))
         {
-            _items.Add(other.gameObject);
+            _active = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Pickup"))
+        if (other.CompareTag("Player"))
         {
-            _items.Remove(other.gameObject);
+            _active = false;
         }
     }
 }
