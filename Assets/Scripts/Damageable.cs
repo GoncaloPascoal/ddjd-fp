@@ -17,8 +17,8 @@ public abstract class Damageable : MonoBehaviour
         OnHealthChanged += () => healthBar.SetValue(Health);
     }
 
-    private int _maxHealth;
-    public int MaxHealth
+    private float _maxHealth;
+    public float MaxHealth
     {
         get => _maxHealth;
         protected set
@@ -28,8 +28,8 @@ public abstract class Damageable : MonoBehaviour
         }
     }
 
-    private int _health;
-    public int Health
+    private float _health;
+    public float Health
     {
         get => _health;
         private set
@@ -41,26 +41,26 @@ public abstract class Damageable : MonoBehaviour
 
     public event Action OnMaxHealthChanged = delegate { }, OnHealthChanged = delegate { };
 
-    public void ChangeHealth(int delta)
+    public void ChangeHealth(float delta)
     {
         if (_player != null && _player.IsRolling()) return;
         Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
         if (Health == 0) Die();
     }
 
-    public void AlwaysChangeHealth(int delta)
+    public void AlwaysChangeHealth(float delta)
     {
         Health = Mathf.Clamp(Health + delta, 0, MaxHealth);
         if (Health == 0) Die();
     }
 
-    public void ChangeMaxHealth(int delta)
+    public void ChangeMaxHealth(float delta)
     {
         MaxHealth = Mathf.Clamp(MaxHealth + delta, 0, MaxHealth);
         Health = Mathf.Clamp(Health, 0, MaxHealth);
     }
 
-    public void InitializeMaxHealth(int value)
+    public void InitializeMaxHealth(float value)
     {
         _maxHealth = value;
         _health = value;

@@ -42,7 +42,7 @@ public class FloatingSoulScript : MonoBehaviour
         if(_attacker != null) _attacker.enabled = true; //ranged enemy does not have an attacker
         _enemy.transform.Find("Backstab").gameObject.GetComponent<BoxCollider>().enabled = true;
         _damageable.enabled = true;
-        _damageable.ChangeHealth(_damageable.MaxHealth/2);
+        _damageable.ChangeHealth(_damageable.MaxHealth / 2);
         _attacker.EndAttack();
         _enemy.GetComponent<Enemy>().MindControl();
 

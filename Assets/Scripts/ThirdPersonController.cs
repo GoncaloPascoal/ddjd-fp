@@ -398,7 +398,7 @@ namespace StarterAssets
 		public void BackstabAttack()
 		{
 			// TODO: Add backstab modifier to weapon?
-			_currentTarget.GetComponent<Enemy>().Backstab(2 * (int) _stats.GetStatValue(StatName.Damage));
+			_currentTarget.GetComponent<Enemy>().Backstab(2 * _stats.GetStatValue(StatName.Damage));
 		}
 
 		public void EndRoll()

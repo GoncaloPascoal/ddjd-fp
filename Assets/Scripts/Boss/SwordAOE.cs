@@ -9,7 +9,7 @@ public class SwordAOE : MonoBehaviour
     [SerializeField] private float timeInterval = 1f;
     [SerializeField] private float distanceBetween = 2f;
     [SerializeField] private float duration = 2f;
-    [SerializeField] private int damage = 10;
+    [SerializeField] private float damage = 10;
     [SerializeField] private float damageRate = 1f;
     
     private int _numberOfBatches = 0;
@@ -18,11 +18,6 @@ public class SwordAOE : MonoBehaviour
     private bool _expanded = false;
 
     private float damageTime = 0f;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     public void InitializeWithDirection(Vector3 direction, int numberBatches)
     {
@@ -30,9 +25,7 @@ public class SwordAOE : MonoBehaviour
         _direction = direction;
     }
     
-    
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!_expanded && _numberOfBatches > 0 && _interval >= timeInterval)
         {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Hittable : MonoBehaviour
 {
     private Damageable _damageable;
+    private Stats _stats;
     private Enemy _enemy;
     private Animator _animator;
     private Staggerable _staggerable;
@@ -14,15 +15,17 @@ public class Hittable : MonoBehaviour
     
     private void Start()
     {
-        _animator = GetComponent<Animator>();
         _damageable = GetComponent<Damageable>();
+        _stats = GetComponent<Stats>();
+        _animator = GetComponent<Animator>();
         _enemy = GetComponent<Enemy>();
         _staggerable = GetComponent<Staggerable>();
         _entitySounds = GetComponent<EntitySounds>();
     }
 
-    public void Hit(int damage)
+    public void Hit(float damage)
     {
+        if (_stats != null) damage = Stats.CalculateReducedDamage(damage, _stats.GetStatValue(StatName.Armor));
         _damageable.ChangeHealth(-damage);
 
         bool isStaggered = false;
@@ -31,9 +34,8 @@ public class Hittable : MonoBehaviour
             isStaggered = _staggerable.Stagger();
         }
 
-        if (_entitySounds != null)
-            _entitySounds.GetHitSound(isStaggered ? 100 : hitSoundChance);
-        
+        if (_entitySounds != null) _entitySounds.GetHitSound(isStaggered ? 100 : hitSoundChance);
+
         if (_enemy != null) {
             _enemy.SetFOV(720); //it's not the player
         }

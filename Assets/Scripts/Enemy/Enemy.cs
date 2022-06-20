@@ -158,7 +158,7 @@ public abstract class Enemy : MonoBehaviour
                 Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
     }
 
-    public void Backstab(int damage)
+    public void Backstab(float damage)
     {
         backstabbed = true;
         _animator.SetBool("Backstab", true);
