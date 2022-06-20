@@ -1216,6 +1216,7 @@ GameObject:
   - component: {fileID: 3873376192940854281}
   - component: {fileID: 4208066854183962079}
   - component: {fileID: 1130811846664304391}
+  - component: {fileID: 9164252187900891314}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -1273,7 +1274,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8a8d83f1854cf99387b810c2e1b013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyMaxHealth: 40
   viewDistance: 5
   fieldOfView: 70
   chaseSpeed: 3
@@ -1413,6 +1413,27 @@ MonoBehaviour:
   deathSounds: []
   numberWeaponAttacks: 5
   numberFootsteps: 5
+--- !u!114 &9164252187900891314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4733572487229046735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb7cb6ea14247279102721baa1c19c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseValues:
+    m_keys: 000000000100000002000000030000000400000005000000
+    m_values:
+    - 40
+    - 0
+    - 0
+    - 20
+    - 10
+    - 5
 --- !u!1 &5069041362607205264
 GameObject:
   m_ObjectHideFlags: 0

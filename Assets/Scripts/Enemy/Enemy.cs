@@ -10,12 +10,10 @@ public abstract class Enemy : MonoBehaviour
 {
     public static event Action<Enemy> OnEnemyCreated = delegate { };
 
+    protected Stats Stats;
+    private Hittable _hittable;
     private Damageable _damageable;
-    
-    
-    [SerializeField] private int EnemyMaxHealth = 40;
 
-    protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
     protected float initialFOV;
@@ -23,17 +21,18 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float chaseSpeed = 3f;
     [SerializeField] protected float walkSpeed = 1.5f;
     [SerializeField] protected float chaseCooldown = 5f;
-    
+
     [SerializeField] protected Transform _spawn;
     protected Quaternion InitialOrientation;
 
     protected Transform PlayerTransform;
-    protected ThirdPersonController playerTPC;
-    
+    protected ThirdPersonController Player;
+
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
     public bool backstabbed { get; private set; }
+    protected bool mindControlled;
     public float speedChangeRate = 10.0f;
 
     protected Animator _animator;
@@ -43,12 +42,15 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Start()
     {
+        Stats = GetComponent<Stats>();
+        _hittable = GetComponent<Hittable>();
         _damageable = GetComponent<Damageable>();
-        _damageable.InitializeMaxHealth(EnemyMaxHealth);
+        _damageable.InitializeMaxHealth((int) Stats.GetStatValue(StatName.Health));
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
-        playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
+        
+        Player = PlayerTransform.GetComponent<ThirdPersonController>();
 
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
@@ -78,7 +80,7 @@ public abstract class Enemy : MonoBehaviour
         if (Vector3.Angle(transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
             return false;
         
-        //  and no obstacles in the way
+        // and no obstacles in the way
         if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
         {
             if (!mindControlled)
@@ -94,7 +96,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Vector3 GetTargetPos()
     {
-        var headPos = playerTPC.playerHeadTransform.position;
+        var headPos = Player.playerHeadTransform.position;
         var playerPos = 
             new Vector3(headPos.x, headPos.y - 0.5f,
                 headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
@@ -118,7 +120,7 @@ public abstract class Enemy : MonoBehaviour
         return playerPos;
     }
 
-    Transform GetClosestWithTags(List<String> tags)
+    private Transform GetClosestWithTags(List<string> tags)
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -145,7 +147,7 @@ public abstract class Enemy : MonoBehaviour
     {
         fieldOfView = fov;
     }
-    
+
     protected void LookAtTarget()
     {
         Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
@@ -160,7 +162,7 @@ public abstract class Enemy : MonoBehaviour
     {
         backstabbed = true;
         _animator.SetBool("Backstab", true);
-        _damageable.ChangeHealth(-damage);
+        _hittable.Hit(damage);
     }
 
     public void EndBackstab()
@@ -184,7 +186,7 @@ public abstract class Enemy : MonoBehaviour
 
         healthBar.transform.SetParent(canvas.transform);
         healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
-        var follow = healthBar.AddComponent<FollowTarget>();
+        FollowTarget follow = healthBar.AddComponent<FollowTarget>();
         follow.target = transform;
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
     }
