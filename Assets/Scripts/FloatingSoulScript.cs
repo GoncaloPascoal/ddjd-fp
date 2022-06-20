@@ -14,8 +14,8 @@ public class FloatingSoulScript : MonoBehaviour
     [SerializeField] private Bar _bar;
     [SerializeField] private float resurrectionTime = 10f;
     private DamageableEnemy _damageable;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         _enemy = gameObject.transform.parent.gameObject;
         _enemyAnimator = _enemy.GetComponent<Animator>();
@@ -24,14 +24,13 @@ public class FloatingSoulScript : MonoBehaviour
         _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         resurrectionTime -= Time.deltaTime;
         if (resurrectionTime <= 0)
         {
             _damageable.DeleteAnimator();
-            _damageable.DeleteComps();
+            _damageable.DeleteComponents();
             Destroy(gameObject);
         }
     }

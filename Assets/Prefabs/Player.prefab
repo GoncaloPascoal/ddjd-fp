@@ -1262,7 +1262,6 @@ MonoBehaviour:
   CameraAngleOverride: 0
   LockCameraPosition: 0
   backstabAngleOffset: 0.95
-  staminaBar: {fileID: 0}
 --- !u!114 &5885216827943657505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1512,8 +1511,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseValues:
-    m_keys: 
-    m_values: []
+    m_keys: 000000000100000002000000030000000400000005000000
+    m_values:
+    - 100
+    - 100
+    - 20
+    - 5
+    - 0
+    - 0
 --- !u!1 &4552572167694909163
 GameObject:
   m_ObjectHideFlags: 0
