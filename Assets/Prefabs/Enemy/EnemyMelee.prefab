@@ -1273,7 +1273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8a8d83f1854cf99387b810c2e1b013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
   viewDistance: 5
   fieldOfView: 70
   chaseSpeed: 3
@@ -1405,7 +1404,7 @@ MonoBehaviour:
     - 40
     - 0
     - 0
-    - 10
+    - 20
     - 10
     - 5
 --- !u!1 &5069041362607205264

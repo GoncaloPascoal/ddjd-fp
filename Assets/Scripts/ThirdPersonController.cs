@@ -74,7 +74,6 @@ namespace StarterAssets
 		private Bar _staminaBarScript;
 
 		private Damageable _damageable;
-		private const int PlayerMaxHealth = 100;
 		private Attacker _attacker;
 		
 		// cinemachine
@@ -88,8 +87,6 @@ namespace StarterAssets
 		private float _rotationVelocity;
 		private float _verticalVelocity;
 		private float _terminalVelocity = 53.0f;
-
-		private const float BaseMaxStamina = 100f;
 
 		private float _stamina;
 		private float Stamina
@@ -105,10 +102,9 @@ namespace StarterAssets
 		private const float StaminaUsageSprint = -15f;
 		private const float StaminaUsageJump = -20f;
 		private const float StaminaUsageRoll = -20f;
-		private const float BaseStaminaRecovery = 20f;
 		private float _staminaNeededBeforeSprint;
 
-		// timeout deltatime
+		// timeout delta time
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
@@ -150,9 +146,9 @@ namespace StarterAssets
 			_stats = GetComponent<Stats>();
 			_stats.baseValues = new StatsDictionary()
 			{
-				{StatName.Health, PlayerMaxHealth},
-				{StatName.Stamina, BaseMaxStamina},
-				{StatName.StaminaRecovery, BaseStaminaRecovery},
+				{StatName.Health, 100f},
+				{StatName.Stamina, 100f},
+				{StatName.StaminaRecovery, 20f},
 				{StatName.Damage, 5f},
 				{StatName.Armor, 0f},
 				{StatName.Stability, 0f},
@@ -168,7 +164,7 @@ namespace StarterAssets
 			_backstabTargets = new List<GameObject>();
 
 			_damageable = GetComponent<Damageable>();
-			_damageable.InitializeMaxHealth(PlayerMaxHealth);
+			_damageable.InitializeMaxHealth((int) _stats.GetStatValue(StatName.Health));
 
 			_staminaBarScript = staminaBar.GetComponent<Bar>();
 			_stamina = _stats.GetStatValue(StatName.Stamina);

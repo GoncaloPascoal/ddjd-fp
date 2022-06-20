@@ -1167,7 +1167,7 @@ GameObject:
   - component: {fileID: 2478567705012085936}
   - component: {fileID: 8740794697415286337}
   - component: {fileID: 8469139557399397877}
-  - component: {fileID: 2277244949220677337}
+  - component: {fileID: 1277793634251115024}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1482,7 +1482,7 @@ MonoBehaviour:
   numberFootsteps: 5
   numberAttacks: 5
   numberRolls: 6
---- !u!114 &2277244949220677337
+--- !u!114 &1277793634251115024
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1491,7 +1491,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4416926081852918481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afb7cb6ea14247279102721baa1c19c5, type: 3}
+  m_Script: {fileID: 11500000, guid: b2b54437f6454ed3a0a56f74a47f9591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   baseValues:

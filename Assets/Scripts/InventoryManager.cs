@@ -36,7 +36,7 @@ public class InventoryManager : MonoBehaviour
     private List<EquipmentDisplay> _equipmentDisplays;
 
     private Stats _playerStats;
-    
+
     private void Start()
     {
         GameObject playerObj = GameObject.FindWithTag("Player");

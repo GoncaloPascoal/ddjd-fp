@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
 {
     public static event Action<Enemy> OnEnemyCreated = delegate { };
 
-    private Stats _stats;
+    protected Stats Stats;
     private Damageable _damageable;
 
     [SerializeField] protected float viewDistance = 5f;
@@ -38,9 +38,9 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Start()
     {
-        _stats = GetComponent<Stats>();
+        Stats = GetComponent<Stats>();
         _damageable = GetComponent<Damageable>();
-        _damageable.InitializeMaxHealth((int) _stats.GetStatValue(StatName.Health));
+        _damageable.InitializeMaxHealth((int) Stats.GetStatValue(StatName.Health));
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
         PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
