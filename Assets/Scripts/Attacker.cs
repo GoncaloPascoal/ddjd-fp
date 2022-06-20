@@ -1,37 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
+    [SerializeField] private List<string> attackingStates;
+    [SerializeField] private Weapon weapon;
+
     private Animator _animator;
-    
-    [SerializeField]
-    private List<string> attackingStates;
-    
-    [SerializeField]
-    private Weapon weapon;
 
     private bool _bufferedAttack = false;
 
     private bool _isAttacking = false;
     private bool _isStartingAttacking = false;
-    
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
         _animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void StartAttack()
     {
-        Debug.Log("start attack");
         _animator.SetBool("AttackNormal", false);
         _isStartingAttacking = true;
     }
@@ -43,7 +33,6 @@ public class Attacker : MonoBehaviour
 
     public void EndAttack()
     {
-        Debug.Log("EndAttack called");
         if (_bufferedAttack)
         {
             weapon.Attack();
@@ -53,7 +42,6 @@ public class Attacker : MonoBehaviour
         }
         else
         {
-            // Debug.Log("ENDING");
             _isAttacking = false;
             weapon.DisableCollider();
             _animator.applyRootMotion = false;
@@ -62,10 +50,8 @@ public class Attacker : MonoBehaviour
 
     public void Attack()
     {
-        //Debug.Log("Normal Attack");
+        AnimatorStateInfo animatorState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        var animatorState = _animator.GetCurrentAnimatorStateInfo(0);
-        
         // if already attacking, buffer next attack if the attack animation if at least half-way through
         if (IsAttacking())
         {
@@ -90,8 +76,7 @@ public class Attacker : MonoBehaviour
     {
         if (IsAttacking())
             return;
-        
-        
+
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
         _isAttacking = true;
@@ -106,21 +91,11 @@ public class Attacker : MonoBehaviour
 
     public bool IsStartingAttack()
     {
-        if (_isAttacking)
-        {
-            return _isStartingAttacking;
-        }
-
-        return false;
+        return _isAttacking && _isStartingAttacking;
     }
 
     private bool InAttackingState(AnimatorStateInfo stateInfo)
     {
-        foreach (var state in attackingStates)
-        {
-            if (stateInfo.IsName(state))
-                return true;
-        }
-        return false;
+        return attackingStates.Any(stateInfo.IsName);
     }
 }
