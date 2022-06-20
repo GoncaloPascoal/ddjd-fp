@@ -14,19 +14,13 @@ public class ProjectileSpell : MonoBehaviour
     [SerializeField] private float timeBeforePosition;
     [SerializeField] private float intoPositionSpeed = 10f;
     [SerializeField] private float shootSpeed = 20f;
-    [SerializeField] private int damage = 10;
+    [SerializeField] private float damage = 10f;
 
     private GameObject _target;
     private Vector3 _shootDirection;
 
     private float _timePassed = 0f;
     private bool _shot = false;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public void InitializeWithPositionTarget(Vector3 position, GameObject target, float timeBeforeShoot)
     {
@@ -35,8 +29,7 @@ public class ProjectileSpell : MonoBehaviour
         _timeBeforeShoot = timeBeforeShoot + timeBeforePosition;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_shot)
         {

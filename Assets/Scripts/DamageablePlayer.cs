@@ -24,7 +24,7 @@ public class DamageablePlayer : Damageable
         while (true)
         {
             yield return new WaitForSeconds(0.25f);
-            MaxHealth = (int) _playerStats.GetStatValue(StatName.Health);
+            MaxHealth = _playerStats.GetStatValue(StatName.Health);
         }
     }
 
