@@ -35,12 +35,12 @@ public class InventoryManager : MonoBehaviour
 
     private List<EquipmentDisplay> _equipmentDisplays;
 
-    private ThirdPersonController _player;
+    private Stats _playerStats;
     
     private void Start()
     {
         GameObject playerObj = GameObject.FindWithTag("Player");
-        _player = playerObj.GetComponent<ThirdPersonController>();
+        _playerStats = playerObj.GetComponent<Stats>();
         _inventory = playerObj.GetComponent<Inventory>();
 
         _visible = false;
@@ -150,7 +150,7 @@ public class InventoryManager : MonoBehaviour
         {
             GameObject obj = playerStatDisplays.transform.GetChild(i).gameObject;
             StatDisplay display = obj.GetComponent<StatDisplay>();
-            display.SetValue(_player.GetStatValue(display.stat));
+            display.SetValue(_playerStats.GetStatValue(display.stat));
         }
     }
 

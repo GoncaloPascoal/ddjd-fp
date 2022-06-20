@@ -5,37 +5,32 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] 
-    private int baseDamage;
-    
     private BoxCollider _collider;
 
     [SerializeField] 
     private GameObject wielder;
-
+    private Stats _wielderStats;
     private Animator _wielderAnimator;
 
-    private List<GameObject> _alreadyHit;
+    private readonly ISet<GameObject> _alreadyHit = new HashSet<GameObject>();
 
     private void Start()
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
-        _wielderAnimator = wielder.GetComponent<Animator>();
-        _alreadyHit = new List<GameObject>();
-    }
 
-    private void Update()
-    {
+        _wielderStats = wielder.GetComponent<Stats>();
+        _wielderAnimator = wielder.GetComponent<Animator>();
+        _alreadyHit.Clear();
     }
 
     public void Attack()
     {
         _collider.enabled = true;
-        _alreadyHit = new List<GameObject>();
+        _alreadyHit.Clear();
     }
 
-    public void DisableColider()
+    public void DisableCollider()
     {
         _collider.enabled = false;
     }
@@ -47,18 +42,13 @@ public class Weapon : MonoBehaviour
         // and enemies cannot hit each other)
         if (wielder.transform.root != obstacle.gameObject.transform.root)
         {
-            var hittable = obstacle.GetComponentInParent<Hittable>();
+            Hittable hittable = obstacle.GetComponentInParent<Hittable>();
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
             {
-                hittable.Hit(baseDamage);
+                hittable.Hit((int) _wielderStats.GetStatValue(StatName.Damage));
                 _alreadyHit.Add(obstacle.gameObject.transform.root.gameObject);
             }
         }
-    }
-
-    public void ResetAlreadyHit()
-    {
-        _alreadyHit = new List<GameObject>();
     }
 
     private void OnTriggerEnter(Collider other)

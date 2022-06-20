@@ -1,5 +1,6 @@
 
 using System;
+using UnityEngine;
 
 public enum StatName
 {
@@ -14,8 +15,12 @@ public enum StatName
 [Serializable]
 public class StatsDictionary : SerializableDictionary<StatName, float> { }
 
-[Serializable]
-public class Stats
+public class Stats : MonoBehaviour
 {
-    public StatsDictionary values;
+    public StatsDictionary baseValues;
+
+    public virtual float GetStatValue(StatName stat)
+    {
+        return baseValues[stat];
+    }
 }
