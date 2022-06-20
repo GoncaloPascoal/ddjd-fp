@@ -55,7 +55,7 @@ public class Attacker : MonoBehaviour
         {
             // Debug.Log("ENDING");
             _isAttacking = false;
-            weapon.DisableColider();
+            weapon.DisableCollider();
             _animator.applyRootMotion = false;
         }
     }
@@ -69,7 +69,7 @@ public class Attacker : MonoBehaviour
         // if already attacking, buffer next attack if the attack animation if at least half-way through
         if (IsAttacking())
         {
-            if (inAttackingState(animatorState) && animatorState.normalizedTime > 0.2f)
+            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.2f)
             {
                 _bufferedAttack = true;
                 _animator.SetBool("AttackNormal", true);
@@ -114,12 +114,7 @@ public class Attacker : MonoBehaviour
         return false;
     }
 
-    public void ResetAlreadyHit()
-    {
-        weapon.ResetAlreadyHit();
-    }
-
-    private bool inAttackingState(AnimatorStateInfo stateInfo)
+    private bool InAttackingState(AnimatorStateInfo stateInfo)
     {
         foreach (var state in attackingStates)
         {

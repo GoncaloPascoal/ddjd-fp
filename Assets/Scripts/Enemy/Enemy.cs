@@ -10,12 +10,9 @@ public abstract class Enemy : MonoBehaviour
 {
     public static event Action<Enemy> OnEnemyCreated = delegate { };
 
+    private Stats _stats;
     private Damageable _damageable;
-    
-    
-    [SerializeField] private int EnemyMaxHealth = 40;
 
-    protected bool mindControlled;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
     protected float initialFOV;
@@ -23,29 +20,31 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected float chaseSpeed = 3f;
     [SerializeField] protected float walkSpeed = 1.5f;
     [SerializeField] protected float chaseCooldown = 5f;
-    
+
     [SerializeField] protected Transform _spawn;
     protected Quaternion InitialOrientation;
 
     protected Transform PlayerTransform;
-    protected ThirdPersonController playerTPC;
-    
+    protected ThirdPersonController Player;
+
     protected NavMeshAgent NavMeshAgent;
 
     protected float AnimationBlend;
     public bool backstabbed { get; private set; }
+    protected bool mindControlled;
     public float speedChangeRate = 10.0f;
 
     protected Animator _animator;
 
     protected void Start()
     {
+        _stats = GetComponent<Stats>();
         _damageable = GetComponent<Damageable>();
-        _damageable.InitializeMaxHealth(EnemyMaxHealth);
+        _damageable.InitializeMaxHealth((int) _stats.GetStatValue(StatName.Health));
 
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        PlayerTransform = GameObject.Find("PlayerArmature").GetComponent<Transform>();
-        playerTPC = PlayerTransform.GetComponent<ThirdPersonController>();
+        PlayerTransform = GameObject.FindWithTag("Player").GetComponent<Transform>();
+        Player = PlayerTransform.GetComponent<ThirdPersonController>();
 
         _spawn.position = transform.position;
         InitialOrientation = transform.rotation;
@@ -75,7 +74,7 @@ public abstract class Enemy : MonoBehaviour
         if (Vector3.Angle(transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
             return false;
         
-        //  and no obstacles in the way
+        // and no obstacles in the way
         if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
         {
             if (!mindControlled)
@@ -92,7 +91,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected Vector3 GetTargetPos()
     {
-        var headPos = playerTPC.playerHeadTransform.position;
+        var headPos = Player.playerHeadTransform.position;
         var playerPos = 
             new Vector3(headPos.x, headPos.y - 0.5f,
                 headPos.z); // TODO: If the y position is too high, enemy aggro messes up and if the player stays still and a melee enemy gets near, the melee enemy slides inside the player
@@ -109,7 +108,7 @@ public abstract class Enemy : MonoBehaviour
         return playerPos;
     }
 
-    Transform GetClosestWithTags(List<String> tags)
+    private Transform GetClosestWithTags(List<string> tags)
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
@@ -132,11 +131,11 @@ public abstract class Enemy : MonoBehaviour
         return bestTarget;
     }
 
-    public void setFOV(float fov)
+    public void SetFOV(float fov)
     {
         fieldOfView = fov;
     }
-    
+
     protected void LookAtTarget()
     {
         Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,

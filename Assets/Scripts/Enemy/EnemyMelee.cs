@@ -108,7 +108,7 @@ public class EnemyMelee : Enemy
                 {
                     NavMeshAgent.speed = 0f;
                     transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
-                    setFOV(initialFOV);
+                    SetFOV(initialFOV);
                 }
             }
         }
