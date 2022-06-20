@@ -78,15 +78,15 @@ public class Projectile : MonoBehaviour
         if ((playerLayers.value & (1 << other.gameObject.layer)) > 0 || 
             (_mindControl && (enemyLayers.value & (1 << other.gameObject.layer)) > 0))
         {
-            Damageable damageable = other.gameObject.GetComponent<Damageable>();
+            Hittable hittable = other.gameObject.GetComponent<Hittable>();
 
-            if (damageable == null)
+            if (hittable == null)
             {
-                Debug.LogWarning("Projectile collided with entity, but it doesn't have a Damageable component!");
+                Debug.LogWarning("Projectile collided with entity, but it doesn't have a Hittable component!");
             }
             else
             {
-                damageable.ChangeHealth(-_damage);
+                hittable.Hit(_damage);
             }
             Destroy(gameObject);
         }

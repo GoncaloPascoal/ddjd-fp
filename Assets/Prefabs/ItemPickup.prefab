@@ -109,6 +109,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items:
-    m_keys:
-    - {fileID: 11400000, guid: e977d5467fad60b4b87224caab9a4113, type: 2}
-    m_values: 01000000
+    m_keys: []
+    m_values: 

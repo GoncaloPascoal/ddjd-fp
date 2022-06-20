@@ -11,6 +11,7 @@ public abstract class Enemy : MonoBehaviour
     public static event Action<Enemy> OnEnemyCreated = delegate { };
 
     protected Stats Stats;
+    private Hittable _hittable;
     private Damageable _damageable;
 
     [SerializeField] protected float viewDistance = 5f;
@@ -42,6 +43,7 @@ public abstract class Enemy : MonoBehaviour
     protected void Start()
     {
         Stats = GetComponent<Stats>();
+        _hittable = GetComponent<Hittable>();
         _damageable = GetComponent<Damageable>();
         _damageable.InitializeMaxHealth((int) Stats.GetStatValue(StatName.Health));
 
@@ -160,7 +162,7 @@ public abstract class Enemy : MonoBehaviour
     {
         backstabbed = true;
         _animator.SetBool("Backstab", true);
-        _damageable.ChangeHealth(-damage);
+        _hittable.Hit(damage);
     }
 
     public void EndBackstab()
@@ -184,7 +186,7 @@ public abstract class Enemy : MonoBehaviour
 
         healthBar.transform.SetParent(canvas.transform);
         healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
-        var follow = healthBar.AddComponent<FollowTarget>();
+        FollowTarget follow = healthBar.AddComponent<FollowTarget>();
         follow.target = transform;
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
     }
