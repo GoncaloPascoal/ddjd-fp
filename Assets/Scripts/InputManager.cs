@@ -8,7 +8,7 @@ public enum ActionType
       Menu,
 }
 
-public class InputManager
+public static class InputManager
 {
       private static readonly Dictionary<ActionType, ISet<string>> ActionsByType =
       new Dictionary<ActionType, ISet<string>> {

@@ -1162,12 +1162,12 @@ GameObject:
   - component: {fileID: 1838161622610248769}
   - component: {fileID: 4416926081852918493}
   - component: {fileID: 423026774712006885}
-  - component: {fileID: -4521213889600835716}
   - component: {fileID: 8896355497579845234}
   - component: {fileID: 2478567705012085936}
   - component: {fileID: 8740794697415286337}
   - component: {fileID: 8469139557399397877}
-  - component: {fileID: 1277793634251115024}
+  - component: {fileID: 1637313959924911889}
+  - component: {fileID: 1584211284754336485}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1416,19 +1416,6 @@ MonoBehaviour:
   - Attack2
   - Attack3
   weapon: {fileID: 5331836338879897050}
---- !u!114 &-4521213889600835716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffaa419cc41d0eb489e72393c4798c36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _inventory_manager: {fileID: 0}
 --- !u!114 &8896355497579845234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1456,6 +1443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitSoundChance: 50
 --- !u!114 &8740794697415286337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,7 +1487,19 @@ MonoBehaviour:
   numberSpells: 4
   numberJumps: 6
   numberBackstabs: 1
---- !u!114 &1277793634251115024
+--- !u!114 &1637313959924911889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffaa419cc41d0eb489e72393c4798c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1584211284754336485
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

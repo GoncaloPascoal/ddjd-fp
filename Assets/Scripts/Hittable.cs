@@ -25,8 +25,7 @@ public class Hittable : MonoBehaviour
     {
         _damageable.ChangeHealth(-damage);
 
-        var isStaggered = false;
-        
+        bool isStaggered = false;
         if (_staggerable != null && _staggerable.enabled)
         {
             isStaggered = _staggerable.Stagger();
