@@ -12,6 +12,6 @@ public static class GameData
     {
         {1, 1}
     };
-    
+
     public static bool InCheckpoint = false;
 }
