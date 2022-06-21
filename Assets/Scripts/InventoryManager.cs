@@ -190,6 +190,7 @@ public class InventoryManager : MonoBehaviour
                 if (equipment.GetStatValue(display.stat) != 0)
                 {
                     display.SetValue(equipment.GetStatValue(display.stat));
+                    obj.SetActive(true);
                 }
                 else
                 {

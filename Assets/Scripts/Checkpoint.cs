@@ -7,21 +7,19 @@ using UnityEngine;
 public class Checkpoint : MonoBehaviour
 {
     [SerializeField] private int checkpointNumber = 1;
-    
+
     private bool _playerInRange;
     private ThirdPersonController _player;
 
     private LevelChanger _levelChanger;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
         _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (InputManager.GetButtonDown("Interact"))
         {
@@ -40,33 +38,25 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            _playerInRange = true;
-        }
+        if (other.CompareTag("Player")) _playerInRange = true;
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (!_playerInRange && other.CompareTag("Player"))
-            _playerInRange = true;
+        if (!_playerInRange && other.CompareTag("Player")) _playerInRange = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            _playerInRange = false;
-        }
+        if (other.CompareTag("Player")) _playerInRange = false;
     }
 
-    // TODO: change this 
+    // TODO: change this
     private void OnGUI()
     {
         if (_playerInRange && !_player.IsInCheckpoint())
             GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to pray"));
         else if (_player.IsInCheckpoint())
             GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to stand up"));
-        
     }
 }
