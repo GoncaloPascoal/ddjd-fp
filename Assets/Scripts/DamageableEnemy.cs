@@ -5,15 +5,13 @@ using UnityEngine;
 public class DamageableEnemy : Damageable
 {
     private Animator _animator;
-    protected GameObject _souls;
+    private GameObject _souls;
     private Attacker _attacker;
     private Hittable _hittable;
     private BoxCollider _backstab;
     private bool _alreadyDied;
 
-
-
-    private new void Start()
+    protected override void Start()
     {
         base.Start();
         _animator = GetComponent<Animator>();
@@ -24,9 +22,9 @@ public class DamageableEnemy : Damageable
         _alreadyDied = false;
     }
 
-    public void DeleteComps()
+    public void DeleteComponents()
     {
-        foreach (var comp in GetComponents(typeof(Component)))
+        foreach (Component comp in GetComponents(typeof(Component)))
         {
             if (comp != _animator && comp != transform && comp != this)
             {
@@ -34,8 +32,8 @@ public class DamageableEnemy : Damageable
             }
         }
 
-        // make the ragdoll rigidbodies not kinematic
-        foreach (var rb in GetComponentsInChildren<Rigidbody>())
+        // Make ragdoll rigidbodies not kinematic
+        foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
         {
             rb.isKinematic = false;
         }
@@ -50,7 +48,7 @@ public class DamageableEnemy : Damageable
     
     protected override void Die()
     {
-        var enemy = GetComponent<Enemy>();
+        Enemy enemy = GetComponent<Enemy>();
         if (enemy.backstabbed)
         {
             RestoreToMaxHealth();
@@ -60,16 +58,15 @@ public class DamageableEnemy : Damageable
         {
             if (_alreadyDied)
             {
-                DeleteComps();
+                DeleteComponents();
             }
             else
             {
-                foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+                foreach (Component comp in GetComponents(typeof(CapsuleCollider)))
                 {
                     ((CapsuleCollider) comp).enabled = false;
-                }   
+                }
             }
-            
 
             _animator.applyRootMotion = true;
             _animator.SetTrigger("Die");
@@ -89,16 +86,15 @@ public class DamageableEnemy : Damageable
             _hittable.enabled = false;
             if(_attacker != null) _attacker.enabled = false; // ranged enemy does not have the attacker script
             _backstab.enabled = false;
-            foreach (var comp in GetComponents(typeof(CapsuleCollider)))
+            foreach (Component comp in GetComponents(typeof(CapsuleCollider)))
             {
                 ((CapsuleCollider) comp).enabled = false;
             }
 
-
             enabled = false;
             return;
         }
-        
+
         DeleteAnimator();
     }
 }

@@ -12,7 +12,7 @@ public class Bar : MonoBehaviour
     private float _targetValue, _updateRate;
     private const float Epsilon = 0.01f;
     
-    private void Awake()
+    protected virtual void Awake()
     {
         _slider = GetComponentInChildren<Slider>();
         _targetValue = _slider.value;
@@ -27,7 +27,7 @@ public class Bar : MonoBehaviour
         }
     }
 
-    public void SetMaxValue(float maxValue)
+    public virtual void SetMaxValue(float maxValue)
     {
         _slider.maxValue = maxValue;
         _slider.value = Math.Min(_slider.value, maxValue);

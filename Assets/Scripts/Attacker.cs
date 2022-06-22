@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Attacker : MonoBehaviour
 {
-
     [SerializeField] private List<string> attackingStates;
     [SerializeField] protected Weapon weapon;
 
