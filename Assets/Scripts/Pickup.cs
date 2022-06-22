@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,8 @@ public class ItemPickupDictionary : SerializableDictionary<Item, uint> { }
 
 public class Pickup : MonoBehaviour
 {
-    private string _labelText;
+    private static readonly string[] PromptButtons = { "E", "(A)" };
+    private const string PromptAction = "Pick Up Item";
 
     [SerializeField] private ItemPickupDictionary items;
     private Inventory _inventory;
@@ -17,16 +19,17 @@ public class Pickup : MonoBehaviour
     private void Start()
     {
         _inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-        _labelText = "Hit E to pick up";
         _active = false;
     }
 
     private void Update()
     {
-        if (!_active) return;;
+        if (!_active) return;
 
         if (Input.GetButtonDown("Interact"))
         {
+            HUD.Instance.HideButtonPrompt();
+            HUD.Instance.ShowItemPickup(items);
             foreach (Item item in items.Keys)
             {
                 _inventory.AddItem(item, items[item]);
@@ -36,19 +39,12 @@ public class Pickup : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        if (_active)
-        {
-            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), _labelText);
-        }
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             _active = true;
+            HUD.Instance.ShowButtonPrompt(PromptButtons, PromptAction);
         }
     }
 
@@ -57,6 +53,7 @@ public class Pickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _active = false;
+            HUD.Instance.HideButtonPrompt();
         }
     }
 }

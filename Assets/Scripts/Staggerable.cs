@@ -4,49 +4,46 @@ using UnityEngine;
 
 public class Staggerable : MonoBehaviour
 {
+    [SerializeField] private float stabilityRegeneration = 10f;
+
     private Attacker _attacker;
     private Animator _animator;
+    private Stats _stats;
 
-    [SerializeField] private float superArmorMax = 100f;
-    [SerializeField] private float superArmorReductionPerHit = 30f;
-    [SerializeField] private float superArmorRegenPerSecond = 5f;
-    private float _currentSuperArmor;
+    private float _stability;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
         _attacker = GetComponent<Attacker>();
-        _currentSuperArmor = superArmorMax;
+        _stats = GetComponent<Stats>();
+
+        _stability = MaxStability;
     }
 
-    // Update is called once per frame
-    void Update()
+    private float MaxStability => _stats.GetStatValue(StatName.Stability);
+
+    private void Update()
     {
-        float regen = superArmorRegenPerSecond * Time.deltaTime;
-        _currentSuperArmor += regen;
-        if (_currentSuperArmor > superArmorMax)
-            _currentSuperArmor = superArmorMax;
+        _stability = Mathf.Min(MaxStability, _stability + stabilityRegeneration * Time.deltaTime);
     }
 
-    public bool isStaggered()
+    public bool IsStaggered()
     {
         return _animator.GetCurrentAnimatorStateInfo(0).IsName("Stagger");
     }
-    
-    public bool Stagger()
-    {
-        _currentSuperArmor -= superArmorReductionPerHit;
-        Debug.Log(_currentSuperArmor);
-        if (_currentSuperArmor <= 0)
-        {
-            _animator.SetTrigger("Stagger");
-            _currentSuperArmor = superArmorMax;
-            return true;
-        }
 
-        return false;
+    public bool Stagger(float damage)
+    {
+        _stability -= damage;
+
+        if (_stability > 0) return false;
+
+        _animator.SetTrigger("Stagger");
+        _stability = MaxStability;
+        return true;
     }
-    
+
     public void StopStagger()
     {
         _animator.SetBool("WillNotStagger",true);
@@ -57,7 +54,7 @@ public class Staggerable : MonoBehaviour
         _animator.SetBool("WillNotStagger",false);
         _animator.ResetTrigger("Stagger");
     }
-    
+
     public void ActivateStagger()
     {
         _attacker.EndAttack();

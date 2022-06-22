@@ -5,7 +5,7 @@ using StarterAssets;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 
-public class FloatingSoulScript : MonoBehaviour
+public class FloatingSoul : MonoBehaviour
 {
     private GameObject _enemy;
     private Animator _enemyAnimator;
@@ -14,9 +14,14 @@ public class FloatingSoulScript : MonoBehaviour
     [SerializeField] private Bar _bar;
     [SerializeField] private float resurrectionTime = 10f;
     private DamageableEnemy _damageable;
-    // Start is called before the first frame update
-    void Start()
+
+    private static readonly string[] PromptButtons = { "E", "(A)" };
+    private const string PromptAction = "Resurrect the Dead";
+    private bool _promptEnabled;
+
+    private void Start()
     {
+        _promptEnabled = true;
         _enemy = gameObject.transform.parent.gameObject;
         _enemyAnimator = _enemy.GetComponent<Animator>();
         _damageable = _enemy.GetComponent<DamageableEnemy>();
@@ -24,14 +29,13 @@ public class FloatingSoulScript : MonoBehaviour
         _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         resurrectionTime -= Time.deltaTime;
         if (resurrectionTime <= 0)
         {
             _damageable.DeleteAnimator();
-            _damageable.DeleteComps();
+            _damageable.DeleteComponents();
             Destroy(gameObject);
         }
     }
@@ -43,7 +47,7 @@ public class FloatingSoulScript : MonoBehaviour
         if(_attacker != null) _attacker.enabled = true; //ranged enemy does not have an attacker
         _enemy.transform.Find("Backstab").gameObject.GetComponent<BoxCollider>().enabled = true;
         _damageable.enabled = true;
-        _damageable.ChangeHealth(_damageable.MaxHealth/2);
+        _damageable.ChangeHealth(_damageable.MaxHealth / 2);
         _attacker.EndAttack();
         _enemy.GetComponent<Enemy>().MindControl();
 
@@ -54,12 +58,27 @@ public class FloatingSoulScript : MonoBehaviour
         _enemyAnimator.applyRootMotion = false;
         Destroy(gameObject);
     }
-    
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (_promptEnabled && other.CompareTag("Player"))
+        {
+            HUD.Instance.ShowButtonPrompt(PromptButtons, PromptAction);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player") && InputManager.GetButtonDown("Interact"))
         {
             _player.StartResurrection(_enemyAnimator);
+            _promptEnabled = false;
+            HUD.Instance.HideButtonPrompt();
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_promptEnabled && other.CompareTag("Player")) HUD.Instance.HideButtonPrompt();
     }
 }

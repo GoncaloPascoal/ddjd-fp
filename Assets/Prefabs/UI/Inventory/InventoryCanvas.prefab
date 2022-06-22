@@ -1096,7 +1096,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &7368703546459858085
 MonoBehaviour:
@@ -1155,6 +1155,7 @@ MonoBehaviour:
   inventorySlots: 30
   cursor: {fileID: 7368703546437914501}
   defaultIcon: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+  equipmentSlotsPerRow: 2
   equipmentSlots: {fileID: 7368703546375067141}
   playerStatDisplays: {fileID: 3431574544406976664}
   itemContainer: {fileID: 7368703546167637403}

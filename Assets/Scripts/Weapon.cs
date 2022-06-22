@@ -48,7 +48,7 @@ public class Weapon : MonoBehaviour
             Hittable hittable = obstacle.GetComponentInParent<Hittable>();
             if (hittable != null && !_alreadyHit.Contains(obstacle.gameObject.transform.root.gameObject))
             {
-                hittable.Hit((int) _wielderStats.GetStatValue(StatName.Damage));
+                hittable.Hit(_wielderStats.GetStatValue(StatName.Damage));
                 _alreadyHit.Add(obstacle.gameObject.transform.root.gameObject);
             }
         }
