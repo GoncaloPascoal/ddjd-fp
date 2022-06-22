@@ -12,7 +12,7 @@ public class Hittable : MonoBehaviour
     private EntitySounds _entitySounds;
 
     [SerializeField] private int hitSoundChance = 50;
-    
+
     private void Start()
     {
         _damageable = GetComponent<Damageable>();

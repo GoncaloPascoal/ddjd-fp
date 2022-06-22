@@ -18,17 +18,10 @@ public class LevelChanger : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
         _nextSceneIndex = SceneManager.GetActiveScene().buildIndex;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void ChangeLevel(int levelIndex)
