@@ -185,7 +185,12 @@ public abstract class Enemy : MonoBehaviour
         GameObject healthBar = _damageable.healthBar.gameObject;
 
         healthBar.transform.SetParent(canvas.transform);
-        healthBar.AddComponent<FaceCamera>().targetCamera = Camera.main;
+
+        // Use Vector3.down for rotation so that bar drains from right to left
+        FaceCamera faceCamera = healthBar.AddComponent<FaceCamera>();
+        faceCamera.targetCamera = Camera.main;
+        faceCamera.worldUp = Vector3.down;
+
         FollowTarget follow = healthBar.AddComponent<FollowTarget>();
         follow.target = transform;
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
