@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: mixamo.com
+    second: StandToRoll
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: StandToRoll
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
-      lastFrame: 62
+      firstFrame: 3
+      lastFrame: 61
       wrapMode: 0
       orientationOffsetY: -20
       level: 0
@@ -66,7 +66,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 1
+      - time: 0.8759542
         functionName: EndRoll
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
