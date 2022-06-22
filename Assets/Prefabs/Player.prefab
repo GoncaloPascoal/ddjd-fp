@@ -1413,7 +1413,6 @@ MonoBehaviour:
   attackingStates:
   - Attack1
   - Attack2
-  - Attack3
   weapon: {fileID: 5331836338879897050}
 --- !u!114 &8896355497579845234
 MonoBehaviour:
