@@ -25,13 +25,14 @@ public class Hittable : MonoBehaviour
 
     public void Hit(float damage)
     {
-        if (_stats != null) damage = Stats.CalculateReducedDamage(damage, _stats.GetStatValue(StatName.Armor));
-        _damageable.ChangeHealth(-damage);
+        float reducedDamage = damage;
+        if (_stats != null) reducedDamage = Stats.CalculateReducedDamage(damage, _stats.GetStatValue(StatName.Armor));
+        _damageable.ChangeHealth(-reducedDamage);
 
         bool isStaggered = false;
         if (_staggerable != null && _staggerable.enabled)
         {
-            isStaggered = _staggerable.Stagger();
+            isStaggered = _staggerable.Stagger(damage);
         }
 
         if (_entitySounds != null) _entitySounds.GetHitSound(isStaggered ? 100 : hitSoundChance);

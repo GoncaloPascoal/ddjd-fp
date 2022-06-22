@@ -286,9 +286,9 @@ namespace StarterAssets
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 
-			if (isAttacking && !isAttackingCanRotate || _staggerable.isStaggered())
+			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered())
 				movement = Vector2.zero;
-			else 
+			else
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
 
 			//Can't move
@@ -438,7 +438,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				if (!_attacker.IsAttacking() && !_staggerable.isStaggered())
+				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered())
 				{
 					// Roll
 					if (InputManager.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
@@ -508,7 +508,7 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 
-			if (_staggerable.isStaggered())
+			if (_staggerable.IsStaggered())
 				return;
 
 			if (!InputManager.GetButtonDown("Attack") || !Grounded)
