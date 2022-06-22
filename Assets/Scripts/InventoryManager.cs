@@ -134,12 +134,17 @@ public class InventoryManager : MonoBehaviour
     private void UpdateItems()
     {
         int slot = 0;
+        ISet<EquipmentSlot> slotsWithEquipment = new HashSet<EquipmentSlot>(); 
 
         foreach (List<Equipment> equipmentList in _inventory.Equipment.Values)
         {
             foreach (Equipment equipment in equipmentList)
             {
-                if (_inventory.Equipped[equipment.slot] == equipment) continue;
+                if (!slotsWithEquipment.Contains(equipment.slot) && _inventory.Equipped[equipment.slot] == equipment)
+                {
+                    slotsWithEquipment.Add(equipment.slot);
+                    continue;
+                }
 
                 if (slot == inventorySlots) return;
                 _slotIcons[slot].sprite = equipment.icon;

@@ -5,7 +5,7 @@ using StarterAssets;
 using UnityEngine;
 using UnityEngine.ProBuilder.MeshOperations;
 
-public class FloatingSoulScript : MonoBehaviour
+public class FloatingSoul : MonoBehaviour
 {
     private GameObject _enemy;
     private Animator _enemyAnimator;
@@ -15,8 +15,13 @@ public class FloatingSoulScript : MonoBehaviour
     [SerializeField] private float resurrectionTime = 10f;
     private DamageableEnemy _damageable;
 
+    private static readonly string[] PromptButtons = { "E", "(A)" };
+    private const string PromptAction = "Resurrect the Dead";
+    private bool _promptEnabled;
+
     private void Start()
     {
+        _promptEnabled = true;
         _enemy = gameObject.transform.parent.gameObject;
         _enemyAnimator = _enemy.GetComponent<Animator>();
         _damageable = _enemy.GetComponent<DamageableEnemy>();
@@ -53,12 +58,27 @@ public class FloatingSoulScript : MonoBehaviour
         _enemyAnimator.applyRootMotion = false;
         Destroy(gameObject);
     }
-    
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (_promptEnabled && other.CompareTag("Player"))
+        {
+            HUD.Instance.ShowButtonPrompt(PromptButtons, PromptAction);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player") && InputManager.GetButtonDown("Interact"))
         {
             _player.StartResurrection(_enemyAnimator);
+            _promptEnabled = false;
+            HUD.Instance.HideButtonPrompt();
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (_promptEnabled && other.CompareTag("Player")) HUD.Instance.HideButtonPrompt();
     }
 }
