@@ -17,7 +17,12 @@ public class ResolutionToggle : MonoBehaviour
         toggle.isOn = Screen.currentResolution.width == resolution.x && Screen.currentResolution.height == resolution.y;
         toggle.onValueChanged.AddListener(on =>
         {
-            if (on) Screen.SetResolution(resolution.x, resolution.y, Screen.fullScreen);
+            if (on)
+            {
+                Screen.SetResolution(resolution.x, resolution.y, Screen.fullScreen);
+                PlayerPrefs.SetInt("resolutionX", resolution.x);
+                PlayerPrefs.SetInt("resolutionY", resolution.y);
+            }
         });
     }
 }
