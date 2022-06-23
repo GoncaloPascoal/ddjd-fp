@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -11,6 +12,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        newGameButton.onClick.AddListener(() => SceneManager.LoadScene("Level1"));
         settingsButton.onClick.AddListener(() => settingsMenu.SetActive(true));
         quitButton.onClick.AddListener(Application.Quit);
     }
