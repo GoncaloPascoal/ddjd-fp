@@ -15,7 +15,6 @@ public class Weapon : MonoBehaviour
     private readonly ISet<GameObject> _alreadyHit = new HashSet<GameObject>();
 
     [SerializeField] private List<string> targetsTags;
-    
 
     private void Start()
     {
@@ -53,11 +52,6 @@ public class Weapon : MonoBehaviour
             }
         }
     }
-    
-    public void ResetAlreadyHit()
-    {
-        _alreadyHit.Clear();
-    }
 
     public void SetTargetTags(List<string> newTags)
     {
@@ -66,7 +60,6 @@ public class Weapon : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if(_collider.enabled)
-            HitObstacle(other);
+        if (_collider.enabled) HitObstacle(other);
     }
 }

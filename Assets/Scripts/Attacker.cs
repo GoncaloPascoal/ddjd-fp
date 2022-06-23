@@ -15,6 +15,8 @@ public class Attacker : MonoBehaviour
     protected bool _isAttacking = false;
     private bool _isStartingAttack = false;
 
+    private string _currentTrigger;
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
@@ -37,7 +39,6 @@ public class Attacker : MonoBehaviour
             weapon.Attack();
             _bufferedAttack = false;
             _isAttacking = true;
-            // _animator.SetTrigger("AttackNormal");
         }
         else
         {
@@ -47,17 +48,19 @@ public class Attacker : MonoBehaviour
         }
     }
 
-    public void Attack()
+    public void Attack(string triggerName)
     {
         AnimatorStateInfo animatorState = _animator.GetCurrentAnimatorStateInfo(0);
 
-        // If already attacking, buffer next attack if the attack animation if at least half-way through
+        // If already attacking, buffer next attack
         if (IsAttacking())
         {
             if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.1f)
             {
                 _bufferedAttack = true;
-                _animator.SetTrigger("AttackNormal");
+                if (_currentTrigger != null) _animator.ResetTrigger(_currentTrigger);
+                _animator.SetTrigger(triggerName);
+                _currentTrigger = triggerName;
                 _animator.applyRootMotion = true;
             }
         }
@@ -65,7 +68,8 @@ public class Attacker : MonoBehaviour
         {
             _isAttacking = true;
             weapon.Attack();
-            _animator.SetTrigger("AttackNormal");
+            _animator.SetTrigger(triggerName);
+            _currentTrigger = triggerName;
             _animator.applyRootMotion = true;
         }
     }
@@ -73,8 +77,7 @@ public class Attacker : MonoBehaviour
     // Plays an attack animation without having to make any animation buffer
     public void AttackNotBuffered(List<string> possibleAnimations)
     {
-        if (IsAttacking())
-            return;
+        if (IsAttacking()) return;
 
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
