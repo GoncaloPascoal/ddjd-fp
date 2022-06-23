@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -101,6 +102,11 @@ namespace StarterAssets
 		private const float StaminaUsageSprint = -15f;
 		private const float StaminaUsageJump = -20f;
 		private const float StaminaUsageRoll = -20f;
+		private static readonly Dictionary<string, float> StaminaUsageAttacks = new Dictionary<string, float>
+		{
+			{"LightAttack", -22f},
+			{"HeavyAttack", -32f},
+		};
 		private float _staminaNeededBeforeSprint;
 
 		// timeout delta time
@@ -441,7 +447,7 @@ namespace StarterAssets
 				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered())
 				{
 					// Roll
-					if (InputManager.GetButtonDown("Roll") && Stamina >= Math.Abs(StaminaUsageRoll) &&
+					if (InputManager.GetButtonDown("Roll") && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
 					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
@@ -452,7 +458,7 @@ namespace StarterAssets
 					}
 
 					// Jump
-					if (InputManager.GetButtonDown("Jump") && Stamina >= Math.Abs(StaminaUsageJump) && !_isRolling)
+					if (InputManager.GetButtonDown("Jump") && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
 
@@ -511,15 +517,18 @@ namespace StarterAssets
 			if (_staggerable.IsStaggered())
 				return;
 
-			if (!InputManager.GetButtonDown("Attack") || !Grounded)
+			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
 				return;
+
+			string attack = StaminaUsageAttacks.Keys.First(InputManager.GetButtonDown);
+			float staminaUsage = StaminaUsageAttacks[attack];
 
 			if (_backstabTargets.Count > 0)
 			{
 				_currentTarget = null;
-				foreach (var target in _backstabTargets)
+				foreach (GameObject target in _backstabTargets)
 				{
-					var dotProd = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
+					float dotProd = Vector3.Dot(target.transform.forward.normalized, transform.forward.normalized);
 					if (dotProd < backstabAngleOffset) continue;
 
 					_isBackstabbing = true;
@@ -529,9 +538,10 @@ namespace StarterAssets
 					break;
 				}
 			}
-			else 
+			else if (_stamina >= Mathf.Abs(staminaUsage))
 			{
-				_attacker.Attack();
+				ChangeStamina(staminaUsage);
+				_attacker.Attack(attack);
 			}
 		}
 
