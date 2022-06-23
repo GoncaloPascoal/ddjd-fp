@@ -11,7 +11,11 @@ public class SettingsMenu : MonoBehaviour
     private void Start()
     {
         closeButton.onClick.AddListener(() => gameObject.SetActive(false));
+        fullscreenToggle.onValueChanged.AddListener(on =>
+        {
+            Screen.fullScreen = on;
+            PlayerPrefs.SetInt("fullscreen", on ? 1 : 0);
+        });
         fullscreenToggle.isOn = Screen.fullScreen;
-        fullscreenToggle.onValueChanged.AddListener(on => Screen.fullScreen = on);
     }
 }

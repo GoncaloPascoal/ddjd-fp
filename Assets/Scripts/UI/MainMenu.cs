@@ -12,8 +12,18 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        if (PlayerPrefs.HasKey("resolutionX") && PlayerPrefs.HasKey("resolutionY"))
+        {
+            Screen.SetResolution(PlayerPrefs.GetInt("resolutionX"), PlayerPrefs.GetInt("resolutionY"), Screen.fullScreen);
+        }
+        Screen.fullScreen = PlayerPrefs.GetInt("fullscreen", 0) == 1;
+
         newGameButton.onClick.AddListener(() => SceneManager.LoadScene("Level1"));
-        settingsButton.onClick.AddListener(() => settingsMenu.SetActive(true));
+        settingsButton.onClick.AddListener(() =>
+        {
+            PlayerPrefs.Save();
+            settingsMenu.SetActive(true);
+        });
         quitButton.onClick.AddListener(Application.Quit);
     }
 }
