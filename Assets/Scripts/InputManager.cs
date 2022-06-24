@@ -12,15 +12,14 @@ public static class InputManager
 {
       private static readonly Dictionary<ActionType, ISet<string>> ActionsByType =
       new Dictionary<ActionType, ISet<string>> {
-            { ActionType.Game, new HashSet<string>
-            {
-                  "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "Attack", "Interact", "ToggleInventory"
-            } },
-            { ActionType.Menu, new HashSet<string>
-            {
+            { ActionType.Game, new HashSet<string> {
+                  "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "LightAttack", "HeavyAttack",
+                  "Interact", "ToggleInventory"
+            }},
+            { ActionType.Menu, new HashSet<string> {
                   "ToggleInventory", "InventoryItemAction", "InventoryToggleEquipped", "MenuLeft", "MenuRight", "MenuUp",
                   "MenuDown"
-            } }
+            }}
       };
 
       public static ActionType CurrentActionType = ActionType.Game;
