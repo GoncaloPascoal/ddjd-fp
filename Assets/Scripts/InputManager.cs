@@ -18,7 +18,7 @@ public static class InputManager
             }},
             { ActionType.Menu, new HashSet<string> {
                   "ToggleInventory", "InventoryItemAction", "InventoryToggleEquipped", "MenuLeft", "MenuRight", "MenuUp",
-                  "MenuDown"
+                  "MenuDown", "InvLevelUpDamage", "InvLevelUpArmor", "InvLevelUpHealth", "InvLevelUpStamina", "InvLevelUpStability", "InvLevelUpStaminaRecovery"
             }}
       };
 
