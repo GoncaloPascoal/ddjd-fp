@@ -15,6 +15,7 @@ TagManager:
   - PressurePlate
   - Door
   - Cutscene
+  - InvCanvas
   layers:
   - Default
   - TransparentFX
