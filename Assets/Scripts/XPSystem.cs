@@ -26,6 +26,8 @@ public class XPSystem : MonoBehaviour
 
     private InventoryManager _inv_manager;
     
+    [SerializeField] public StatsDictionary boostPerLevel;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -104,7 +106,7 @@ public class XPSystem : MonoBehaviour
     {
         if(levelUpsRemaining > 0){
             levelUpsRemaining--;
-            _playerStats.levelUpBoosts[statName] += 1;
+            _playerStats.levelUpBoosts[statName] += boostPerLevel[statName];
             if (levelUpsRemaining == 0)
             {
                 TurnOffLevelUpIcons();
