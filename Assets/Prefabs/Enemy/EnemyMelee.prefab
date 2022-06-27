@@ -1338,7 +1338,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackingStates:
-  - AttackNormal
+  - NormalAttack
+  - WideAttack
   weapon: {fileID: 2925433915054098924}
 --- !u!114 &7421251265504768954
 MonoBehaviour:
@@ -1353,8 +1354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5024694283907251014}
-  _maxHealth: 0
-  _health: 0
+  _xp: 1
 --- !u!114 &4155889300669106417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1393,9 +1393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  superArmorMax: 100
-  superArmorReductionPerHit: 30
-  superArmorRegenPerSecond: 5
+  stabilityRegeneration: 10
 --- !u!114 &1130811846664304391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3309,11 +3307,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
---- !u!224 &3339179377750451490 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3415345290316560251, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
-  m_PrefabInstance: {fileID: 86302325299155545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5024694283907251014 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4938715229606717727, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
@@ -3325,6 +3318,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160cb88ca84e7188fa8812396325e726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3339179377750451490 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3415345290316560251, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
+  m_PrefabInstance: {fileID: 86302325299155545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5189169122356438695
 PrefabInstance:
   m_ObjectHideFlags: 0
