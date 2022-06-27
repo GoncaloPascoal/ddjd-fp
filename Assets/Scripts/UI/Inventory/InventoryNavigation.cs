@@ -74,6 +74,15 @@ public class InventoryNavigation : MonoBehaviour
 
     public void MoveCursor(bool left, bool right, bool up, bool down)
     {
+        if (_manager.Equipped)
+        {
+            _manager.MoveCursor(left, right, up, down);
+
+            _curMenu = CurMenu.Inventory;
+            UpdateCursorLvlUp();
+            UpdateBackToMenu();
+            return;
+        }
         switch (_curMenu)
         {
             case CurMenu.Inventory:
@@ -103,8 +112,9 @@ public class InventoryNavigation : MonoBehaviour
     private void MoveCursorInv(bool left, bool right, bool up, bool down)
     {
         int row = _manager.Equipped ? _manager.EquipmentSlotsPerRow : _manager.SlotsPerRow;
-        int total = _manager.Equipped ? _manager.EquipmentDisplays.Count : _manager.InventorySlot;
+        int total = _manager.Equipped ? _manager.EquipmentDisplays.Count : _manager.InventorySlots;
 
+        
         if (left)
         {
             _manager.CurrentSlot -= 1;
@@ -199,7 +209,7 @@ public class InventoryNavigation : MonoBehaviour
         {
             _curMenu = CurMenu.Inventory;
             
-            _manager.CurrentSlot = _manager.CurrentSlot % _manager.SlotsPerRow + _manager.InventorySlot - _manager.SlotsPerRow;
+            _manager.CurrentSlot = _manager.CurrentSlot % _manager.SlotsPerRow + _manager.InventorySlots - _manager.SlotsPerRow;
         }
     }
 

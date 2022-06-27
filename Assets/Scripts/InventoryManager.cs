@@ -26,7 +26,7 @@ public class InventoryManager : MonoBehaviour
     
     [SerializeField] private int inventorySlots = 30;
 
-    public int InventorySlot
+    public int InventorySlots
     {
         get
         {
@@ -279,7 +279,7 @@ public class InventoryManager : MonoBehaviour
         itemContainer.SetActive(false);
     }
 
-    private void MoveCursor(bool left, bool right, bool up, bool down)
+    public void MoveCursor(bool left, bool right, bool up, bool down)
     {
         int row = _equipped ? equipmentSlotsPerRow : slotsPerRow;
         int total = _equipped ? _equipmentDisplays.Count : inventorySlots;
