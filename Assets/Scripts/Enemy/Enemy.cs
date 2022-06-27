@@ -14,6 +14,7 @@ public abstract class Enemy : MonoBehaviour
     private Hittable _hittable;
     private Damageable _damageable;
 
+    [SerializeField] protected GameObject enemyHead;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
     protected float initialFOV;
