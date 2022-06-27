@@ -32,6 +32,7 @@ public class Attacker : MonoBehaviour
 
     public void AttackMoment()
     {
+        weapon.Attack();
         _isStartingAttack = false;
     }
 
@@ -77,7 +78,6 @@ public class Attacker : MonoBehaviour
         else
         {
             _isAttacking = true;
-            weapon.Attack();
             _animator.SetTrigger(triggerName);
             _currentTrigger = triggerName;
             _animator.applyRootMotion = true;
