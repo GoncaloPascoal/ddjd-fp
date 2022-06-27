@@ -16,6 +16,7 @@ TagManager:
   - Door
   - Cutscene
   - Spyke
+  - InvCanvas
   layers:
   - Default
   - TransparentFX
