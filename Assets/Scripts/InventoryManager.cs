@@ -11,12 +11,41 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject itemSlots;
 
     [SerializeField] private int slotsPerRow = 5;
+
+    public int SlotsPerRow
+    {
+        get
+        {
+            return slotsPerRow;
+        }
+        set
+        {
+            slotsPerRow = value;
+        }
+    }
+    
     [SerializeField] private int inventorySlots = 30;
+
+    public int InventorySlot
+    {
+        get
+        {
+            return inventorySlots;
+        }
+        set
+        {
+            inventorySlots = value;
+        }
+    }
+    
     [SerializeField] private Image cursor;
     [SerializeField] private Sprite defaultIcon;
 
     [Header("Equipment Panel")]
     [SerializeField] private int equipmentSlotsPerRow = 2;
+
+    public int EquipmentSlotsPerRow { get; }
+
     [SerializeField] private GameObject equipmentSlots;
     [SerializeField] private GameObject playerStatDisplays;
 
@@ -29,16 +58,38 @@ public class InventoryManager : MonoBehaviour
 
     private Inventory _inventory;
     private bool _visible, _equipped;
+
+    public bool Equipped
+    {
+        get { return _equipped; }
+        set { _equipped = value; }
+    }
+    
     private int _currentSlot;
+
+    public int CurrentSlot
+    {
+        get { return _currentSlot; }
+        set { _currentSlot = value; }
+    }
+    
     private List<Image> _slotIcons;
     private List<Item> _slotItems;
 
     private List<EquipmentDisplay> _equipmentDisplays;
 
+    public List<EquipmentDisplay> EquipmentDisplays { get; }
+
     private Stats _playerStats;
 
     private XPSystem _xp_system;
 
+    [Header("Inventory navigation")]
+    private InventoryNavigation _nav;
+    
+    [SerializeField]
+    private GameObject backToMenuButton;
+    
     private void Start()
     {
         GameObject playerObj = GameObject.FindWithTag("Player");
@@ -63,6 +114,8 @@ public class InventoryManager : MonoBehaviour
         }
 
         _xp_system = GetComponent<XPSystem>();
+        _nav = GetComponent<InventoryNavigation>();
+        _nav.SetManager(this);
     }
 
     private void Update()
@@ -83,7 +136,7 @@ public class InventoryManager : MonoBehaviour
             ItemAction();
         }
 
-        MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
+        _nav.MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
             InputManager.GetButtonDown("MenuUp"), InputManager.GetButtonDown("MenuDown"));
     }
 
@@ -93,6 +146,7 @@ public class InventoryManager : MonoBehaviour
         InputManager.CurrentActionType = _visible ? ActionType.Menu : ActionType.Game;
         transform.GetChild(0).gameObject.SetActive(_visible);
         if (_visible) UpdateInterface();
+        backToMenuButton.SetActive(_visible);
     }
 
     private void ToggleXPBar()
@@ -116,7 +170,7 @@ public class InventoryManager : MonoBehaviour
         UpdateCursorPosition();
     }
 
-    private void UpdateCursorPosition()
+    public void UpdateCursorPosition()
     {
         cursor.transform.position = _equipped ?
             _equipmentDisplays[_currentSlot].transform.position :
@@ -176,7 +230,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void UpdateItemDisplay()
+    public void UpdateItemDisplay()
     {
         DisplayItem(_equipped ? _inventory.Equipped[_equipmentDisplays[_currentSlot].slot] : _slotItems[_currentSlot]);
     }

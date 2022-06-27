@@ -10,6 +10,11 @@ public class XPSystem : MonoBehaviour
     private int level = 1;
     private int levelUpsRemaining = 0;
 
+    public int LevelUpsRemaining
+    {
+        get { return levelUpsRemaining; }
+    }
+
     [SerializeField]
     private GameObject XpBarItem;
     [SerializeField]

@@ -105,4 +105,14 @@ public class Attacker : MonoBehaviour
     {
         return attackingStates.Any(stateInfo.IsName);
     }
+    
+    public void DisableAttackHitbox(){
+        Debug.Log("XD");
+        weapon.DisableCollider();
+    }
+    
+    public void EnableAttackHitbox(){
+        Debug.Log("what the dog doin");
+        weapon.EnableCollider();
+    }
 }
