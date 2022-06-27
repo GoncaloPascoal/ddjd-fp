@@ -15,6 +15,7 @@ TagManager:
   - PressurePlate
   - Door
   - Cutscene
+  - Spyke
   - InvCanvas
   layers:
   - Default
@@ -31,7 +32,7 @@ TagManager:
   - EnemySkeleton
   - PlayerSkeleton
   - BossSkeleton
-  - 
+  - Spyke
   - 
   - 
   - 
