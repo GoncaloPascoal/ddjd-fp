@@ -71,19 +71,20 @@ public abstract class Enemy : MonoBehaviour
 
     protected bool DetectTarget()
     {
-        Vector3 rayDirection = GetTargetPos() - transform.position;
+        Vector3 rayDirection = GetTargetPos() - enemyHead.transform.position;
 
         // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
             return false;
         
         // target not inside field of view cone
-        if (Vector3.Angle(transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
+        if (Vector3.Angle(enemyHead.transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
             return false;
         
         // and no obstacles in the way
-        if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
+        if (Physics.Raycast(enemyHead.transform.position, rayDirection, out var hit, viewDistance))
         {
+            Debug.Log(hit.transform.tag);
             if (!mindControlled)
             {
                 return normalTargets.Contains(hit.transform.tag);
