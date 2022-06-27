@@ -1515,6 +1515,15 @@ MonoBehaviour:
     - 5
     - 0
     - 0
+  levelUpBoosts:
+    m_keys: 000000000100000002000000030000000400000005000000
+    m_values:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
 --- !u!1 &4552572167694909163
 GameObject:
   m_ObjectHideFlags: 0
