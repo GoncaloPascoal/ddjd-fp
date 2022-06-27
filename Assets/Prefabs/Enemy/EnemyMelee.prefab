@@ -1354,6 +1354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5024694283907251014}
+  _xp: 1
 --- !u!114 &4155889300669106417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1430,7 +1431,7 @@ MonoBehaviour:
     - 0
     - 20
     - 10
-    - 5
+    - 30
 --- !u!1 &5069041362607205264
 GameObject:
   m_ObjectHideFlags: 0
