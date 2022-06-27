@@ -32,11 +32,6 @@ public class Weapon : MonoBehaviour
         _alreadyHit.Clear();
     }
 
-    public void EnableCollider()
-    {
-        _collider.enabled = true;
-    }
-    
     public void DisableCollider()
     {
         _collider.enabled = false;
