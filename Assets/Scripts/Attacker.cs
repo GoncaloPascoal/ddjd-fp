@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using StarterAssets;
 using UnityEngine;
 
 public class Attacker : MonoBehaviour
@@ -9,6 +10,7 @@ public class Attacker : MonoBehaviour
     [SerializeField] protected Weapon weapon;
 
     protected Animator _animator;
+    protected ThirdPersonController _tpc;
 
     private bool _bufferedAttack = false;
 
@@ -20,6 +22,7 @@ public class Attacker : MonoBehaviour
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _tpc = GetComponent<ThirdPersonController>();
     }
 
     public void StartAttack()
@@ -39,6 +42,7 @@ public class Attacker : MonoBehaviour
             weapon.Attack();
             _bufferedAttack = false;
             _isAttacking = true;
+            _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
         }
         else
         {
@@ -71,6 +75,7 @@ public class Attacker : MonoBehaviour
             _animator.SetTrigger(triggerName);
             _currentTrigger = triggerName;
             _animator.applyRootMotion = true;
+            _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[triggerName]);
         }
     }
 
