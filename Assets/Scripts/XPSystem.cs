@@ -125,7 +125,7 @@ public class XPSystem : MonoBehaviour
         level = level - 1;
         if (level == 0)
             return 0;
-        return (int) (level * Mathf.Sqrt(level)) + 2 * level;
+        return level; //(int) (level * Mathf.Sqrt(level)) + 2 * level;
     }
 
     public void LevelUpStat(StatName statName)
