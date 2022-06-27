@@ -14,6 +14,7 @@ public abstract class Enemy : MonoBehaviour
     private Hittable _hittable;
     private Damageable _damageable;
 
+    [SerializeField] protected GameObject enemyHead;
     [SerializeField] protected float viewDistance = 5f;
     [SerializeField] protected float fieldOfView = 70f;
     protected float initialFOV;
@@ -70,7 +71,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected bool DetectTarget()
     {
-        Vector3 rayDirection = GetTargetPos() - transform.position;
+        Vector3 rayDirection = GetTargetPos() - enemyHead.transform.position;
 
         // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
@@ -81,8 +82,9 @@ public abstract class Enemy : MonoBehaviour
             return false;
         
         // and no obstacles in the way
-        if (Physics.Raycast(transform.position, rayDirection, out var hit, viewDistance))
+        if (Physics.Raycast(enemyHead.transform.position, rayDirection, out var hit, viewDistance))
         {
+            Debug.Log(hit.transform.tag);
             if (!mindControlled)
             {
                 return normalTargets.Contains(hit.transform.tag);

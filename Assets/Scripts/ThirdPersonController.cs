@@ -102,7 +102,7 @@ namespace StarterAssets
 		private const float StaminaUsageSprint = -15f;
 		private const float StaminaUsageJump = -20f;
 		private const float StaminaUsageRoll = -20f;
-		private static readonly Dictionary<string, float> StaminaUsageAttacks = new Dictionary<string, float>
+		public readonly Dictionary<string, float> StaminaUsageAttacks = new Dictionary<string, float>
 		{
 			{"LightAttack", -22f},
 			{"HeavyAttack", -32f},
@@ -520,6 +520,9 @@ namespace StarterAssets
 			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
 				return;
 
+			if (_isRolling)
+				return;
+
 			string attack = StaminaUsageAttacks.Keys.First(InputManager.GetButtonDown);
 			float staminaUsage = StaminaUsageAttacks[attack];
 
@@ -540,7 +543,6 @@ namespace StarterAssets
 			}
 			else if (_stamina >= Mathf.Abs(staminaUsage))
 			{
-				ChangeStamina(staminaUsage);
 				_attacker.Attack(attack);
 			}
 		}
@@ -574,9 +576,10 @@ namespace StarterAssets
 			_backstabTargets.Remove(enemy);
 		}
 
-		private void ChangeStamina(float delta)
+		public void ChangeStamina(float delta)
 		{
 			Stamina += delta;
+			if (Stamina <= 0) Stamina = 0;
 		}
 
 		public void EnterCheckpoint(int checkpointNumber)
@@ -628,6 +631,11 @@ namespace StarterAssets
 			_animator.SetTrigger("EndResurrection");
 			_enemyToResurrect.SetTrigger("Resurrect");
 			_resurrecting = false;
+		}
+
+		public float GetStamina()
+		{
+			return _stamina;
 		}
 	}
 }
