@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class InventoryNavigation : MonoBehaviour
@@ -35,7 +36,7 @@ public class InventoryNavigation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _xpSys = GetComponent<XPSystem>();
+        
     }
 
     // Update is called once per frame
@@ -44,9 +45,31 @@ public class InventoryNavigation : MonoBehaviour
         
     }
 
+    public void Action()
+    {
+        if (_curMenu == CurMenu.Inventory)
+        {
+            _manager.ItemAction();
+        }
+        else if (_curMenu == CurMenu.BackToMenuButton)
+        {
+            // Exit game
+            SceneManager.LoadScene("MainMenu");
+        }
+        else if (_curMenu == CurMenu.LevelUpMenu)
+        {
+            _xpSys.LevelUpStat(_xpSys.StatOrderLvlUp[_lvlUpCurSlot]);
+        }
+    }
+
+    public void SetXpSystem(XPSystem sys)
+    {
+        _xpSys = sys;
+    }
+    
     public void SetManager(InventoryManager mng)
     {
-        this._manager = mng;
+        _manager = mng;
     }
 
     public void MoveCursor(bool left, bool right, bool up, bool down)
@@ -62,13 +85,18 @@ public class InventoryNavigation : MonoBehaviour
                 break;
             case CurMenu.BackToMenuButton:
                 MoveInBackToMenuSlot(left, right, up, down);
+                UpdateBackToMenu();
                 break;
         }
 
         if (_curMenu == CurMenu.LevelUpMenu)
         {
-            Debug.Log("XD");
             UpdateCursorLvlUp();
+        }
+
+        if (_curMenu == CurMenu.BackToMenuButton)
+        {
+            UpdateBackToMenu();
         }
     }
     
@@ -117,7 +145,6 @@ public class InventoryNavigation : MonoBehaviour
             {
                 _manager.CurrentSlot += row;
                 _curMenu = CurMenu.BackToMenuButton;
-                    //_manager.CurrentSlot += total;
             }
         }
 
@@ -132,7 +159,7 @@ public class InventoryNavigation : MonoBehaviour
         }
     }
 
-    private void MoveInLevelUp(bool left, bool right, bool up, bool down)
+    public void MoveInLevelUp(bool left, bool right, bool up, bool down)
     {
         if (up)
         {
@@ -147,17 +174,17 @@ public class InventoryNavigation : MonoBehaviour
             _lvlUpCurSlot += 1;
             _lvlUpCurSlot %= _levelUpSlots.Count;
         }
-        if (left)
+        if (right)
         {
             _curMenu = CurMenu.Inventory;
             _manager.CurrentSlot -= _manager.CurrentSlot % _manager.SlotsPerRow;
             UpdateCursorInv();
         }
-        if (right)
+        if (left)
         {
             _curMenu = CurMenu.Inventory;
             _manager.CurrentSlot -= _manager.CurrentSlot % _manager.SlotsPerRow;
-            _manager.CurrentSlot = _manager.SlotsPerRow;
+            _manager.CurrentSlot += _manager.SlotsPerRow - 1;
             UpdateCursorInv();
         }
     }
@@ -167,6 +194,12 @@ public class InventoryNavigation : MonoBehaviour
         if (down)
         {
             _curMenu = CurMenu.Inventory;
+        }
+        if (up)
+        {
+            _curMenu = CurMenu.Inventory;
+            
+            _manager.CurrentSlot = _manager.CurrentSlot % _manager.SlotsPerRow + _manager.InventorySlot - _manager.SlotsPerRow;
         }
     }
 
@@ -181,11 +214,15 @@ public class InventoryNavigation : MonoBehaviour
         SelectLevelUpSlot();
     }
 
-    private void SelectBackToMenu()
+    private void UpdateBackToMenu()
     {
         if (_curMenu == CurMenu.BackToMenuButton)
         {
-            
+            backToMenuImage.color = backToMenuSelectedColor;
+        }
+        else
+        {
+            backToMenuImage.color = backToMenuDefaultColor;
         }
             
     }
@@ -196,7 +233,6 @@ public class InventoryNavigation : MonoBehaviour
         {
             if (_lvlUpCurSlot == i && _curMenu == CurMenu.LevelUpMenu)
             {
-                Debug.Log("i: " + i);
                 _levelUpSlots[i].color = lvlSelectedColor;
             }
             else
