@@ -1343,58 +1343,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_keys.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_keys.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_keys.Array.data[2]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_keys.Array.data[3]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_keys.Array.data[4]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_keys.Array.data[5]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.data[0]
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.data[1]
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.data[2]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.data[3]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.data[4]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 447385246, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: boostPerLevel.m_values.Array.data[5]
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7368703546459858083, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
       propertyPath: m_Name
       value: InvCanvas
@@ -1409,6 +1357,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7368703546459858087, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
       propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7368703546459858087, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7368703546459858087, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
@@ -1478,10 +1430,6 @@ PrefabInstance:
     - target: {fileID: 7368703546459858087, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7368703546705331873, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
-      propertyPath: _inventory
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 330e1d1584377e54bba4e35603afde6d, type: 3}
@@ -4951,40 +4899,12 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_keys.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: levelUpValues.m_keys.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_values.Array.size
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: levelUpValues.m_values.Array.size
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_keys.Array.data[1]
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_keys.Array.data[2]
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_keys.Array.data[3]
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_keys.Array.data[4]
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
-      propertyPath: levelUpBoosts.m_keys.Array.data[5]
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: levelUpValues.m_keys.Array.data[1]
