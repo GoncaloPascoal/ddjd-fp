@@ -39,10 +39,16 @@ public class Attacker : MonoBehaviour
     {
         if (_bufferedAttack)
         {
-            weapon.Attack();
+            if (_tpc != null && _tpc.GetStamina() > _tpc.StaminaUsageAttacks[_currentTrigger])
+            {
+                weapon.Attack();
+                _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
+                Debug.Log(_tpc.GetStamina());
+            }
             _bufferedAttack = false;
             _isAttacking = true;
-            _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
+            _animator.ResetTrigger(_currentTrigger);
+            _currentTrigger = null;
         }
         else
         {
