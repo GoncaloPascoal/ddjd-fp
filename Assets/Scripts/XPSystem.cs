@@ -32,12 +32,33 @@ public class XPSystem : MonoBehaviour
     private InventoryManager _inv_manager;
     
     [SerializeField] public StatsDictionary boostPerLevel;
+
+    private List<StatName> _statOrderLvlUp;
+
+    private InventoryNavigation _invNav;
+    
+    public List<StatName> StatOrderLvlUp
+    {
+        get { return _statOrderLvlUp;  }
+    }
     
     // Start is called before the first frame update
     void Start()
     {
         _playerStats = GameObject.FindWithTag("Player").GetComponent<StatsPlayer>();
         _inv_manager = GetComponent<InventoryManager>();
+
+        _statOrderLvlUp = new List<StatName>();
+        
+        _statOrderLvlUp.Add(StatName.Damage);
+        _statOrderLvlUp.Add(StatName.Armor);
+        _statOrderLvlUp.Add(StatName.Health);
+        _statOrderLvlUp.Add(StatName.Stamina);
+        _statOrderLvlUp.Add(StatName.Stability);
+        _statOrderLvlUp.Add(StatName.StaminaRecovery);
+
+        _invNav = GetComponent<InventoryNavigation>();
+        _invNav.SetXpSystem(this);
     }
 
     // Update is called once per frame
@@ -118,7 +139,13 @@ public class XPSystem : MonoBehaviour
             }
             _inv_manager.UpdatePlayerStats();
             UpdateXp();
+            
+            if (levelUpsRemaining == 0)
+            {
+                _invNav.MoveInLevelUp(false, true, false, false);
+            }
         }
+
     }
 
     public void TurnOffLevelUpIcons()

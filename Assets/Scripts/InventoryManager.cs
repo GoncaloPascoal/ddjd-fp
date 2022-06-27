@@ -133,7 +133,8 @@ public class InventoryManager : MonoBehaviour
 
         if (InputManager.GetButtonDown("InventoryItemAction"))
         {
-            ItemAction();
+            _nav.Action();
+            //ItemAction();
         }
 
         _nav.MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
@@ -313,7 +314,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void ItemAction()
+    public void ItemAction()
     {
         Item currentItem = _equipped ? _inventory.Equipped[_equipmentDisplays[_currentSlot].slot] : _slotItems[_currentSlot];
         if (currentItem == null) return;
