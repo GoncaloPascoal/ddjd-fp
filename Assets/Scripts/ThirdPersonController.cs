@@ -520,6 +520,9 @@ namespace StarterAssets
 			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
 				return;
 
+			if (_isRolling)
+				return;
+
 			string attack = StaminaUsageAttacks.Keys.First(InputManager.GetButtonDown);
 			float staminaUsage = StaminaUsageAttacks[attack];
 
@@ -628,6 +631,11 @@ namespace StarterAssets
 			_animator.SetTrigger("EndResurrection");
 			_enemyToResurrect.SetTrigger("Resurrect");
 			_resurrecting = false;
+		}
+
+		public float GetStamina()
+		{
+			return _stamina;
 		}
 	}
 }
