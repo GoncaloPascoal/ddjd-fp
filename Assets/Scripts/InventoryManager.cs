@@ -37,6 +37,8 @@ public class InventoryManager : MonoBehaviour
 
     private Stats _playerStats;
 
+    private XPSystem _xp_system;
+
     private void Start()
     {
         GameObject playerObj = GameObject.FindWithTag("Player");
@@ -59,6 +61,8 @@ public class InventoryManager : MonoBehaviour
         {
             _equipmentDisplays.Add(equipmentSlots.transform.GetChild(i).GetComponent<EquipmentDisplay>());
         }
+
+        _xp_system = GetComponent<XPSystem>();
     }
 
     private void Update()
@@ -66,6 +70,7 @@ public class InventoryManager : MonoBehaviour
         if (InputManager.GetButtonDown("ToggleInventory"))
         {
             ToggleInventory();
+            ToggleXPBar();
         }
 
         if (InputManager.GetButtonDown("InventoryToggleEquipped"))
@@ -90,6 +95,11 @@ public class InventoryManager : MonoBehaviour
         if (_visible) UpdateInterface();
     }
 
+    private void ToggleXPBar()
+    {
+        _xp_system.ToggleXp();
+    }
+    
     private void ToggleEquipped()
     {
         _equipped = !_equipped;
@@ -121,7 +131,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void UpdatePlayerStats()
+    public void UpdatePlayerStats()
     {
         for (int i = 0; i < playerStatDisplays.transform.childCount; ++i)
         {
