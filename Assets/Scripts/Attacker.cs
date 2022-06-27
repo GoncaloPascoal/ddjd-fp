@@ -32,7 +32,6 @@ public class Attacker : MonoBehaviour
 
     public void AttackMoment()
     {
-        weapon.Attack();
         _isStartingAttack = false;
     }
 
@@ -93,6 +92,7 @@ public class Attacker : MonoBehaviour
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
         _isAttacking = true;
+        weapon.Attack();
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 

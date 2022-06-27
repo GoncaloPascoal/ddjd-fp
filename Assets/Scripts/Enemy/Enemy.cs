@@ -78,7 +78,7 @@ public abstract class Enemy : MonoBehaviour
             return false;
         
         // target not inside field of view cone
-        if (Vector3.Angle(enemyHead.transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
+        if (Vector3.Angle(transform.forward, new Vector3(rayDirection.x, 0f, rayDirection.z)) > fieldOfView / 2.0f) 
             return false;
         
         // and no obstacles in the way
