@@ -92,6 +92,7 @@ public class Attacker : MonoBehaviour
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
         _isAttacking = true;
+        _animator.applyRootMotion = true;
         weapon.Attack();
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
