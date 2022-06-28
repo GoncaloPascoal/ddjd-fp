@@ -27,7 +27,7 @@ public class Checkpoint : MonoBehaviour
         {
             if (_playerInRange && !_player.IsInCheckpoint())
             {
-                _saveManager.SetCheckpoint(checkpointNumber);
+                GameData.SetCheckpoint(checkpointNumber);
                 //TODO CHANGE THIS
                 _saveManager.CreateGameSaveFile();
                 _player.EnterCheckpoint(checkpointNumber);

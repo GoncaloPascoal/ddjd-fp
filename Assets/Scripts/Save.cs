@@ -11,11 +11,11 @@ public class Save
     private int _checkpointNumber;
     //private Inventory _inventory;
 
-    public Save(GameSaveManager gameSaveManager)
+    public Save()
     {
-        _checkpointNumber = gameSaveManager._checkpointNumber;
-
-        foreach(var plate in gameSaveManager._pressurePlatesActivated)
+        _checkpointNumber = GameData._checkpointNumber;
+        
+        foreach(var plate in GameData.PressurePlatesActivated)
         {
             _pressurePlatesActivated.Add(GameData.GameObjectToHash(plate.gameObject));
             

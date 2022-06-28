@@ -31,7 +31,7 @@ public class PressurePlate : MonoBehaviour
             if (willActivate)
             {
                 _animator.SetTrigger("Press");
-                _saveManager.AddActivatedPressurePlate(this);
+                GameData.AddActivatedPressurePlate(this);
                 activatable.GetComponent<Activatable>().activate();
             }
             else
