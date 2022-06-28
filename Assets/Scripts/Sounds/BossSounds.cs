@@ -9,8 +9,7 @@ public class BossSounds : EntitySounds
     [SerializeField] private int numberSwordAttacks = 4;
     [SerializeField] private int numberSlams = 3;
     [SerializeField] private int numberProjectile = 4;
-
-    [SerializeField]private List<String> parts = new List<string>{"body", "legs", "sword"};
+    [SerializeField] private int numberFoot = 8;
 
     public void SwordAttackSound()
     {
@@ -30,6 +29,12 @@ public class BossSounds : EntitySounds
     {
         int randomSound = Random.Range(1, numberProjectile + 1);
         Play3DSound("Boss/projectiles/projectile_" + randomSound);
+    }
+
+    public void FootStepSound()
+    {
+        int randomSound = Random.Range(1, numberFoot + 1);
+        Play3DSound("Enemys/enemy_footsteps/Foot_" + randomSound);
     }
         
     public void SummonSound()
