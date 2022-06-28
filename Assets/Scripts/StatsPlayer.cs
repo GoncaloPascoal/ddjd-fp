@@ -1,11 +1,13 @@
 
+using UnityEngine;
+
 public class StatsPlayer : Stats
 {
     private Inventory _inventory;
 
     public StatsDictionary levelUpBoosts;
     
-    private void Start()
+    private void Awake()
     {
         _inventory = GetComponent<Inventory>();
     }
