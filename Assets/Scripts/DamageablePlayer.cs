@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 
 public class DamageablePlayer : Damageable
@@ -15,6 +16,7 @@ public class DamageablePlayer : Damageable
 
     protected override void Start()
     {
+        _levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
         healthBar = HUD.Instance.healthBar;
         base.Start();
         StartCoroutine(UpdateMaxHealth());
