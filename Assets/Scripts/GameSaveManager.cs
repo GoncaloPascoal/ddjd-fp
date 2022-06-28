@@ -25,8 +25,8 @@ public class GameSaveManager : MonoBehaviour
     
     public void CreateGameSaveFile()
     {
-        var save = GameData.GetSaveData();        
-        
+        var save = GameData.GetSaveData();
+
         BinaryFormatter binaryFormatter = new BinaryFormatter(); 
         FileStream file = File.Create(Path.Combine(Application.persistentDataPath + "/gamesave.save"));
         binaryFormatter.Serialize(file,save);

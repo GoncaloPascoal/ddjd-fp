@@ -13,13 +13,13 @@ public class Pickup : MonoBehaviour
 
     [SerializeField] private ItemPickupDictionary items;
     private Inventory _inventory;
-    private GameSaveManager _saveManager;
 
     private bool _active;
 
     private void Start()
     {
-        _saveManager = GetComponent<GameSaveManager>();
+        if (GameData.PickupsPicked.Contains(GameData.GameObjectToHash(gameObject)))
+            Destroy(gameObject);
         _inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         _active = false;
     }
@@ -35,9 +35,9 @@ public class Pickup : MonoBehaviour
             foreach (Item item in items.Keys)
             {
                 _inventory.AddItem(item, items[item]);
-                GameData.AddPickedUpItem(item);
             }
             items.Clear();
+            GameData.AddPickUp(gameObject);
             Destroy(gameObject);
         }
     }

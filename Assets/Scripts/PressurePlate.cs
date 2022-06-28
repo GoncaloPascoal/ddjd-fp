@@ -11,11 +11,9 @@ public class PressurePlate : MonoBehaviour
     
     private Animator _animator;
 
-    private GameSaveManager _saveManager;
     // Start is called before the first frame update
     void Start()
     {
-        _saveManager = GetComponent<GameSaveManager>();
         _animator = GetComponent<Animator>();
 
         if (GameData.PressurePlatesActivated.Contains(GameData.GameObjectToHash(gameObject)))
