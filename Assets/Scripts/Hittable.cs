@@ -10,6 +10,7 @@ public class Hittable : MonoBehaviour
     private Animator _animator;
     private Staggerable _staggerable;
     private EntitySounds _entitySounds;
+    private bool alreadyLow = false;
 
     [SerializeField] private int hitSoundChance = 50;
 
@@ -44,7 +45,15 @@ public class Hittable : MonoBehaviour
         {
             if (_damageable.Health / _damageable.MaxHealth <= 0.25f)
             {
-                _entitySounds.LowHealth();
+                if (!alreadyLow)
+                {
+                    _entitySounds.LowHealth();
+                    alreadyLow = true;
+                }
+            }
+            else
+            {
+                alreadyLow = false;
             }
         }
     }

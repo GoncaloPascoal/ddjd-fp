@@ -26,6 +26,11 @@ public class Weapon : MonoBehaviour
         _alreadyHit.Clear();
     }
 
+    public void ResetAlreadyHit()
+    {
+        _alreadyHit.Clear();
+    }
+
     public void Attack()
     {
         _collider.enabled = true;
