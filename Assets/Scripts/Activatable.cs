@@ -3,8 +3,7 @@ using UnityEngine;
 
 public interface Activatable
 {
+    public void Activate();
 
-    public void activate();
-
-    public void deactivate();
+    public void Deactivate();
 }
