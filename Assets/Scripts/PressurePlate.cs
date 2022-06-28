@@ -10,9 +10,12 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private bool willActivate;
     
     private Animator _animator;
+
+    private GameSaveManager _saveManager;
     // Start is called before the first frame update
     void Start()
-    { 
+    {
+        _saveManager = GetComponent<GameSaveManager>();
         _animator = GetComponent<Animator>();
     }
 
@@ -28,6 +31,7 @@ public class PressurePlate : MonoBehaviour
             if (willActivate)
             {
                 _animator.SetTrigger("Press");
+                GameData.AddActivatedPressurePlate(this);
                 activatable.GetComponent<Activatable>().activate();
             }
             else

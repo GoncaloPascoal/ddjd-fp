@@ -59,7 +59,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc312626f1b63a54996401cae6fdf3fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseDamage: 10
   wielder: {fileID: 0}
   targetsTags: []
 --- !u!54 &6953150615432029739
