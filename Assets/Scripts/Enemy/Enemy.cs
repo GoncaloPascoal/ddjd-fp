@@ -84,7 +84,6 @@ public abstract class Enemy : MonoBehaviour
         // and no obstacles in the way
         if (Physics.Raycast(enemyHead.transform.position, rayDirection, out var hit, viewDistance))
         {
-            Debug.Log(hit.transform.tag);
             if (!mindControlled)
             {
                 return normalTargets.Contains(hit.transform.tag);

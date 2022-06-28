@@ -1,9 +1,11 @@
 
+using UnityEngine;
+
 public class StatsPlayer : Stats
 {
     private Inventory _inventory;
 
-    private void Start()
+    private void Awake()
     {
         _inventory = GetComponent<Inventory>();
     }
