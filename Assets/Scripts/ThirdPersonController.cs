@@ -181,7 +181,7 @@ namespace StarterAssets
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 
-			var currentCheckpoint = GameData._checkpointNumber;
+			var currentCheckpoint = GameData.CheckpointNumber;
 			GameObject checkPoint = null;
 			
 			foreach (var check in GameObject.FindGameObjectsWithTag("Checkpoint"))
