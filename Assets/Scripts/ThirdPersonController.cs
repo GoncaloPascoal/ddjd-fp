@@ -538,11 +538,13 @@ namespace StarterAssets
 					_currentTarget = target;
 					_animator.SetBool("Backstab", true);
 					_animator.applyRootMotion = true;
-					break;
+					return;
 				}
 			}
-			else if (_stamina >= Mathf.Abs(staminaUsage))
+			if (_stamina >= Mathf.Abs(staminaUsage))
 			{
+
+				Debug.Log(_stamina + " - " + Mathf.Abs(staminaUsage));
 				_attacker.Attack(attack);
 			}
 		}
