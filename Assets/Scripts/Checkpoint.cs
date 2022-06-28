@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] private int checkpointNumber = 1;
+    public int checkpointNumber = 1;
 
     private bool _playerInRange;
     private ThirdPersonController _player;
@@ -14,6 +14,10 @@ public class Checkpoint : MonoBehaviour
 
     private LevelChanger _levelChanger;
 
+    public bool proceedLevel = false;
+    
+    private bool _activating = false;
+    
     private void Start()
     {
         _levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
@@ -23,19 +27,31 @@ public class Checkpoint : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.GetButtonDown("Interact"))
+        if (!_playerInRange) return;
+
+        if (InputManager.GetButtonDown("Cancel"))
         {
-            if (_playerInRange && !_player.IsInCheckpoint())
+            if (_player.IsInCheckpoint(checkpointNumber))
             {
+                _player.ExitCheckpoint();
+            }
+        }
+        else if (InputManager.GetButtonDown("Interact"))
+        {
+
+            if (!_player.IsInCheckpoint() && !_activating)
+            {
+                _activating = true;
                 GameData.SetCheckpoint(checkpointNumber);
                 //TODO CHANGE THIS
                 _saveManager.CreateGameSaveFile();
                 _player.EnterCheckpoint(checkpointNumber);
                 _levelChanger.ReloadLevel();
-            }
-            else if (_player.GetCheckpoint() == checkpointNumber)
+            } 
+            else if (proceedLevel && _player.IsInCheckpoint(checkpointNumber) && !_activating)
             {
-                _player.ExitCheckpoint();
+                GameData.SetCheckpoint(1);
+                _levelChanger.NextLevel();
             }
         }
     }
@@ -58,9 +74,14 @@ public class Checkpoint : MonoBehaviour
     // TODO: change this
     private void OnGUI()
     {
-        if (_playerInRange && !_player.IsInCheckpoint())
+        if (!_playerInRange || _activating) return;
+        
+        if (!_player.IsInCheckpoint(checkpointNumber))
             GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to pray"));
-        else if (_player.IsInCheckpoint())
-            GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to stand up"));
+        else if (_player.IsInCheckpoint(checkpointNumber))
+        {
+            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), (
+                "Press Esc to stand up" + (proceedLevel ? "\nPress E to proceed to next level" : "")));
+        }
     }
 }
