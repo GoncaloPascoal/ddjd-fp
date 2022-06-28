@@ -18,6 +18,9 @@ public class SpykeScript : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        // Check if player -> kill player
+        if (other.CompareTag("Player"))
+        {
+            GameObject.FindWithTag("Player").GetComponent<DamageablePlayer>().Die();
+        }
     }
 }
