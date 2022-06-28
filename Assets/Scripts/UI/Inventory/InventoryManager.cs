@@ -12,39 +12,12 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private int slotsPerRow = 5;
 
-    public int SlotsPerRow
-    {
-        get
-        {
-            return slotsPerRow;
-        }
-        set
-        {
-            slotsPerRow = value;
-        }
-    }
-    
     [SerializeField] private int inventorySlots = 30;
 
-    public int InventorySlots
-    {
-        get
-        {
-            return inventorySlots;
-        }
-        set
-        {
-            inventorySlots = value;
-        }
-    }
-    
     [SerializeField] private Image cursor;
-    [SerializeField] private Sprite defaultIcon;
 
     [Header("Equipment Panel")]
     [SerializeField] private int equipmentSlotsPerRow = 2;
-
-    public int EquipmentSlotsPerRow { get; }
 
     [SerializeField] private GameObject equipmentSlots;
     [SerializeField] private GameObject playerStatDisplays;
@@ -57,46 +30,25 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject statsPanel, statDisplays;
 
     private Inventory _inventory;
-    private bool _visible, _equipped;
+    private bool _equipped;
 
-    public bool Equipped
-    {
-        get { return _equipped; }
-        set { _equipped = value; }
-    }
-    
     private int _currentSlot;
-
-    public int CurrentSlot
-    {
-        get { return _currentSlot; }
-        set { _currentSlot = value; }
-    }
     
     private List<Image> _slotIcons;
     private List<Item> _slotItems;
 
     private List<EquipmentDisplay> _equipmentDisplays;
 
-    public List<EquipmentDisplay> EquipmentDisplays { get; }
-
     private Stats _playerStats;
 
-    private XPSystem _xp_system;
+    private MenuTabController _menuTabController;
 
-    [Header("Inventory navigation")]
-    private InventoryNavigation _nav;
-    
-    [SerializeField]
-    private GameObject backToMenuButton;
-    
     private void Start()
     {
         GameObject playerObj = GameObject.FindWithTag("Player");
         _playerStats = playerObj.GetComponent<Stats>();
         _inventory = playerObj.GetComponent<Inventory>();
 
-        _visible = false;
         _equipped = false;
         _currentSlot = 0;
 
@@ -113,17 +65,16 @@ public class InventoryManager : MonoBehaviour
             _equipmentDisplays.Add(equipmentSlots.transform.GetChild(i).GetComponent<EquipmentDisplay>());
         }
 
-        _xp_system = GetComponent<XPSystem>();
-        _nav = GetComponent<InventoryNavigation>();
-        _nav.SetManager(this);
+        _menuTabController = GetComponentInParent<MenuTabController>();
+        UpdateInterface();
     }
 
     private void Update()
     {
-        if (InputManager.GetButtonDown("ToggleInventory"))
+        if (InputManager.GetButtonDown("MenuBack"))
         {
-            ToggleInventory();
-            ToggleXPBar();
+            _menuTabController.Return();
+            return;
         }
 
         if (InputManager.GetButtonDown("InventoryToggleEquipped"))
@@ -133,28 +84,18 @@ public class InventoryManager : MonoBehaviour
 
         if (InputManager.GetButtonDown("InventoryItemAction"))
         {
-            _nav.Action();
-            //ItemAction();
+            ItemAction();
         }
 
-        _nav.MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
+        MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
             InputManager.GetButtonDown("MenuUp"), InputManager.GetButtonDown("MenuDown"));
     }
 
-    private void ToggleInventory()
+    private void OnEnable()
     {
-        _visible = !_visible;
-        InputManager.CurrentActionType = _visible ? ActionType.Menu : ActionType.Game;
-        transform.GetChild(0).gameObject.SetActive(_visible);
-        if (_visible) UpdateInterface();
-        backToMenuButton.SetActive(_visible);
+        if (_inventory != null) UpdateInterface();
     }
 
-    private void ToggleXPBar()
-    {
-        _xp_system.ToggleXp();
-    }
-    
     private void ToggleEquipped()
     {
         _equipped = !_equipped;
@@ -171,7 +112,7 @@ public class InventoryManager : MonoBehaviour
         UpdateCursorPosition();
     }
 
-    public void UpdateCursorPosition()
+    private void UpdateCursorPosition()
     {
         cursor.transform.position = _equipped ?
             _equipmentDisplays[_currentSlot].transform.position :
@@ -212,6 +153,7 @@ public class InventoryManager : MonoBehaviour
                 }
 
                 if (slot == inventorySlots) return;
+                _slotIcons[slot].gameObject.SetActive(true);
                 _slotIcons[slot].sprite = equipment.icon;
                 _slotItems[slot++] = equipment;
             }
@@ -220,18 +162,19 @@ public class InventoryManager : MonoBehaviour
         foreach (Consumable consumable in _inventory.Consumables.Keys)
         {
             if (slot == inventorySlots) return;
+            _slotIcons[slot].gameObject.SetActive(true);
             _slotIcons[slot].sprite = consumable.icon;
             _slotItems[slot++] = consumable;
         }
 
         while (slot != inventorySlots)
         {
-            _slotIcons[slot].sprite = defaultIcon;
+            _slotIcons[slot].gameObject.SetActive(false);
             _slotItems[slot++] = null;
         }
     }
 
-    public void UpdateItemDisplay()
+    private void UpdateItemDisplay()
     {
         DisplayItem(_equipped ? _inventory.Equipped[_equipmentDisplays[_currentSlot].slot] : _slotItems[_currentSlot]);
     }
@@ -279,7 +222,7 @@ public class InventoryManager : MonoBehaviour
         itemContainer.SetActive(false);
     }
 
-    public void MoveCursor(bool left, bool right, bool up, bool down)
+    private void MoveCursor(bool left, bool right, bool up, bool down)
     {
         int row = _equipped ? equipmentSlotsPerRow : slotsPerRow;
         int total = _equipped ? _equipmentDisplays.Count : inventorySlots;
@@ -314,7 +257,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void ItemAction()
+    private void ItemAction()
     {
         Item currentItem = _equipped ? _inventory.Equipped[_equipmentDisplays[_currentSlot].slot] : _slotItems[_currentSlot];
         if (currentItem == null) return;

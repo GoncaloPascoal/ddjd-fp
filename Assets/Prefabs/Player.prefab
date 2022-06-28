@@ -1168,6 +1168,7 @@ GameObject:
   - component: {fileID: 8469139557399397877}
   - component: {fileID: 1637313959924911889}
   - component: {fileID: 1584211284754336485}
+  - component: {fileID: 7483092739752502500}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1515,15 +1516,27 @@ MonoBehaviour:
     - 5
     - 0
     - 50
-  levelUpBoosts:
+--- !u!114 &7483092739752502500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9434c0cedc70b74283cdd65d1a0ddff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boostPerLevel:
     m_keys: 000000000100000002000000030000000400000005000000
     m_values:
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
-    - 0
+    - 25
+    - 15
+    - 5
+    - 5
+    - 5
+    - 5
 --- !u!1 &4552572167694909163
 GameObject:
   m_ObjectHideFlags: 0
