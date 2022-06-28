@@ -8,7 +8,7 @@ public abstract class EntitySounds : MonoBehaviour
     [SerializeField] private List<string> attackSounds;
     [SerializeField] private List<string> deathSounds;
     
-    protected void Play3DSound(string soundEvent, int volume = 1)
+    protected void Play3DSound(string soundEvent, float volume = 1f)
     {
         FMOD.Studio.EventInstance sEventInstance = FMODUnity.RuntimeManager.CreateInstance("event:/" + soundEvent);
         sEventInstance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(gameObject));

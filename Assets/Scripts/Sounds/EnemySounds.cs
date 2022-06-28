@@ -11,7 +11,7 @@ public class EnemySounds : EntitySounds
     [SerializeField] private int numberArrow = 5;
     [SerializeField] private int numberDeath = 2;
 
-    [SerializeField]private List<String> parts = new List<string>{"body", "legs", "sword"};
+    private List<String> parts = new List<string>{"body", "legs", "sword"};
 
 public void WeaponAttackSound()
     {
@@ -24,7 +24,7 @@ public void WeaponAttackSound()
     {
         int randomSound = Random.Range(1, numberFootsteps + 1);
         
-        Play3DSound("character/Footsteps/footsteps_" + randomSound);
+        Play3DSound("character/Footsteps/footsteps_" + randomSound, 0.2f);
     }
     
     public void DeathSound()
