@@ -181,8 +181,18 @@ namespace StarterAssets
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 
-			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
-			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
+			var currentCheckpoint = GameData._checkpointNumber;
+			GameObject checkPoint = null;
+			
+			foreach (var check in GameObject.FindGameObjectsWithTag("Checkpoint"))
+			{
+				var checkpointScript = check.GetComponent<Checkpoint>();
+				if (checkpointScript != null && checkpointScript.checkpointNumber == currentCheckpoint)
+				{
+					checkPoint = check;
+					break;
+				}
+			}
 			
 			// get a reference to our main camera
 			if (_mainCamera == null)
@@ -291,14 +301,15 @@ namespace StarterAssets
 
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
+			
 
-			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered())
+			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered() || isDead())
 				movement = Vector2.zero;
 			else
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
 
 			//Can't move
-			if (isAttacking || _isBackstabbing || _resurrecting) return;
+			if (!isAttackingCanRotate && (isAttacking || _isBackstabbing || _resurrecting)) return;
 			
 			bool sprint = InputManager.GetButton("Sprint");
 
@@ -444,7 +455,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered())
+				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered() || isDead())
 				{
 					// Roll
 					if (InputManager.GetButtonDown("Roll") && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
@@ -514,7 +525,7 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 
-			if (_staggerable.IsStaggered())
+			if (_staggerable.IsStaggered() || isDead())
 				return;
 
 			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
@@ -538,11 +549,12 @@ namespace StarterAssets
 					_currentTarget = target;
 					_animator.SetBool("Backstab", true);
 					_animator.applyRootMotion = true;
-					break;
+					return;
 				}
 			}
-			else if (_stamina >= Mathf.Abs(staminaUsage))
+			if (_stamina >= Mathf.Abs(staminaUsage))
 			{
+
 				_attacker.Attack(attack);
 			}
 		}
@@ -599,6 +611,11 @@ namespace StarterAssets
 			return _inCheckpoint != -1;
 		}
 
+		public bool IsInCheckpoint(int checkpoint)
+		{
+			return _inCheckpoint == checkpoint;
+		}
+
 		public int GetCheckpoint()
 		{
 			return _inCheckpoint;
@@ -636,6 +653,19 @@ namespace StarterAssets
 		public float GetStamina()
 		{
 			return _stamina;
+		}
+
+		public bool isDead()
+		{
+			return _animator.GetBool("isDying");
+		}
+		
+		public void resetDeadAnimationBool()
+		{
+			if(isDead())
+				_animator.SetBool("isDying",false);
+			else
+				_animator.SetBool("isDying",true);
 		}
 	}
 }

@@ -14,7 +14,7 @@ public static class InputManager
       new Dictionary<ActionType, ISet<string>> {
             { ActionType.Game, new HashSet<string> {
                   "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "LightAttack", "HeavyAttack",
-                  "Interact", "MenuToggle"
+                  "Interact", "MenuToggle", "Cancel"
             }},
             { ActionType.Menu, new HashSet<string> {
                   "MenuToggle", "InventoryItemAction", "InventoryToggleEquipped", "MenuLeft", "MenuRight", "MenuUp",
