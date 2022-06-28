@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: abca6a9273f0e5244a6b96c7f90c7a76
+guid: 389aaa988946ca81ab0dc960b2d78470
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: Stagger
+    second: NormalAttack
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -21,8 +21,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: Event ActivateStagger has a time (1.166667) outside
-      the clip's valid range (0.000000..1.050000). It will never be fired
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -36,11 +35,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Stagger
+      name: NormalAttack
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 70
+      lastFrame: 165
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -60,10 +59,45 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 1
-        functionName: ActivateStagger
+      - time: 0.34478766
+        functionName: WeaponAttackSound
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: 867ce39d6c0853aea9a5fd43234aa29c, type: 3}
+        objectReferenceParameter: {fileID: 11500000, guid: b0dbf23732aa9444ba4b2b7b91a925b5, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.3579952
+        functionName: StopStagger
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: EndAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.9928401
+        functionName: ActivateStaggerNormalAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0c52f251af39a5642a67b35ef05afb49, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0
+        functionName: StartAttack
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.33174226
+        functionName: AttackMoment
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 88f15eee1923e264a9719b1667a9f779, type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
