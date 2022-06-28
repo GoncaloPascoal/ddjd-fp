@@ -27,6 +27,7 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
+        weapon.Attack();
         _isStartingAttack = true;
     }
 
@@ -44,11 +45,14 @@ public class Attacker : MonoBehaviour
                 weapon.Attack();
                 _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
                 Debug.Log(_tpc.GetStamina());
+                _bufferedAttack = false;
+                _isAttacking = true;
             }
-            _bufferedAttack = false;
-            _isAttacking = true;
-            _animator.ResetTrigger(_currentTrigger);
-            _currentTrigger = null;
+            else
+            {
+                _animator.ResetTrigger(_currentTrigger);
+                _currentTrigger = null;
+            }
         }
         else
         {
