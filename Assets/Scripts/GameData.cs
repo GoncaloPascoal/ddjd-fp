@@ -10,24 +10,17 @@ public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPro
 
 public static class GameData
 {
-    public static List<Item> _pickedUpItems;
-    
+    private static List<Item> _pickedUpItems = new List<Item>();
     public static List<Item> PickedUpItems
     {
         get => _pickedUpItems;
-        set
-        {
-            _pickedUpItems = value;
-        }
+        set => _pickedUpItems = value;
     }
-    public static List<PressurePlate> _pressurePlatesActivated;
+    private static List<PressurePlate> _pressurePlatesActivated = new List<PressurePlate>();
     public static List<PressurePlate> PressurePlatesActivated
     {
         get => _pressurePlatesActivated;
-        set
-        {
-            _pressurePlatesActivated = value;
-        }
+        set => _pressurePlatesActivated = value;
     }
     public static int _checkpointNumber;
     public static Inventory _inventory;
