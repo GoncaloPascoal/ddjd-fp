@@ -18,12 +18,14 @@ public class EnemyRanged : Enemy
     private float _currentTime;
 
     private EnemyRangedState _state;
+    private EnemySounds _sounds;
     
     private new void Start()
     {
         base.Start();
         _currentTime = prepareTime;
         _state = EnemyRangedState.NotAlert;
+        _sounds = GetComponent<EnemySounds>();
     }
 
     private new void Update()
@@ -91,6 +93,7 @@ public class EnemyRanged : Enemy
         _state = EnemyRangedState.Recovering;
 
         _animator.SetTrigger("Shoot");
+        _sounds.ShootBow();
 
         GameObject shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
         shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), (int) Stats.GetStatValue(StatName.Damage), mindControlled);

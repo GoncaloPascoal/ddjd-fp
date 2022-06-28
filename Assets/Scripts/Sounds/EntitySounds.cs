@@ -39,4 +39,9 @@ public abstract class EntitySounds : MonoBehaviour
         if (deathSounds.Count > 0)
             Play3DSound(deathSounds[Random.Range(0, deathSounds.Count)]);
     }
+
+    public void LowHealth()
+    {
+        Play3DSound("character/Low_Stamina");
+    }
 }
