@@ -7,6 +7,8 @@ using UnityEngine;
 
 [CustomPropertyDrawer(typeof(StatsDictionary))]
 [CustomPropertyDrawer(typeof(ItemPickupDictionary))]
+[CustomPropertyDrawer(typeof(MenuButtonStateSpriteDictionary))]
+[CustomPropertyDrawer(typeof(MenuTabGameObjectDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer { }
 
 [Serializable]

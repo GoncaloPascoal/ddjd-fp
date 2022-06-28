@@ -11,12 +11,14 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject itemSlots;
 
     [SerializeField] private int slotsPerRow = 5;
+
     [SerializeField] private int inventorySlots = 30;
+
     [SerializeField] private Image cursor;
-    [SerializeField] private Sprite defaultIcon;
 
     [Header("Equipment Panel")]
     [SerializeField] private int equipmentSlotsPerRow = 2;
+
     [SerializeField] private GameObject equipmentSlots;
     [SerializeField] private GameObject playerStatDisplays;
 
@@ -28,8 +30,10 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private GameObject statsPanel, statDisplays;
 
     private Inventory _inventory;
-    private bool _visible, _equipped;
+    private bool _equipped;
+
     private int _currentSlot;
+    
     private List<Image> _slotIcons;
     private List<Item> _slotItems;
 
@@ -37,7 +41,7 @@ public class InventoryManager : MonoBehaviour
 
     private Stats _playerStats;
 
-    private XPSystem _xp_system;
+    private MenuTabController _menuTabController;
 
     private void Start()
     {
@@ -45,7 +49,6 @@ public class InventoryManager : MonoBehaviour
         _playerStats = playerObj.GetComponent<Stats>();
         _inventory = playerObj.GetComponent<Inventory>();
 
-        _visible = false;
         _equipped = false;
         _currentSlot = 0;
 
@@ -62,15 +65,16 @@ public class InventoryManager : MonoBehaviour
             _equipmentDisplays.Add(equipmentSlots.transform.GetChild(i).GetComponent<EquipmentDisplay>());
         }
 
-        _xp_system = GetComponent<XPSystem>();
+        _menuTabController = GetComponentInParent<MenuTabController>();
+        UpdateInterface();
     }
 
     private void Update()
     {
-        if (InputManager.GetButtonDown("ToggleInventory"))
+        if (InputManager.GetButtonDown("MenuBack"))
         {
-            ToggleInventory();
-            ToggleXPBar();
+            _menuTabController.Return();
+            return;
         }
 
         if (InputManager.GetButtonDown("InventoryToggleEquipped"))
@@ -87,19 +91,11 @@ public class InventoryManager : MonoBehaviour
             InputManager.GetButtonDown("MenuUp"), InputManager.GetButtonDown("MenuDown"));
     }
 
-    private void ToggleInventory()
+    private void OnEnable()
     {
-        _visible = !_visible;
-        InputManager.CurrentActionType = _visible ? ActionType.Menu : ActionType.Game;
-        transform.GetChild(0).gameObject.SetActive(_visible);
-        if (_visible) UpdateInterface();
+        if (_inventory != null) UpdateInterface();
     }
 
-    private void ToggleXPBar()
-    {
-        _xp_system.ToggleXp();
-    }
-    
     private void ToggleEquipped()
     {
         _equipped = !_equipped;
@@ -157,6 +153,7 @@ public class InventoryManager : MonoBehaviour
                 }
 
                 if (slot == inventorySlots) return;
+                _slotIcons[slot].gameObject.SetActive(true);
                 _slotIcons[slot].sprite = equipment.icon;
                 _slotItems[slot++] = equipment;
             }
@@ -165,13 +162,14 @@ public class InventoryManager : MonoBehaviour
         foreach (Consumable consumable in _inventory.Consumables.Keys)
         {
             if (slot == inventorySlots) return;
+            _slotIcons[slot].gameObject.SetActive(true);
             _slotIcons[slot].sprite = consumable.icon;
             _slotItems[slot++] = consumable;
         }
 
         while (slot != inventorySlots)
         {
-            _slotIcons[slot].sprite = defaultIcon;
+            _slotIcons[slot].gameObject.SetActive(false);
             _slotItems[slot++] = null;
         }
     }
