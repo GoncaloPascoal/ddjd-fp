@@ -67,7 +67,7 @@ public class EnemyMelee : Enemy
 
                 if (_attackCooldown <= 0)
                 {
-                    _attacker.AttackNotBuffered(new List<String> { "AttackNormal", "MultipleSlashes" });
+                    _attacker.AttackNotBuffered();
                     _attackCooldown = 3f;
                 }
                 
