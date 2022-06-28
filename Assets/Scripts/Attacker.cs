@@ -101,6 +101,11 @@ public class Attacker : MonoBehaviour
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 
+    public void AttackNotBuffered()
+    {
+        AttackNotBuffered(attackingStates);
+    }
+
     public bool IsAttacking()
     {
         return _isAttacking;
