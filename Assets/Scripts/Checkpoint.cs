@@ -10,12 +10,14 @@ public class Checkpoint : MonoBehaviour
 
     private bool _playerInRange;
     private ThirdPersonController _player;
+    private GameSaveManager _saveManager;
 
     private LevelChanger _levelChanger;
 
     private void Start()
     {
         _levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
+        _saveManager = GameObject.FindWithTag("GameSave").GetComponent<GameSaveManager>();
         _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
     }
 
@@ -25,7 +27,9 @@ public class Checkpoint : MonoBehaviour
         {
             if (_playerInRange && !_player.IsInCheckpoint())
             {
-                PlayerPrefs.SetInt("Checkpoint", checkpointNumber);
+                _saveManager.SetCheckpoint(checkpointNumber);
+                //TODO CHANGE THIS
+                _saveManager.CreateGameSaveFile();
                 _player.EnterCheckpoint(checkpointNumber);
                 _levelChanger.ReloadLevel();
             }
