@@ -181,8 +181,18 @@ namespace StarterAssets
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 
-			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
-			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
+			var currentCheckpoint = GameData._checkpointNumber;
+			GameObject checkPoint = null;
+			
+			foreach (var check in GameObject.FindGameObjectsWithTag("Checkpoint"))
+			{
+				var checkpointScript = check.GetComponent<Checkpoint>();
+				if (checkpointScript != null && checkpointScript.checkpointNumber == currentCheckpoint)
+				{
+					checkPoint = check;
+					break;
+				}
+			}
 			
 			// get a reference to our main camera
 			if (_mainCamera == null)
@@ -597,6 +607,11 @@ namespace StarterAssets
 		public bool IsInCheckpoint()
 		{
 			return _inCheckpoint != -1;
+		}
+
+		public bool IsInCheckpoint(int checkpoint)
+		{
+			return _inCheckpoint == checkpoint;
 		}
 
 		public int GetCheckpoint()
