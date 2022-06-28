@@ -4,6 +4,8 @@ using UnityEditor;
 
 [CustomPropertyDrawer(typeof(StatsDictionary))]
 [CustomPropertyDrawer(typeof(ItemPickupDictionary))]
+[CustomPropertyDrawer(typeof(MenuButtonStateSpriteDictionary))]
+[CustomPropertyDrawer(typeof(MenuTabGameObjectDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer { }
 
 public static class GameData

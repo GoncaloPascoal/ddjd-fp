@@ -14,11 +14,12 @@ public static class InputManager
       new Dictionary<ActionType, ISet<string>> {
             { ActionType.Game, new HashSet<string> {
                   "Mouse X", "Mouse Y", "Horizontal", "Vertical", "Sprint", "Roll", "Jump", "LightAttack", "HeavyAttack",
-                  "Interact", "ToggleInventory"
+                  "Interact", "MenuToggle"
             }},
             { ActionType.Menu, new HashSet<string> {
-                  "ToggleInventory", "InventoryItemAction", "InventoryToggleEquipped", "MenuLeft", "MenuRight", "MenuUp",
-                  "MenuDown", "InvLevelUpDamage", "InvLevelUpArmor", "InvLevelUpHealth", "InvLevelUpStamina", "InvLevelUpStability", "InvLevelUpStaminaRecovery"
+                  "MenuToggle", "InventoryItemAction", "InventoryToggleEquipped", "MenuLeft", "MenuRight", "MenuUp",
+                  "MenuDown", "MenuBack", "MenuAction", "LevelUpDamage", "LevelUpArmor", "LevelUpHealth",
+                  "LevelUpStamina", "LevelUpStability", "LevelUpStaminaRecovery"
             }}
       };
 
