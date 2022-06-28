@@ -53,7 +53,7 @@ public class DamageableEnemy : Damageable
         Destroy(this);
     }
     
-    protected override void Die()
+    public override void Die()
     {
         Enemy enemy = GetComponent<Enemy>();
         if (enemy.backstabbed)
