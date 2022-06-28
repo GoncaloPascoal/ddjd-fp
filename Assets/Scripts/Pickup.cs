@@ -35,7 +35,7 @@ public class Pickup : MonoBehaviour
             foreach (Item item in items.Keys)
             {
                 _inventory.AddItem(item, items[item]);
-                _saveManager.AddPickedUpItem(item);
+                GameData.AddPickedUpItem(item);
             }
             items.Clear();
             Destroy(gameObject);

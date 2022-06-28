@@ -8,10 +8,6 @@ using UnityEngine;
 public class GameSaveManager : MonoBehaviour
 {
 
-    public List<Item> _pickedUpItems;
-    public List<PressurePlate> _pressurePlatesActivated;
-    public int _checkpointNumber;
-    public Inventory _inventory;
 
     private static GameSaveManager _gameSaveManager;
     void Awake()
@@ -30,9 +26,7 @@ public class GameSaveManager : MonoBehaviour
     
     public void CreateGameSaveFile()
     {
-        _inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
-
-        Save save = new Save(this);        
+        Save save = new Save();        
         
         BinaryFormatter binaryFormatter = new BinaryFormatter(); 
         FileStream file = File.Create(Path.Combine(Application.persistentDataPath + "/gamesave.save"));
@@ -41,18 +35,5 @@ public class GameSaveManager : MonoBehaviour
         Debug.Log("Saved on " + Path.Combine(Application.persistentDataPath + "/gamesave.save"));
     }
 
-    public void AddPickedUpItem(Item item)
-    {
-        _pickedUpItems.Add(item);
-    }
-
-    public void SetCheckpoint(int checkpointNumber)
-    {
-        _checkpointNumber = checkpointNumber;
-    }
-
-    public void AddActivatedPressurePlate(PressurePlate pressurePlate)
-    {
-        //_pressurePlatesActivated.Add(pressurePlate);
-    }
+    
 }

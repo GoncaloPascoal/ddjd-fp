@@ -10,12 +10,50 @@ public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPro
 
 public static class GameData
 {
+    public static List<Item> _pickedUpItems;
+    
+    public static List<Item> PickedUpItems
+    {
+        get => _pickedUpItems;
+        set
+        {
+            _pickedUpItems = value;
+        }
+    }
+    public static List<PressurePlate> _pressurePlatesActivated;
+    public static List<PressurePlate> PressurePlatesActivated
+    {
+        get => _pressurePlatesActivated;
+        set
+        {
+            _pressurePlatesActivated = value;
+        }
+    }
+    public static int _checkpointNumber;
+    public static Inventory _inventory;
+    
+    
     public static Dictionary<int, int> Levels = new Dictionary<int, int>()
     {
         {1, 1}
     };
 
     public static bool InCheckpoint = false;
+    
+    public static void AddPickedUpItem(Item item)
+    {
+        PickedUpItems = new List<Item> (PickedUpItems) {item};
+    }
+
+    public static void SetCheckpoint(int checkpointNumber)
+    {
+        _checkpointNumber = checkpointNumber;
+    }
+
+    public static void AddActivatedPressurePlate(PressurePlate pressurePlate)
+    {
+        PressurePlatesActivated = new List<PressurePlate> (PressurePlatesActivated) {pressurePlate};
+    }
 
     public static String GameObjectToHash(GameObject gameObject)
     {
