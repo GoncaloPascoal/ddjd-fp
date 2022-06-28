@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DamageableBoss : Damageable
 {
-    protected override void Die()
+    public override void Die()
     {
         gameObject.GetComponent<Boss>().ChangePhase();
     }
