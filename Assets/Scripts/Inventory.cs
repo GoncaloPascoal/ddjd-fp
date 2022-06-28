@@ -28,12 +28,12 @@ public class Inventory : MonoBehaviour
         
         foreach (var consumable in inventoryData.Consumables)
         {
-            Debug.Log(consumable.Key);
-            var consumableScriptObj = 
-                Instantiate(itemsTypes.Find(t => t.name == consumable.Key)) as Consumable;
-            
+            var consumableScriptObj = itemsTypes.Find(t => t.name == consumable.Key) as Consumable;
+
             if (consumableScriptObj != null)
-                Consumables.Add(consumableScriptObj, consumable.Value);            
+            {
+                Consumables.Add(consumableScriptObj, consumable.Value);
+            }
         }
         
         foreach (var equipment in inventoryData.Equipment)
@@ -41,20 +41,23 @@ public class Inventory : MonoBehaviour
             var piecesList = new List<Equipment>();
             foreach (var equipmentPiece in equipment.Value)
             {
-                var equipmentScriptObj = 
-                    Instantiate(itemsTypes.Find(t => t.name == equipmentPiece)) as Equipment;
+                var equipmentScriptObj = itemsTypes.Find(t => t.name == equipmentPiece) as Equipment;
                 if (equipmentScriptObj != null)
+                {
                     piecesList.Add(equipmentScriptObj);
+                }
             }
             Equipment[equipment.Key] = piecesList;
         }
 
         foreach (var equipped in inventoryData.Equipped)
         {
-            var equippedPiece = 
-                Instantiate(itemsTypes.Find(t => t.name == equipped.Value)) as Equipment;
+            var equippedPiece = itemsTypes.Find(t => t.name == equipped.Value) as Equipment;
             if (equippedPiece != null)
+            {
                 Equipped[equipped.Key] = equippedPiece;
+                equippedPiece.Equip();
+            }
         }
     }
 
