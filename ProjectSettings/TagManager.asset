@@ -17,6 +17,7 @@ TagManager:
   - Cutscene
   - Spyke
   - InvCanvas
+  - GameSave
   layers:
   - Default
   - TransparentFX
