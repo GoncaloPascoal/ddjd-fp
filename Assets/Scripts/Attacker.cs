@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using StarterAssets;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Attacker : MonoBehaviour
 {
@@ -27,11 +29,13 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
+        if(_tpc!=null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
         _isStartingAttack = true;
     }
 
     public void AttackMoment()
     {
+        weapon.Attack();
         _isStartingAttack = false;
     }
 
@@ -39,19 +43,13 @@ public class Attacker : MonoBehaviour
     {
         if (_bufferedAttack)
         {
-            if (_tpc != null && _tpc.GetStamina() > _tpc.StaminaUsageAttacks[_currentTrigger])
-            {
-                weapon.Attack();
-                _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
-                Debug.Log(_tpc.GetStamina());
-            }
             _bufferedAttack = false;
             _isAttacking = true;
-            _animator.ResetTrigger(_currentTrigger);
-            _currentTrigger = null;
         }
         else
         {
+            _currentTrigger = null;
+            _bufferedAttack = false;
             _isAttacking = false;
             weapon.DisableCollider();
             _animator.applyRootMotion = false;
@@ -65,11 +63,11 @@ public class Attacker : MonoBehaviour
         // If already attacking, buffer next attack
         if (IsAttacking())
         {
-            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.1f)
+            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.3f)
             {
                 _bufferedAttack = true;
                 if (_currentTrigger != null) _animator.ResetTrigger(_currentTrigger);
-                _animator.SetTrigger(triggerName);
+                _animator.SetTrigger(_currentTrigger);
                 _currentTrigger = triggerName;
                 _animator.applyRootMotion = true;
             }
@@ -80,7 +78,7 @@ public class Attacker : MonoBehaviour
             _animator.SetTrigger(triggerName);
             _currentTrigger = triggerName;
             _animator.applyRootMotion = true;
-            _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[triggerName]);
+            // _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[triggerName]);
         }
     }
 
@@ -92,6 +90,7 @@ public class Attacker : MonoBehaviour
         int randomAnimation = Random.Range(0, possibleAnimations.Count);
 
         _isAttacking = true;
+        _animator.applyRootMotion = true;
         weapon.Attack();
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }

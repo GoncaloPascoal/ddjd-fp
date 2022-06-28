@@ -63,7 +63,7 @@ public class EnemyMelee : Enemy
             // is chasing - will look at player to attack, or player is too close
             if (CanChase(distanceToTarget))
             {
-                LookAtTarget();
+                if(!_attacker.IsAttacking())LookAtTarget();
 
                 if (_attackCooldown <= 0)
                 {
