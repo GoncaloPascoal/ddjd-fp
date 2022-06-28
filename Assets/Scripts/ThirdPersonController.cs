@@ -291,6 +291,7 @@ namespace StarterAssets
 
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
+			
 
 			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered())
 				movement = Vector2.zero;
@@ -298,7 +299,7 @@ namespace StarterAssets
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
 
 			//Can't move
-			if (isAttacking || _isBackstabbing || _resurrecting) return;
+			if (!isAttackingCanRotate && (isAttacking || _isBackstabbing || _resurrecting)) return;
 			
 			bool sprint = InputManager.GetButton("Sprint");
 
@@ -544,7 +545,6 @@ namespace StarterAssets
 			if (_stamina >= Mathf.Abs(staminaUsage))
 			{
 
-				Debug.Log(_stamina + " - " + Mathf.Abs(staminaUsage));
 				_attacker.Attack(attack);
 			}
 		}
