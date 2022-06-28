@@ -10184,6 +10184,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5569051898255269664, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
+      propertyPath: m_Text
+      value: You died!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5569051898255269664, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5569051898255269664, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5569051898255269664, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6382615780018364918, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6941311682049013405, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -10227,6 +10247,10 @@ PrefabInstance:
     - target: {fileID: 6941311682049013405, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7728751744424957388, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8989471185976647729, guid: 1c63bf127b8378f45b348eda81b79196, type: 3}
       propertyPath: m_Name
