@@ -303,7 +303,7 @@ namespace StarterAssets
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 			
 
-			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered())
+			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered() || isDead())
 				movement = Vector2.zero;
 			else
 				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
@@ -455,7 +455,7 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered())
+				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered() || isDead())
 				{
 					// Roll
 					if (InputManager.GetButtonDown("Roll") && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
@@ -525,7 +525,7 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 
-			if (_staggerable.IsStaggered())
+			if (_staggerable.IsStaggered() || isDead())
 				return;
 
 			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
@@ -653,6 +653,19 @@ namespace StarterAssets
 		public float GetStamina()
 		{
 			return _stamina;
+		}
+
+		public bool isDead()
+		{
+			return _animator.GetBool("isDying");
+		}
+		
+		public void resetDeadAnimationBool()
+		{
+			if(isDead())
+				_animator.SetBool("isDying",false);
+			else
+				_animator.SetBool("isDying",true);
 		}
 	}
 }
