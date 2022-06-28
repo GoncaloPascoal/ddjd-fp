@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelChanger : MonoBehaviour
 {
@@ -40,6 +41,12 @@ public class LevelChanger : MonoBehaviour
     {
         GameData.InCheckpoint = true;
         _animator.SetTrigger("LevelChange");
+    }
+
+    public void ReloadLevelOnDeath()
+    {
+        GameData.InCheckpoint = true;
+        _animator.SetTrigger("PlayerDead");
     }
 
     public void OnFadeEnd()
