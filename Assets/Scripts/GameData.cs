@@ -51,7 +51,7 @@ public static class GameData
             {GameObjectToHash(pressurePlate.gameObject)};
     }
 
-    private static string GameObjectToHash(GameObject gameObject)
+    public static string GameObjectToHash(GameObject gameObject)
     {
         var hash = new Hash128();
         hash.Append(gameObject.name);

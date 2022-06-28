@@ -6,12 +6,16 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, Activatable
 {
-
     private Animator _animator;
+
+    private bool _setToActivate = false;
+    
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _animator = GetComponent<Animator>();
+        if (_setToActivate)
+            Activate();
     }
 
     // Update is called once per frame
@@ -19,12 +23,15 @@ public class Door : MonoBehaviour, Activatable
     {
     }
 
-    public void activate()
+    public void Activate()
     {
-        _animator.SetTrigger("Open");
+        if (_animator != null)
+            _animator.SetTrigger("Open");
+        else
+            _setToActivate = true;
     }
 
-    public void deactivate()
+    public void Deactivate()
     {
         
     }
