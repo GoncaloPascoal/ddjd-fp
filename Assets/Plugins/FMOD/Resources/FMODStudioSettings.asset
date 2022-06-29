@@ -313,6 +313,7 @@ MonoBehaviour:
   - Menu
   - Mind Control
   - Weapons
+  - Boss
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
   AndroidUseOBB: 0

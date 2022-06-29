@@ -18,15 +18,22 @@ public class ProjectileSpell : MonoBehaviour
     [SerializeField] private float damage = 10f;
     private BossSounds _bs;
 
+    [SerializeField] private GameObject explosion;
+    
+    private Collider _collider;
+
     private GameObject _target;
     private Vector3 _shootDirection;
 
     private float _timePassed = 0f;
     private bool _shot = false;
+    private float timeShot = 0f;
 
     private void Start()
     {
         _bs = GetComponent<BossSounds>();
+        _collider = GetComponent<Collider>();
+        _collider.enabled = false;
     }
 
     public void InitializeWithPositionTarget(Vector3 position, GameObject target, float timeBeforeShoot)
@@ -41,7 +48,10 @@ public class ProjectileSpell : MonoBehaviour
         if (_shot)
         {
             transform.position += _shootDirection * shootSpeed * Time.deltaTime;
-                // Vector3.Lerp(transform.position, _targetCurrentPos + Vector3.up, Time.deltaTime * shootSpeed);
+            timeShot += Time.deltaTime;
+            if (timeShot > 5f)
+                Destroy(gameObject);
+            // Vector3.Lerp(transform.position, _targetCurrentPos + Vector3.up, Time.deltaTime * shootSpeed);
         }
         else if (_timePassed >= timeBeforePosition && _timePassed < _timeBeforeShoot)
         {
@@ -58,6 +68,7 @@ public class ProjectileSpell : MonoBehaviour
     public void Shoot()
     {
         _shot = true;
+        _collider.enabled = true;
         _shootDirection = (_target.transform.position + Vector3.up) - transform.position;
         _bs.ProjectileSound();
     }
@@ -67,7 +78,13 @@ public class ProjectileSpell : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Hittable>().Hit(damage);
-            Destroy(gameObject);
+            DestroyProjectile();
         }
+    }
+
+    private void DestroyProjectile()
+    {
+        Instantiate(explosion, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
