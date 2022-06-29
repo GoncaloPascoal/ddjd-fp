@@ -5,8 +5,8 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 # Installation
 
-Download the project zip file.
-Run the .exe file
+- Download the project zip file.
+- Run the .exe file
 
 
 # Playing instructions
