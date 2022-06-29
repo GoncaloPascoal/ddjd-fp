@@ -10,12 +10,54 @@ public class Inventory : MonoBehaviour
     public Dictionary<EquipmentSlot, List<Equipment>> Equipment { get; } = new Dictionary<EquipmentSlot, List<Equipment>>();
     public Dictionary<EquipmentSlot, Equipment> Equipped { get; } = new Dictionary<EquipmentSlot, Equipment>();
 
+    [SerializeField] 
+    private List<ScriptableObject> itemsTypes = new List<ScriptableObject>();
+
     private void Awake()
     {
         foreach (EquipmentSlot slot in Enum.GetValues(typeof(EquipmentSlot)))
         {
             Equipment[slot] = new List<Equipment>();
             Equipped[slot] = null;
+        }
+    }
+
+    private void Start()
+    {
+        var inventoryData = GameData.InventoryData;
+        
+        foreach (var consumable in inventoryData.Consumables)
+        {
+            var consumableScriptObj = itemsTypes.Find(t => t.name == consumable.Key) as Consumable;
+
+            if (consumableScriptObj != null)
+            {
+                Consumables.Add(consumableScriptObj, consumable.Value);
+            }
+        }
+        
+        foreach (var equipment in inventoryData.Equipment)
+        {
+            var piecesList = new List<Equipment>();
+            foreach (var equipmentPiece in equipment.Value)
+            {
+                var equipmentScriptObj = itemsTypes.Find(t => t.name == equipmentPiece) as Equipment;
+                if (equipmentScriptObj != null)
+                {
+                    piecesList.Add(equipmentScriptObj);
+                }
+            }
+            Equipment[equipment.Key] = piecesList;
+        }
+
+        foreach (var equipped in inventoryData.Equipped)
+        {
+            var equippedPiece = itemsTypes.Find(t => t.name == equipped.Value) as Equipment;
+            if (equippedPiece != null)
+            {
+                Equipped[equipped.Key] = equippedPiece;
+                equippedPiece.Equip();
+            }
         }
     }
 
