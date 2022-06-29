@@ -74,22 +74,22 @@ public class CharacterManager : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.GetButtonDown("MenuBack"))
+        if (InputManager.Action("MenuBack").WasPressedThisFrame())
         {
             _menuTabController.Return();
             return;
         }
 
-        if (InputManager.GetButtonDown("MenuDown"))
+        if (InputManager.Action("MenuDown").WasPressedThisFrame())
         {
             CurrentStat = (CurrentStat + 1) % _statDisplays.Count;
         }
-        else if (InputManager.GetButtonDown("MenuUp"))
+        else if (InputManager.Action("MenuUp").WasPressedThisFrame())
         {
             if (CurrentStat == 0) CurrentStat = _statDisplays.Count - 1;
             else CurrentStat -= 1;
         }
-        else if (InputManager.GetButtonDown("MenuAction"))
+        else if (InputManager.Action("MenuAction").WasPressedThisFrame())
         {
             if (LevelSystem.Instance.HasStatPoints())
             {

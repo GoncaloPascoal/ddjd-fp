@@ -69,7 +69,7 @@ public class FloatingSoul : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && InputManager.GetButtonDown("Interact"))
+        if (other.CompareTag("Player") && InputManager.Action("Interact").WasPressedThisFrame())
         {
             _player.StartResurrection(_enemyAnimator);
             _promptEnabled = false;

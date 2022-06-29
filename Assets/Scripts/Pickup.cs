@@ -28,7 +28,7 @@ public class Pickup : MonoBehaviour
     {
         if (!_active) return;
 
-        if (Input.GetButtonDown("Interact"))
+        if (InputManager.Action("Interact").WasPressedThisFrame())
         {
             HUD.Instance.HideButtonPrompt();
             HUD.Instance.ShowItemPickup(items);
