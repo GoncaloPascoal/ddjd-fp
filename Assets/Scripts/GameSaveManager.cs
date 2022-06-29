@@ -45,7 +45,7 @@ public class GameSaveManager : MonoBehaviour
         Debug.Log("Saved on " + Path.Combine(Application.persistentDataPath + "/gamesave.save"));
     }
 
-    public void LoadSave()
+    public static void LoadSave()
     {
         var path = Application.persistentDataPath + "/gamesave.save";
         if (File.Exists(path))
