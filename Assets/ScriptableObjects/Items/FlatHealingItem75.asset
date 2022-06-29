@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Medium Potion
   itemNamePlural: Medium Potions
   description: A medium potion
-  icon: {fileID: 21300000, guid: 2abddae3adc747547ad36c542f73895e, type: 3}
+  icon: {fileID: 21300000, guid: 17c670fcd46530140bfaff9a0c162625, type: 3}
   healing: 75
