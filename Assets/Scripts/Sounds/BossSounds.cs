@@ -15,14 +15,14 @@ public class BossSounds : EntitySounds
     {
         int randomSound = Random.Range(1, numberSwordAttacks + 1);
         
-        Play3DSound("boss/Sword/boss_sword_" + randomSound);
+        Play3DSound("Boss/Sword/boss_sword_" + randomSound);
     }
     
     public void SwordSlamSound()
     {
         int randomSound = Random.Range(1, numberSlams + 1);
         
-        Play3DSound("boss/Sword_slam/slam_" + randomSound);
+        Play3DSound("Boss/Sword_slam/slam_" + randomSound);
     }
     
     public void ProjectileSound()
