@@ -18,7 +18,17 @@ public class MainMenu : MonoBehaviour
         }
         Screen.fullScreen = PlayerPrefs.GetInt("fullscreen", 0) == 1;
 
-        newGameButton.onClick.AddListener(() => SceneManager.LoadScene("Level1"));
+        newGameButton.onClick.AddListener(() =>
+        {
+            GameSaveManager.NewSave();
+            SceneManager.LoadScene("Level1");
+        });
+        
+        loadGameButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene("Level" + GameData.LevelNumber);
+        });
+        
         settingsButton.onClick.AddListener(() =>
         {
             PlayerPrefs.Save();
