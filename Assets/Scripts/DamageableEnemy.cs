@@ -52,6 +52,7 @@ public class DamageableEnemy : Damageable
     public override void Die()
     {
         Enemy enemy = GetComponent<Enemy>();
+        if (_attacker != null) _attacker.DisableWeapon();
         if (enemy.backstabbed)
         {
             RestoreToMaxHealth();
