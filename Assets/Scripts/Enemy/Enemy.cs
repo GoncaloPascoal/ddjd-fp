@@ -88,7 +88,7 @@ public abstract class Enemy : MonoBehaviour
             {
                 return normalTargets.Contains(hit.transform.tag);
             }
-
+            Debug.Log(hit.transform.name);
             return targetsWhileMindControlled.Contains(hit.transform.tag);
         }
         
@@ -177,6 +177,7 @@ public abstract class Enemy : MonoBehaviour
         mindControlled = true;
         gameObject.tag = "MindControlled";
         ChangeTargetsMindControl(targetsWhileMindControlled);
+        StopMovement();
     }
 
     protected abstract void ChangeTargetsMindControl(List<string> newTargets);
@@ -196,4 +197,6 @@ public abstract class Enemy : MonoBehaviour
         follow.target = transform;
         follow.offset = Vector3.up * 1.9f; // TODO: use enemy height to determine health bar position
     }
+
+    public abstract void StopMovement();
 }
