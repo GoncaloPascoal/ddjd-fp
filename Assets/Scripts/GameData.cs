@@ -20,6 +20,14 @@ public struct InventoryData
     public SerializableDictionary<EquipmentSlot, string> Equipped;
 }
 
+[Serializable]
+public struct LevelSystemData
+{
+    public int Experience;
+    public int Level;
+    public SerializableDictionary<StatName, int> StatPoints;
+}
+
 
 public static class GameData
 {
@@ -96,6 +104,32 @@ public static class GameData
         };
 
     }
+    
+    private static LevelSystemData _levelSystemData = new LevelSystemData()
+    {
+        Experience = 0,
+        Level = 1,
+        StatPoints = new SerializableDictionary<StatName, int>(LevelSystem.InitializeStatPoints())
+    };
+
+    public static LevelSystemData LevelSystemData
+    {
+        get => _levelSystemData;
+        set => _levelSystemData = value;
+    }
+
+    private static void GetLevelSystemData()
+    {
+        var levelSystem = GameObject.FindWithTag("Player").GetComponent<LevelSystem>();
+        if (levelSystem == null) return;
+        
+        LevelSystemData = new LevelSystemData()
+        {
+            Experience = levelSystem.Experience,
+            Level = levelSystem.Level,
+            StatPoints = new SerializableDictionary<StatName, int>(levelSystem.GetCurrentStats())
+        };
+    }
 
     public static bool InCheckpoint = false;
     
@@ -141,11 +175,13 @@ public static class GameData
         _pressurePlatesActivated = save.pressurePlatesActivated;
         _pickupsPicked = save.pickupsPicked;
         InventoryData = save.InventoryData;
+        LevelSystemData = save.LevelSystemData;
     }
 
     public static Save GetSaveData()
     {
         GetInventoryData();
+        GetLevelSystemData();
         return new Save();
     }
 
