@@ -295,15 +295,15 @@ MonoBehaviour:
   RealChannelSettings: []
   Plugins: []
   MasterBanks:
-  - Desktop/Master
+  - Master
   Banks:
+  - Ambient
   - Boss
-  - Desktop/Ambient
-  - Desktop/Character
-  - Desktop/Enemy
-  - Desktop/Menu
-  - Desktop/Mind Control
-  - Desktop/Weapons
+  - Character
+  - Enemy
+  - Menu
+  - Mind Control
+  - Weapons
   BanksToLoad:
   - Ambient
   - Character
