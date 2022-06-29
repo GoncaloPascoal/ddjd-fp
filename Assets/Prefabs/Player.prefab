@@ -1483,6 +1483,7 @@ MonoBehaviour:
   numberSpells: 4
   numberJumps: 6
   numberBackstabs: 1
+  hit: 7
 --- !u!114 &1637313959924911889
 MonoBehaviour:
   m_ObjectHideFlags: 0
