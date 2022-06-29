@@ -1159,7 +1159,6 @@ GameObject:
   - component: {fileID: 4416926081852918491}
   - component: {fileID: 4416926081852918490}
   - component: {fileID: 5885216827943657505}
-  - component: {fileID: 1838161622610248769}
   - component: {fileID: 4416926081852918493}
   - component: {fileID: 423026774712006885}
   - component: {fileID: 8896355497579845234}
@@ -1169,6 +1168,7 @@ GameObject:
   - component: {fileID: 1637313959924911889}
   - component: {fileID: 1584211284754336485}
   - component: {fileID: 7483092739752502500}
+  - component: {fileID: 8324437096600862068}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -1280,27 +1280,6 @@ MonoBehaviour:
     m_Bits: 0
   canPush: 0
   strength: 1.1
---- !u!114 &1838161622610248769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416926081852918481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccce5299e61c9e84d89cdd6be2d1e0b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  move: {x: 0, y: 0}
-  look: {x: 0, y: 0}
-  jump: 0
-  sprint: 0
-  swing: 0
-  pickup: 0
-  analogMovement: 0
-  cursorLocked: 1
-  cursorInputForLook: 1
 --- !u!114 &4416926081852918493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1314,7 +1293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -1327,76 +1306,80 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4416926081852918490}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: InputMove
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 6bc1aaf4-b110-4ff7-891e-5b9fe6f32c4d
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4416926081852918490}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: InputLook
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 2690c379-f54d-45be-a724-414123833eb4
     m_ActionName: Player/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4416926081852918490}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: InputJump
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 8c4abdf8-4099-493a-aa1a-129acec7c3df
     m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4416926081852918490}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: InputSprint
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 980e881e-182c-404c-8cbf-3d09fdb48fef
     m_ActionName: Player/Sprint[/Keyboard/leftShift,/XInputControllerWindows/leftTrigger]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: e4ce1614-c754-48c1-9103-33130441661f
-    m_ActionName: UI/New action
+    m_ActionId: 69a560e0-152d-424d-8482-36c9f3f150db
+    m_ActionName: Player/LightAttack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1586996c-bad3-40a2-b033-71fb1c7a33ad
+    m_ActionName: Player/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 26a62a9f-7646-457e-b42b-831f758ee664
+    m_ActionName: Player/HeavyAttack[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9c20c5af-9787-44fd-b506-088b92a06b86
+    m_ActionName: Player/Roll[/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c5d9029f-98c9-4038-9c21-79c45e1380db
+    m_ActionName: Menu/MenuUp[/Keyboard/w,/Keyboard/upArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 329c2ee7-50cd-4bdb-8e57-1ce42fd75bb2
+    m_ActionName: Game/MenuToggle[/Keyboard/escape,/Gamepad/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8e773312-00f1-4419-832f-73213e549fbe
+    m_ActionName: Game/Cancel[/Keyboard/escape,/Gamepad/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 31dd967a-de11-4172-b593-7131c25f1736
+    m_ActionName: Menu/MenuDown[/Keyboard/s,/Gamepad/dpad/down,/Gamepad/leftStick/down]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3928639c-f089-484b-9723-57ba5c0699a2
+    m_ActionName: Menu/MenuLeft[/Keyboard/a,/Gamepad/leftStick/left,/Gamepad/dpad/left]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 476e0dc1-eea4-4db4-a6c9-84f85d199522
+    m_ActionName: Menu/MenuRight[/Keyboard/d,/Gamepad/leftStick/right,/Gamepad/dpad/right]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 35f78873-0572-46ed-96e3-8e552af425ad
+    m_ActionName: Menu/MenuToggle[/Keyboard/q,/Gamepad/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 82ede9f3-13d2-47dd-b5e1-92e873850cd3
+    m_ActionName: Menu/MenuAction[/Keyboard/e,/Gamepad/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 51447381-52bc-477a-b44a-9226e8b3f6e4
+    m_ActionName: Menu/MenuBack[/Keyboard/escape,/Gamepad/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9009bd1a-7ebb-4946-91d2-4115375fcefa
+    m_ActionName: Menu/InventoryToggleEquipped[/Keyboard/r,/Gamepad/buttonNorth]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultControlScheme: KeyboardMouse
+  m_DefaultActionMap: Game
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &423026774712006885
@@ -1550,6 +1533,18 @@ MonoBehaviour:
     - 5
     - 5
     - 5
+--- !u!114 &8324437096600862068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081852918481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcb679209e742dba30950386d7ad373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4552572167694909163
 GameObject:
   m_ObjectHideFlags: 0

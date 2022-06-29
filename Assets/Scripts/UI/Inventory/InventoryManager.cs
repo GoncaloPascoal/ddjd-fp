@@ -71,24 +71,28 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.GetButtonDown("MenuBack"))
+        if (InputManager.Action("MenuBack").WasPressedThisFrame())
         {
             _menuTabController.Return();
             return;
         }
 
-        if (InputManager.GetButtonDown("InventoryToggleEquipped"))
+        if (InputManager.Action("InventoryToggleEquipped").WasPressedThisFrame())
         {
             ToggleEquipped();
         }
 
-        if (InputManager.GetButtonDown("InventoryItemAction"))
+        if (InputManager.Action("MenuAction").WasPressedThisFrame())
         {
             ItemAction();
         }
 
-        MoveCursor(InputManager.GetButtonDown("MenuLeft"), InputManager.GetButtonDown("MenuRight"),
-            InputManager.GetButtonDown("MenuUp"), InputManager.GetButtonDown("MenuDown"));
+        MoveCursor(
+            InputManager.Action("MenuLeft").WasPressedThisFrame(),
+            InputManager.Action("MenuRight").WasPressedThisFrame(),
+            InputManager.Action("MenuUp").WasPressedThisFrame(),
+            InputManager.Action("MenuDown").WasPressedThisFrame()
+        );
     }
 
     private void OnEnable()
