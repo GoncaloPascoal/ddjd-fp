@@ -2,6 +2,7 @@
 using System;
 using UnityEngine;
 
+[Serializable]
 public enum StatName
 {
     Health,

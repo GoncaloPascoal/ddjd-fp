@@ -27,6 +27,29 @@ public class LevelSystem : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        var levelSystemData = GameData.LevelSystemData;
+
+        Experience = levelSystemData.Experience;
+        Level = levelSystemData.Level;
+        foreach (var stat in levelSystemData.StatPoints)
+        {
+            _statPoints[stat.Key] = stat.Value;
+        }
+    }
+
+    public static Dictionary<StatName, int> InitializeStatPoints()
+    {
+        var statPoints = new Dictionary<StatName, int>();
+        foreach (StatName stat in Enum.GetValues(typeof(StatName)))
+        {
+            statPoints.Add(stat, 0);
+        }
+
+        return statPoints;
+    }
+
     public void AddExperience(int experience)
     {
         Experience += experience;
@@ -62,6 +85,11 @@ public class LevelSystem : MonoBehaviour
     public void AddStatPoint(StatName stat)
     {
         if (StatPointsRemaining > 0) _statPoints[stat] += 1;
+    }
+
+    public Dictionary<StatName, int> GetCurrentStats()
+    {
+        return _statPoints;
     }
 
     public int GetStatPoints(StatName stat)
