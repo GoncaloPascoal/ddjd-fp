@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19e3e654f1a640898399b22cd0c600d3, type: 3}
-  m_Name: FlatHealingItem100
+  m_Name: ChunkOfMeat
   m_EditorClassIdentifier: 
-  itemName: Large Potion
-  itemNamePlural: Large Potions
-  description: A large potion
-  icon: {fileID: 21300000, guid: 2abddae3adc747547ad36c542f73895e, type: 3}
-  healing: 100
+  itemName: Chunk of Meat
+  itemNamePlural: Chunks of Meat
+  description: A chunk of dry, salted meat. Restores a small amount of health. The
+    people of the desert have many ways of preserving their food under its scalding
+    heat.
+  icon: {fileID: 21300000, guid: 4a39cb4b272639541b7bd5ac0649acf7, type: 3}
+  healing: 30

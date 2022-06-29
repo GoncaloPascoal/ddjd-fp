@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
-  m_Name: Khopesh20
+  m_Name: Armor2
   m_EditorClassIdentifier: 
-  itemName: Khopesh
-  itemNamePlural: Khopeshes
-  description: A traditional curved sword, utterly deadly in the hands of a trained
-    warrior.
-  icon: {fileID: 21300000, guid: 2872b769b633b1c4c969c6125ba1b484, type: 3}
+  itemName: Strong Armor
+  itemNamePlural: Strong Armors
+  description: Provides Extra Health While Also Providing Protection
+  icon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
   statValues:
-    m_keys: 03000000
+    m_keys: 0000000004000000
     m_values:
+    - 15
     - 20
-  slot: 1
+  slot: 0
