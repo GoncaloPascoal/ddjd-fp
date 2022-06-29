@@ -12,6 +12,7 @@ public class Save
     public List<string> pressurePlatesActivated;
     public List<string> pickupsPicked;
     public InventoryData InventoryData;
+    public LevelSystemData LevelSystemData;
     
     public int checkpointNumber;
     public int levelNumber;
@@ -23,5 +24,6 @@ public class Save
         pressurePlatesActivated = GameData.PressurePlatesActivated;
         pickupsPicked = GameData.PickupsPicked;
         InventoryData = GameData.InventoryData;
+        LevelSystemData = GameData.LevelSystemData;
     }
 }
