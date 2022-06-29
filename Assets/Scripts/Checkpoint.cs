@@ -42,7 +42,7 @@ public class Checkpoint : MonoBehaviour
             if (!_player.IsInCheckpoint() && !_activating)
             {
                 _activating = true;
-                GameData.SetCheckpoint(checkpointNumber);
+                GameData.CheckpointNumber = checkpointNumber;
                 //TODO CHANGE THIS
                 _saveManager.CreateGameSaveFile();
                 _player.EnterCheckpoint(checkpointNumber);
@@ -50,8 +50,8 @@ public class Checkpoint : MonoBehaviour
             } 
             else if (proceedLevel && _player.IsInCheckpoint(checkpointNumber) && !_activating)
             {
-                GameData.SetCheckpoint(1);
                 _levelChanger.NextLevel();
+                _saveManager.CreateGameSaveFile();
             }
         }
     }

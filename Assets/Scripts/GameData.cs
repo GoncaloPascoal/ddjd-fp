@@ -104,11 +104,6 @@ public static class GameData
         PickupsPicked = new List<string> (PickupsPicked) {GameObjectToHash(pickupObject)};
     }
 
-    public static void SetCheckpoint(int checkpointNumber)
-    {
-        CheckpointNumber = checkpointNumber;
-    }
-
     public static void AddActivatedPressurePlate(PressurePlate pressurePlate)
     {
         PressurePlatesActivated = new List<string> (PressurePlatesActivated) 
@@ -151,7 +146,6 @@ public static class GameData
     public static Save GetSaveData()
     {
         GetInventoryData();
-        LevelNumber = SceneManager.GetActiveScene().buildIndex;
         return new Save();
     }
 
