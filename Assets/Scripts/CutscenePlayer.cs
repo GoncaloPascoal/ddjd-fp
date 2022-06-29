@@ -9,6 +9,7 @@ public class CutscenePlayer : MonoBehaviour
     private PlayableDirector _timeline;
     
     [SerializeField] private bool skippable = true;
+    [SerializeField] private bool managesObjects = true;
 
     public GameObject cutsceneElements;
 
@@ -23,6 +24,8 @@ public class CutscenePlayer : MonoBehaviour
     {
         _timeline = GetComponent<PlayableDirector>();
 
+        if (!managesObjects) return;
+        
         foreach (var objectToDestroy in objectsToDestroy)
         {
             Destroy(objectToDestroy);
@@ -56,6 +59,8 @@ public class CutscenePlayer : MonoBehaviour
 
     public void CutsceneEnd()
     {
+        if (!managesObjects) return;
+        
         Destroy(cutsceneElements);
 
         foreach (var objectInScene in Resources.FindObjectsOfTypeAll<GameObject>())
