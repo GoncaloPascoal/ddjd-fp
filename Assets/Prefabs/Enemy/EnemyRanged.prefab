@@ -378,6 +378,7 @@ GameObject:
   - component: {fileID: 2410819133432595034}
   - component: {fileID: 7929139707238384242}
   - component: {fileID: 7764461183475968821}
+  - component: {fileID: 4225973291287278350}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
@@ -500,6 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 3000585902691386496}
+  _xp: 1
 --- !u!114 &2410819133432595034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,6 +549,24 @@ MonoBehaviour:
     - 15
     - 10
     - 5
+--- !u!114 &4225973291287278350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1586840718211668745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0dbf23732aa9444ba4b2b7b91a925b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSounds: []
+  attackSounds: []
+  deathSounds: []
+  numberWeaponAttacks: 5
+  numberFootsteps: 5
+  numberArrow: 5
 --- !u!1 &1587622678704710616
 GameObject:
   m_ObjectHideFlags: 0
