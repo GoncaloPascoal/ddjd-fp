@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CutscenePlayer : MonoBehaviour
 {
@@ -69,5 +70,10 @@ public class CutscenePlayer : MonoBehaviour
         }
         
         Destroy(gameObject);
+    }
+
+    public void CutsceneEndChangeLevel(int levelIndex)
+    {
+        SceneManager.LoadScene(levelIndex);
     }
 }

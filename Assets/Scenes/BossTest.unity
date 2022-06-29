@@ -5903,6 +5903,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.033792384
       objectReference: {fileID: 0}
+    - target: {fileID: 1584211284754336485, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: baseValues.m_values.Array.data[3]
+      value: 400
+      objectReference: {fileID: 0}
     - target: {fileID: 1767489834909143089, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.10449035
@@ -14240,7 +14244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64283cb7ed5b47e4ea826348959970d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 1000
+  _maxHealth: 500
   defaultAttackCooldown: 2
   HasNextPhase: 1
   nextPhaseCutscene: {fileID: 808529290}
@@ -27583,6 +27587,14 @@ PrefabInstance:
       propertyPath: objectsNotToSpawn.Array.data[2]
       value: 
       objectReference: {fileID: 888198686}
+    - target: {fileID: 387321094642642919, guid: 17d774f840965cb45b06f2e39ad14feb, type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 387321094642642919, guid: 17d774f840965cb45b06f2e39ad14feb, type: 3}
+      propertyPath: m_Events.m_Events.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CutsceneEndChangeLevel
+      objectReference: {fileID: 0}
     - target: {fileID: 387321094642642938, guid: 17d774f840965cb45b06f2e39ad14feb, type: 3}
       propertyPath: m_Name
       value: CutscenePlayer3
