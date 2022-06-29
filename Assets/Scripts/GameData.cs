@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CustomPropertyDrawer(typeof(StatsDictionary))]
 [CustomPropertyDrawer(typeof(ItemPickupDictionary))]
@@ -17,6 +18,14 @@ public struct InventoryData
     public SerializableDictionary<string, uint> Consumables;
     public SerializableDictionary<EquipmentSlot, List<string>> Equipment;
     public SerializableDictionary<EquipmentSlot, string> Equipped;
+}
+
+[Serializable]
+public struct LevelSystemData
+{
+    public int Experience;
+    public int Level;
+    public SerializableDictionary<StatName, int> StatPoints;
 }
 
 
@@ -95,17 +104,38 @@ public static class GameData
         };
 
     }
+    
+    private static LevelSystemData _levelSystemData = new LevelSystemData()
+    {
+        Experience = 0,
+        Level = 1,
+        StatPoints = new SerializableDictionary<StatName, int>(LevelSystem.InitializeStatPoints())
+    };
+
+    public static LevelSystemData LevelSystemData
+    {
+        get => _levelSystemData;
+        set => _levelSystemData = value;
+    }
+
+    private static void GetLevelSystemData()
+    {
+        var levelSystem = GameObject.FindWithTag("Player").GetComponent<LevelSystem>();
+        if (levelSystem == null) return;
+        
+        LevelSystemData = new LevelSystemData()
+        {
+            Experience = levelSystem.Experience,
+            Level = levelSystem.Level,
+            StatPoints = new SerializableDictionary<StatName, int>(levelSystem.GetCurrentStats())
+        };
+    }
 
     public static bool InCheckpoint = false;
     
     public static void AddPickUp(GameObject pickupObject)
     {
         PickupsPicked = new List<string> (PickupsPicked) {GameObjectToHash(pickupObject)};
-    }
-
-    public static void SetCheckpoint(int checkpointNumber)
-    {
-        CheckpointNumber = checkpointNumber;
     }
 
     public static void AddActivatedPressurePlate(PressurePlate pressurePlate)
@@ -145,11 +175,29 @@ public static class GameData
         _pressurePlatesActivated = save.pressurePlatesActivated;
         _pickupsPicked = save.pickupsPicked;
         InventoryData = save.InventoryData;
+        LevelSystemData = save.LevelSystemData;
     }
 
     public static Save GetSaveData()
     {
         GetInventoryData();
+        GetLevelSystemData();
+        return new Save();
+    }
+
+    public static Save NewSave()
+    {
+        LevelNumber = 1;
+        CheckpointNumber = 1;
+        _pressurePlatesActivated = new List<string>();
+        _pickupsPicked = new List<string>();
+        InventoryData =  InventoryData = new InventoryData()
+        {
+            Consumables = new SerializableDictionary<string, uint>(),
+            Equipment = new SerializableDictionary<EquipmentSlot, List<string>>(),
+            Equipped = new SerializableDictionary<EquipmentSlot, string>()
+        };
+
         return new Save();
     }
 }
