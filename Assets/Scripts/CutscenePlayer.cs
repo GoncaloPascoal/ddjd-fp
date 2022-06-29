@@ -7,12 +7,15 @@ public class CutscenePlayer : MonoBehaviour
 {
     private PlayableDirector _timeline;
     
+    [SerializeField] private bool skippable = true;
+
     public GameObject cutsceneElements;
 
     public List<GameObject> neededInCutscene;
 
     public List<GameObject> objectsToDestroy;
     public List<GameObject> objectsNotToSpawn;
+
     
     // Start is called before the first frame update
     void Start()
@@ -44,7 +47,10 @@ public class CutscenePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (skippable && InputManager.GetButtonDown("Interact"))
+        {
+            CutsceneEnd();
+        }
     }
 
     public void CutsceneEnd()
