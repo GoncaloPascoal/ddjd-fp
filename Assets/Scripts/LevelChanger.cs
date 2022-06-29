@@ -56,6 +56,7 @@ public class LevelChanger : MonoBehaviour
         if(_staminaBar != null)    
             _staminaBar.SetActive(false);
         _animator.SetTrigger("PlayerDead");
+        GameSaveManager.LoadSave();
     }
 
     public void OnFadeEnd()
