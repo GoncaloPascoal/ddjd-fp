@@ -22,7 +22,18 @@ public class GameSaveManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    public static void NewSave()
+    {
+        var save = GameData.NewSave();
+        
+        BinaryFormatter binaryFormatter = new BinaryFormatter(); 
+        FileStream file = File.Create(Path.Combine(Application.persistentDataPath + "/gamesave.save"));
+        binaryFormatter.Serialize(file,save);
+        file.Close();
+        Debug.Log("Saved on " + Path.Combine(Application.persistentDataPath + "/gamesave.save"));
+    }
+
     public void CreateGameSaveFile()
     {
         var save = GameData.GetSaveData();
