@@ -1460,6 +1460,7 @@ MonoBehaviour:
   - character/Dmg_taken/Hit_7
   attackSounds: []
   deathSounds: []
+  hitNumber: 5
   numberFootsteps: 5
   numberWeaponAttacks: 5
   numberRolls: 6
@@ -1491,6 +1492,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 121d5a5be5ed0bb479e5ff528e20a5a6, type: 2}
   - {fileID: 11400000, guid: 8acf8de57c0a495448eccc4ae2610748, type: 2}
   - {fileID: 11400000, guid: 53e414eef5c7c7443953525418fba57a, type: 2}
+  - {fileID: 11400000, guid: b552d98106b66ababbd6ee2e6fff4b91, type: 2}
+  - {fileID: 11400000, guid: 276dff8f2448f9c58aa5af590b5e4f91, type: 2}
 --- !u!114 &1584211284754336485
 MonoBehaviour:
   m_ObjectHideFlags: 0
