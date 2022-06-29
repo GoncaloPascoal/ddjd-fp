@@ -29,8 +29,13 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
-        if(_tpc!=null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
+        if(_tpc!=null && _currentTrigger != null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
         _isStartingAttack = true;
+    }
+
+    public void ResetAlreadyHit()
+    {
+        weapon.ResetAlreadyHit();
     }
 
     public void AttackMoment()

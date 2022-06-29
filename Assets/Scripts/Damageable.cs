@@ -8,6 +8,7 @@ public abstract class Damageable : MonoBehaviour
 {
     [SerializeField] public Bar healthBar;
     private ThirdPersonController _player;
+    private PlayerSounds _ps;
 
     protected virtual void Start()
     {

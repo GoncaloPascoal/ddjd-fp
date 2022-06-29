@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Vector3 = UnityEngine.Vector3;
 
@@ -15,12 +16,18 @@ public class ProjectileSpell : MonoBehaviour
     [SerializeField] private float intoPositionSpeed = 10f;
     [SerializeField] private float shootSpeed = 20f;
     [SerializeField] private float damage = 10f;
+    private BossSounds _bs;
 
     private GameObject _target;
     private Vector3 _shootDirection;
 
     private float _timePassed = 0f;
     private bool _shot = false;
+
+    private void Start()
+    {
+        _bs = GetComponent<BossSounds>();
+    }
 
     public void InitializeWithPositionTarget(Vector3 position, GameObject target, float timeBeforeShoot)
     {
@@ -52,6 +59,7 @@ public class ProjectileSpell : MonoBehaviour
     {
         _shot = true;
         _shootDirection = (_target.transform.position + Vector3.up) - transform.position;
+        _bs.ProjectileSound();
     }
 
     private void OnTriggerEnter(Collider other)
