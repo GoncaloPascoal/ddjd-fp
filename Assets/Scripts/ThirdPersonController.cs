@@ -123,7 +123,7 @@ namespace StarterAssets
 
 		private Animator _animator;
 		private CharacterController _controller;
-		private StarterAssetsInputs _input;
+		private PlayerInput _playerInput;
 		private GameObject _mainCamera;
 		private Staggerable _staggerable;
 
@@ -155,7 +155,7 @@ namespace StarterAssets
 
 			_hasAnimator = TryGetComponent(out _animator);
 			_controller = GetComponent<CharacterController>();
-			_input = GetComponent<StarterAssetsInputs>();
+			_playerInput = GetComponent<PlayerInput>();
 			_staggerable = GetComponent<Staggerable>();
 			_enemyToResurrect = null;
 
@@ -272,7 +272,7 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
-			Vector2 look = new Vector2(InputManager.GetAxis("Mouse X"), InputManager.GetAxis("Mouse Y"));
+			Vector2 look = _playerInput.actions["Look"].ReadValue<Vector2>();
 			
 			// if there is an input and camera position is not fixed
 			if (look.sqrMagnitude >= Threshold && !LockCameraPosition)
@@ -296,23 +296,21 @@ namespace StarterAssets
 		{
 			if (_inCheckpoint != -1)
 				return;
-			
+
 			Vector2 movement;
 
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
-			
+
+			bool sprint = _playerInput.actions["Sprint"].IsPressed();
 
 			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered() || isDead())
 				movement = Vector2.zero;
 			else
-				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
+				movement = _playerInput.actions["Move"].ReadValue<Vector2>();
 
-			//Can't move
+			// Can't move
 			if (!isAttackingCanRotate && (isAttacking || _isBackstabbing || _resurrecting)) return;
-			
-			bool sprint = InputManager.GetButton("Sprint");
-
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = (sprint && _stamina > _staminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
@@ -382,7 +380,7 @@ namespace StarterAssets
 				_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
 				                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 			}
-			else if(!_controller.isGrounded)
+			else if (!_controller.isGrounded)
 			{
 				_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 			}
@@ -434,8 +432,7 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (_inCheckpoint != -1)
-				return;
+			if (_inCheckpoint != -1) return;
 			
 			if (Grounded && !_isBackstabbing && !_resurrecting)
 			{
@@ -458,7 +455,7 @@ namespace StarterAssets
 				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered() || isDead())
 				{
 					// Roll
-					if (InputManager.GetButtonDown("Roll") && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
+					if (_playerInput.actions["Roll"].WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
 					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
@@ -469,13 +466,13 @@ namespace StarterAssets
 					}
 
 					// Jump
-					if (InputManager.GetButtonDown("Jump") && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
+					if (_playerInput.actions["Jump"].WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
-
+					
 						// the square root of H * -2 * G = how much velocity needed to reach desired height
 						_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
+					
 						// update animator if using character
 						if (_hasAnimator)
 						{
@@ -508,9 +505,6 @@ namespace StarterAssets
 						_animator.SetBool(_animIDFreeFall, true);
 					}
 				}
-
-				// if we are not grounded, do not jump
-				_input.jump = false;
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
@@ -528,13 +522,13 @@ namespace StarterAssets
 			if (_staggerable.IsStaggered() || isDead())
 				return;
 
-			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
+			if (StaminaUsageAttacks.Keys.All(a => !_playerInput.actions[a].WasPressedThisFrame() || !Grounded))
 				return;
 
 			if (_isRolling)
 				return;
 
-			string attack = StaminaUsageAttacks.Keys.First(InputManager.GetButtonDown);
+			string attack = StaminaUsageAttacks.Keys.First(a => _playerInput.actions[a].WasPressedThisFrame());
 			float staminaUsage = StaminaUsageAttacks[attack];
 
 			if (_backstabTargets.Count > 0)
