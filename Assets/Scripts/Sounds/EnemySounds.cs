@@ -37,7 +37,7 @@ public void WeaponAttackSound()
     public void BodyFall()
     {
         int randomSound = Random.Range(1, numberDeath + 1);
-        int randomPart = Random.Range(1, parts.Count + 1);
+        int randomPart = Random.Range(0, parts.Count);
         
         Play3DSound("Enemys/Body_Fall/" + parts[randomPart] + "_" + randomSound);
     }
