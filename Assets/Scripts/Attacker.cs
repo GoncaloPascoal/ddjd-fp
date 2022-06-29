@@ -68,12 +68,14 @@ public class Attacker : MonoBehaviour
         // If already attacking, buffer next attack
         if (IsAttacking())
         {
-            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.3f)
+            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.1f)
             {
+                Debug.Log("Attacking");
+
                 _bufferedAttack = true;
                 if (_currentTrigger != null) _animator.ResetTrigger(_currentTrigger);
-                _animator.SetTrigger(_currentTrigger);
                 _currentTrigger = triggerName;
+                _animator.SetTrigger(_currentTrigger);
                 _animator.applyRootMotion = true;
             }
         }
