@@ -3847,6 +3847,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.08320794
       objectReference: {fileID: 0}
+    - target: {fileID: 693888298154878968, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 883022982412896598, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: m_ConnectedAnchor.x
       value: 0.000000020489097
@@ -4058,6 +4062,14 @@ PrefabInstance:
     - target: {fileID: 1563056279488357109, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: m_Name
       value: EnemyRanged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
+      propertyPath: fieldOfView
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
+      propertyPath: viewDistance
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2010767380524590586, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: m_LocalPosition.x
