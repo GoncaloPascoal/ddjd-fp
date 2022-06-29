@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
   m_Name: Armor2
   m_EditorClassIdentifier: 
-  itemName: Good armouuur
-  itemNamePlural: Good armouuurs
-  description: :)
+  itemName: Strong Armor
+  itemNamePlural: Strong Armors
+  description: Provides Extra Health While Also Providing Protection
   icon: {fileID: 21300000, guid: 5c1271ad87a99fa458ba298a0e56c0db, type: 3}
   statValues:
-    m_keys: 00000000
+    m_keys: 0000000004000000
     m_values:
-    - 5
+    - 25
+    - 20
   slot: 0

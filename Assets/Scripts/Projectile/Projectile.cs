@@ -43,9 +43,9 @@ public class Projectile : MonoBehaviour
         _shot = true;
 
         // Physics
-        float gravity = Physics.gravity.magnitude;
+        float gravity = Physics.gravity.magnitude; 
         float projX = new Vector2(direction.x, direction.z).magnitude;
-        float y = direction.y;
+        float y = direction.y + 0.8f; //Add 0.8 so aims higher
 
         float velocity = Mathf.Sqrt((25f * projX) / 0.6f); // R = v^2 * sin(2*angle*) / g
 

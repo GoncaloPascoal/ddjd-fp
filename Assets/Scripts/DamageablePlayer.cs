@@ -36,6 +36,6 @@ public class DamageablePlayer : Damageable
     public override void Die()
     {
         _animator.SetTrigger("Die");
-        _levelChanger.ReloadLevelOnDeath();   
+        _levelChanger.ReloadLevelOnDeath();
     }
 }
