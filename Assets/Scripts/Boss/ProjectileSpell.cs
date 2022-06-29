@@ -18,6 +18,8 @@ public class ProjectileSpell : MonoBehaviour
     [SerializeField] private float damage = 10f;
     private BossSounds _bs;
 
+    [SerializeField] private GameObject explosion;
+    
     private Collider _collider;
 
     private GameObject _target;
@@ -82,6 +84,7 @@ public class ProjectileSpell : MonoBehaviour
 
     private void DestroyProjectile()
     {
+        Instantiate(explosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }
