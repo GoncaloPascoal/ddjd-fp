@@ -1,3 +1,4 @@
+
 # Sands Of Vengeance
 
 A tyrannical pharaoh murders your brother, trapping his soul within a great
@@ -11,6 +12,55 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 # Playing instructions
 
+### Controls
+
+## Keyboard
+
+- Movement: W,A,S,D;
+
+- Jump: Space;
+
+- Attack: Right Click;
+
+- Roll: R;
+
+- Ressurect dead enemy: ;
+
+- Pray: ; 
+
+- Pickup item: ;
+
+## Controller
+
+- Movement: ;
+
+- Jump: ;
+
+- Attack: ;
+
+- Roll: ;
+
+- Ressurect dead enemy: ;
+
+- Pray: ; 
+
+- Pickup item: ;
+
+### Enemies
+
+|                    Enemy                    | Description                                                                                                                                                                                             |
+| :------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![Range Enemy](ranged.png) | **Ranged Enemy:** Shoots at the player when he sees him inside his FOV |
+|    ![Melee enemy](melee.png)     | **Melee enemy:** Attacks the player when he is close enough. Has different attack patterns.                                       |
+|   ![Boss](boss.png)   | **Boss:** Has multiple phases with different attacks each phase. Scaling difficulty through each of the phases.                                                                                                                 |
+
+### Items
+
+|                   Item                     | Description                                                                                                                                                                                                                 |
+| :----------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|       Weapons        | Short description                                                                                                                                                   |
+|        Potions         | Short description                                                                                                                                                        |
+|         Armor          | Short description                                                                                                                                                            |
 
 
 # Group Members
