@@ -238,10 +238,17 @@ namespace StarterAssets
 			
 			if (_inCheckpoint != -1) return;
 
+			GroundedOrFalling();
 			JumpAndGravity();
 			GroundedCheck();
 			Move();
 			Attacks();
+		}
+
+		private void GroundedOrFalling()
+		{
+			// Possible Fix to An Infinite Loop That Happens When Both Bools Are Set To True
+			if(_animator.GetBool(_animIDFreeFall) && _animator.GetBool(_animIDGrounded)) _animator.SetBool(_animIDFreeFall, false);
 		}
 
 		private void LateUpdate()
@@ -464,7 +471,6 @@ namespace StarterAssets
 						_isRolling = true;
 						_animator.SetBool("Rolling", true);
 						_animator.applyRootMotion = true;
-						// _roll_duration_cur = _roll_duration;
 					}
 
 					// Jump
@@ -634,9 +640,12 @@ namespace StarterAssets
 
 		public void StartResurrection(Animator enemy)
 		{
-			_animator.SetTrigger("Resurrection");
-			_resurrecting = true;
-			_enemyToResurrect = enemy;
+			if (!_resurrecting)
+			{
+				_animator.SetTrigger("Resurrection");
+				_resurrecting = true;
+				_enemyToResurrect = enemy;
+			}
 		}
 		
 		public void EndResurrection()
