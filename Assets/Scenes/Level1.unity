@@ -5973,7 +5973,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh3425904
+  m_Name: pb_Mesh24652
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14759,7 +14759,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh3426820
+  m_Name: pb_Mesh25572
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -20661,7 +20661,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Use E (A) to pick up items.
+      value: 'E, (A): Pick Up Items'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -20734,7 +20734,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Your actions cost you stamina. Use it wisely.
+      value: Actions cost stamina. Use it wisely.
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -25145,7 +25145,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Use Circle to sprint
+      value: 'Shift, L2: Sprint'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -28357,7 +28357,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Use the Left Analog Stick to walk
+      value: 'WASD, Left Analog Stick: Move'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -32013,14 +32013,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2472884678207575022, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2472884678207575022, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2472884678659123665, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
       propertyPath: m_Name
       value: HUD
@@ -32135,7 +32127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4630145525146971904, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 152
+      value: 162
       objectReference: {fileID: 0}
     - target: {fileID: 4630145525146971904, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -32163,14 +32155,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7101670771086154643, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7166444257839865079, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7166444257839865079, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
-      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7171375022414682700, guid: 09f7aaaad52e4674c9dbc774e52af101, type: 3}
@@ -34946,7 +34930,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Use Q to Open Menu. WASD to Navigate and E to use.
+      value: 'Q, Start: Open / Close Menu. WASD, D-Pad : Navigate.
+
+        E, (A):
+        Select. Escape, (B): Back.'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name

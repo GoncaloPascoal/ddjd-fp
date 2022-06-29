@@ -26,7 +26,12 @@ public class HUD : MonoBehaviour
     public void ShowButtonPrompt(IEnumerable<string> buttons, string action)
     {
         string bStr = string.Join(", ", buttons);
-        _buttonPrompts.Push($"{bStr}: {action}");
+        ShowButtonPromptRaw($"{bStr}: {action}");
+    }
+
+    public void ShowButtonPromptRaw(string text)
+    {
+        _buttonPrompts.Push(text);
         UpdateButtonPrompt();
     }
 

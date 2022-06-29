@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    private static readonly string[] PromptButtonsInteract = { "E", "(A)" },
+        PromptButtonsCancel = { "Escape", "(B)" };
+    private const string PromptActionSave = "Pray",
+        PromptActionLeave = "Stand Up",
+        PromptActionContinue = "Proceed to Next Level";
+
     public int checkpointNumber = 1;
 
     private bool _playerInRange;
@@ -17,12 +23,14 @@ public class Checkpoint : MonoBehaviour
     public bool proceedLevel = false;
     
     private bool _activating = false;
-    
+    private bool _promptShown;
+
     private void Start()
     {
         _levelChanger = GameObject.Find("LevelChanger").GetComponent<LevelChanger>();
         _saveManager = GameObject.FindWithTag("GameSave").GetComponent<GameSaveManager>();
         _player = GameObject.FindWithTag("Player").GetComponent<ThirdPersonController>();
+        _promptShown = false;
     }
 
     private void Update()
@@ -34,6 +42,11 @@ public class Checkpoint : MonoBehaviour
             if (_player.IsInCheckpoint(checkpointNumber))
             {
                 _player.ExitCheckpoint();
+                if (_promptShown)
+                {
+                    HUD.Instance.HideButtonPrompt();
+                    _promptShown = false;
+                }
             }
         }
 
@@ -58,7 +71,28 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) _playerInRange = true;
+        if (other.CompareTag("Player"))
+        {
+            if (!_promptShown)
+            {
+                if (!_player.IsInCheckpoint(checkpointNumber))
+                {
+                    HUD.Instance.ShowButtonPrompt(PromptButtonsInteract, PromptActionSave);
+                }
+                else if (proceedLevel)
+                {
+                    HUD.Instance.ShowButtonPromptRaw($"{string.Join(", ", PromptButtonsInteract)}: " +
+                                                     $"{PromptActionContinue}\n{string.Join(", ", PromptButtonsCancel)}: {PromptActionLeave}");
+                }
+                else
+                {
+                    HUD.Instance.ShowButtonPrompt(PromptButtonsCancel, PromptActionLeave);
+                }
+
+                _promptShown = true;
+            }
+            _playerInRange = true;
+        }
     }
 
     private void OnTriggerStay(Collider other)
@@ -68,20 +102,14 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player")) _playerInRange = false;
-    }
-
-    // TODO: change this
-    private void OnGUI()
-    {
-        if (!_playerInRange || _activating) return;
-        
-        if (!_player.IsInCheckpoint(checkpointNumber))
-            GUI.Box(new Rect(140,Screen.height-50,Screen.width-300,120),("Press E to pray"));
-        else if (_player.IsInCheckpoint(checkpointNumber))
+        if (other.CompareTag("Player"))
         {
-            GUI.Box(new Rect(140, Screen.height - 50, Screen.width - 300, 120), (
-                "Press Esc to stand up" + (proceedLevel ? "\nPress E to proceed to next level" : "")));
+            if (_promptShown)
+            {
+                HUD.Instance.HideButtonPrompt();
+                _promptShown = false;
+            }
+            _playerInRange = false;
         }
     }
 }
