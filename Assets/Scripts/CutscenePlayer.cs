@@ -48,7 +48,7 @@ public class CutscenePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (skippable && InputManager.GetButtonDown("Interact"))
+        if (skippable && InputManager.Action("Cancel").WasPressedThisFrame())
         {
             CutsceneEnd();
         }
