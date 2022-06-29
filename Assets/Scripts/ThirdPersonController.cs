@@ -151,6 +151,8 @@ namespace StarterAssets
 
 		private void Start()
 		{
+			Cursor.lockState = CursorLockMode.Locked;
+
 			_stats = GetComponent<Stats>();
 
 			_hasAnimator = TryGetComponent(out _animator);

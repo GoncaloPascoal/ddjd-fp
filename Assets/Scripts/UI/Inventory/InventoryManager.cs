@@ -105,6 +105,7 @@ public class InventoryManager : MonoBehaviour
         _equipped = !_equipped;
         _currentSlot = 0;
         UpdateCursorPosition();
+        UpdateItemDisplay();
     }
 
     private void UpdateInterface()
