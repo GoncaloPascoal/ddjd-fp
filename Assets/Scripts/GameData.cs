@@ -191,11 +191,17 @@ public static class GameData
         CheckpointNumber = 1;
         _pressurePlatesActivated = new List<string>();
         _pickupsPicked = new List<string>();
-        InventoryData =  InventoryData = new InventoryData()
+        InventoryData = new InventoryData()
         {
             Consumables = new SerializableDictionary<string, uint>(),
             Equipment = new SerializableDictionary<EquipmentSlot, List<string>>(),
             Equipped = new SerializableDictionary<EquipmentSlot, string>()
+        };
+        LevelSystemData = new LevelSystemData()
+        {
+            Experience = 0,
+            Level = 1,
+            StatPoints = new SerializableDictionary<StatName, int>(LevelSystem.InitializeStatPoints())
         };
 
         return new Save();
