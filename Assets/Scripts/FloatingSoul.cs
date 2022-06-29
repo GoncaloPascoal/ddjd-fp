@@ -19,7 +19,8 @@ public class FloatingSoul : MonoBehaviour
     private static readonly string[] PromptButtons = { "E", "(A)" };
     private const string PromptAction = "Resurrect the Dead";
     private bool _promptEnabled;
-
+    private bool _isBringResurrected = false;
+    
     private void Start()
     {
         _promptEnabled = true;
@@ -34,7 +35,7 @@ public class FloatingSoul : MonoBehaviour
     private void Update()
     {
         resurrectionTime -= Time.deltaTime;
-        if (resurrectionTime <= 0)
+        if (resurrectionTime <= 0 && !_isBringResurrected)
         {
             _damageable.DeleteAnimator();
             _damageable.DeleteComponents();
@@ -79,6 +80,7 @@ public class FloatingSoul : MonoBehaviour
         {
             _player.StartResurrection(_enemyAnimator);
             _promptEnabled = false;
+            _isBringResurrected = true;
             HUD.Instance.HideButtonPrompt();
         }
     }

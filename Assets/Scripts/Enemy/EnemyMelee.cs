@@ -93,7 +93,7 @@ public class EnemyMelee : Enemy
                 {
                     ChaseTarget();
                 }
-                else
+                else if(!gameObject.CompareTag("MindControlled"))
                 {
                     _chasingTarget = false;
                     GoToSpawn();
