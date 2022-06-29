@@ -56,9 +56,7 @@ public class EnemyMelee : Enemy
         if (distanceToTarget <= meleeDistance)
         {
             // NavMeshAgent.SetDestination(gameObject.transform.position);
-            NavMeshAgent.isStopped = true;
-            NavMeshAgent.ResetPath();
-            NavMeshAgent.speed = 0f;
+            StopMovement();
 
             // is chasing - will look at player to attack, or player is too close
             if (CanChase(distanceToTarget))
@@ -150,6 +148,14 @@ public class EnemyMelee : Enemy
         var position = transform.position;
         var iconPos = new Vector3(position.x, position.y + 2.5f, position.z);
         Gizmos.DrawIcon(iconPos, "Meelee.png", true);
+    }
+
+    public override void StopMovement()
+    {
+        NavMeshAgent.isStopped = true;
+        NavMeshAgent.ResetPath();
+        NavMeshAgent.speed = 0f;
+        _animator.SetFloat(_animIDSpeed, 0);
     }
     
 }
