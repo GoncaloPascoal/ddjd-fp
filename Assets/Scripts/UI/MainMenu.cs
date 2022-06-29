@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
         newGameButton.onClick.AddListener(() =>
         {
             GameSaveManager.NewSave();
-            SceneManager.LoadScene("Level1");
+            SceneManager.LoadScene("Initial");
         });
         
         loadGameButton.onClick.AddListener(() =>
