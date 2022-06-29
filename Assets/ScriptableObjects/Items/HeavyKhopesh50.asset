@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
+  m_Name: HeavyKhopesh50
+  m_EditorClassIdentifier: 
+  itemName: Heavy Khopesh
+  itemNamePlural: Heavy Khopeshes
+  description: A sword so heave that just it's weight it enough to kill a mummy.
+  icon: {fileID: 21300000, guid: 2872b769b633b1c4c969c6125ba1b484, type: 3}
+  statValues:
+    m_keys: 0300000001000000
+    m_values:
+    - 50
+    - -20
+  slot: 1

@@ -76,8 +76,7 @@ public class EnemyRanged : Enemy
 
     protected override void ChangeTargetsMindControl(List<string> newTargets)
     {
-        // TODO: enemy ranged should have list with target tags that it deals damage to
-        throw new NotImplementedException(); 
+        // Doesn't need to do any changes.
     }
 
     private void Prepare()
@@ -110,4 +109,6 @@ public class EnemyRanged : Enemy
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, viewDistance);
     }
+    
+    public override void StopMovement(){}
 }
