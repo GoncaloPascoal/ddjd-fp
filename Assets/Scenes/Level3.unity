@@ -1335,6 +1335,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.24467379
       objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: fieldOfView
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 4746963160222179190, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01858456
@@ -9096,6 +9100,10 @@ PrefabInstance:
       value: -0.1417957
       objectReference: {fileID: 0}
     - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
+      propertyPath: fieldOfView
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: viewDistance
       value: 10
       objectReference: {fileID: 0}
@@ -10592,6 +10600,10 @@ PrefabInstance:
     - target: {fileID: 1508790022571924802, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.1417957
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
+      propertyPath: fieldOfView
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: viewDistance
@@ -14568,6 +14580,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.24467379
       objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: fieldOfView
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 4746963160222179190, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01858456
@@ -16132,6 +16148,10 @@ PrefabInstance:
     - target: {fileID: 4455252393335007748, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.24467379
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: fieldOfView
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4746963160222179190, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -25516,6 +25536,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.24467379
       objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: fieldOfView
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 4746963160222179190, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01858456
@@ -31243,6 +31267,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.24467379
       objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: fieldOfView
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 4746963160222179190, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.01858456
@@ -34820,6 +34848,10 @@ PrefabInstance:
     - target: {fileID: 1508790022571924802, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.1417957
+      objectReference: {fileID: 0}
+    - target: {fileID: 1586840718211668751, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
+      propertyPath: fieldOfView
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 2010767380524590586, guid: 931db8fbf1c50de4e8e9854865fd2fb2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56447,6 +56479,10 @@ PrefabInstance:
     - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: alertRange
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
+      propertyPath: fieldOfView
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4733572487229046721, guid: 4d8700ce87e0e8a4388ad3e7ef4a4ec7, type: 3}
       propertyPath: viewDistance
