@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
-  m_Name: ArmoredKhopesh30
+  m_Name: CloranNecklace
   m_EditorClassIdentifier: 
-  itemName: Armored Khopesh
-  itemNamePlural: Armored Khopeshes
-  description: A curved sword, utterly deadly in the hands of a trained warrior,
-    while also providing  a solid blocking option.
-  icon: {fileID: 21300000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
+  itemName: Cloran Necklace
+  itemNamePlural: Cloran Necklaces
+  description: A delicate, peculiar necklace. Wearing it fills you with newfound
+    vigor.
+  icon: {fileID: 21300000, guid: 0e123cfdc54a3ca4684816a34167a566, type: 3}
   statValues:
-    m_keys: 0300000004000000
+    m_keys: 02000000
     m_values:
-    - 30
     - 10
-  slot: 1
+  slot: 3

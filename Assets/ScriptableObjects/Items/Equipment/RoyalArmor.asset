@@ -10,15 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
-  m_Name: Armor2
+  m_Name: RoyalArmor
   m_EditorClassIdentifier: 
-  itemName: Strong Armor
-  itemNamePlural: Strong Armors
-  description: Provides Extra Health While Also Providing Protection
+  itemName: Royal Plate
+  itemNamePlural: Stamina Armours
+  description: These finely crafted pieces protect the members of the Royal Guard,
+    a group composed of the deadliest swordsmen in the realm. It is surprisingly
+    light, and the wearers feel a constant surge of energy.
   icon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
   statValues:
-    m_keys: 0000000004000000
+    m_keys: 04000000010000000200000005000000
     m_values:
     - 15
-    - 20
+    - 15
+    - 5
+    - 10
   slot: 0
