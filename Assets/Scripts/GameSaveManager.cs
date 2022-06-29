@@ -7,8 +7,6 @@ using UnityEngine;
 
 public class GameSaveManager : MonoBehaviour
 {
-
-
     private static GameSaveManager _gameSaveManager;
     void Awake()
     {
@@ -17,17 +15,18 @@ public class GameSaveManager : MonoBehaviour
         if (_gameSaveManager == null)
         {
             _gameSaveManager = this;
+            LoadSave();
         }
         else
         {
-            DestroyObject(gameObject);
+            Destroy(gameObject);
         }
     }
     
     public void CreateGameSaveFile()
     {
-        Save save = new Save();        
-        
+        var save = GameData.GetSaveData();
+
         BinaryFormatter binaryFormatter = new BinaryFormatter(); 
         FileStream file = File.Create(Path.Combine(Application.persistentDataPath + "/gamesave.save"));
         binaryFormatter.Serialize(file,save);
@@ -35,5 +34,19 @@ public class GameSaveManager : MonoBehaviour
         Debug.Log("Saved on " + Path.Combine(Application.persistentDataPath + "/gamesave.save"));
     }
 
-    
+    public void LoadSave()
+    {
+        var path = Application.persistentDataPath + "/gamesave.save";
+        if (File.Exists(path))
+        {
+            BinaryFormatter binaryFormatter = new BinaryFormatter();
+            FileStream stream = new FileStream(path, FileMode.Open);
+            
+            Save save = binaryFormatter.Deserialize(stream) as Save;
+
+            GameData.SetSaveData(save);
+            
+            Debug.Log("Loaded save");
+        }
+    }
 }

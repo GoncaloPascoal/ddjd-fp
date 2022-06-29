@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StatDisplay : MonoBehaviour
 {
-    [SerializeField] private TMP_Text statName, statValue;
+    [SerializeField] protected TMP_Text statName, statValue;
     [SerializeField] public StatName stat;
 
     private static readonly Dictionary<StatName, string> StatRepresentation = new Dictionary<StatName, string>()

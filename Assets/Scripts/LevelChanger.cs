@@ -16,10 +16,7 @@ public class LevelChanger : MonoBehaviour
 
     private void Awake()
     {
-        if (!PlayerPrefs.HasKey("Checkpoint"))
-        {
-            PlayerPrefs.SetInt("Checkpoint", 1); // TODO: move this to main menu script?
-        }
+        
     }
 
     private void Start()

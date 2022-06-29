@@ -46,6 +46,6 @@ public void WeaponAttackSound()
     {
         int randomSound = Random.Range(1, numberArrow + 1);
         
-        Play3DSound("Enemys/Arrow/Arrow_" + randomSound);
+        Play3DSound("Enemys/Arrow/Arrow_" + randomSound, 0.1f);
     }
 }
