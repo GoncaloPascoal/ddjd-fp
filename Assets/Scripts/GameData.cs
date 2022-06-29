@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [CustomPropertyDrawer(typeof(StatsDictionary))]
 [CustomPropertyDrawer(typeof(ItemPickupDictionary))]
@@ -150,6 +151,23 @@ public static class GameData
     public static Save GetSaveData()
     {
         GetInventoryData();
+        LevelNumber = SceneManager.GetActiveScene().buildIndex;
+        return new Save();
+    }
+
+    public static Save NewSave()
+    {
+        LevelNumber = 1;
+        CheckpointNumber = 1;
+        _pressurePlatesActivated = new List<string>();
+        _pickupsPicked = new List<string>();
+        InventoryData =  InventoryData = new InventoryData()
+        {
+            Consumables = new SerializableDictionary<string, uint>(),
+            Equipment = new SerializableDictionary<EquipmentSlot, List<string>>(),
+            Equipped = new SerializableDictionary<EquipmentSlot, string>()
+        };
+
         return new Save();
     }
 }
