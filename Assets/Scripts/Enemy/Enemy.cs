@@ -88,7 +88,6 @@ public abstract class Enemy : MonoBehaviour
             {
                 return normalTargets.Contains(hit.transform.tag);
             }
-            Debug.Log(hit.transform.name);
             return targetsWhileMindControlled.Contains(hit.transform.tag);
         }
         

@@ -238,9 +238,9 @@ namespace StarterAssets
 			
 			if (_inCheckpoint != -1) return;
 
-			GroundedOrFalling();
 			JumpAndGravity();
 			GroundedCheck();
+			GroundedOrFalling();
 			Move();
 			Attacks();
 		}
