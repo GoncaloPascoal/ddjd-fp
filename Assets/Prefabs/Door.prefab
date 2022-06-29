@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4587130058290181132}
+  - component: {fileID: 1363902952167153491}
+  - component: {fileID: 9137724043852066093}
+  - component: {fileID: 3147902392863306601}
   m_Layer: 0
   m_Name: Door
   m_TagString: Untagged
@@ -31,6 +34,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1363902952167153491
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2318200435219731340}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 50844f4aeed14cb4fb8f1a544f56887c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &9137724043852066093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2318200435219731340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9503ea8fe301d7342b7b5298176bba70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3147902392863306601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2318200435219731340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c292105740daf94a91b9ebc2fea64fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSounds: []
+  attackSounds: []
+  deathSounds: []
 --- !u!1 &8886915108609230281
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,10 +91,7 @@ GameObject:
   - component: {fileID: 8886915108609230274}
   - component: {fileID: 8886915108609230284}
   - component: {fileID: 8886915108609230287}
-  - component: {fileID: 8886915108609230286}
-  - component: {fileID: 8886915108609230275}
   - component: {fileID: 949693953596878666}
-  - component: {fileID: 4200790508060071833}
   m_Layer: 0
   m_Name: Door
   m_TagString: Door
@@ -121,37 +167,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.27413687, y: 3.01, z: 4.300001}
   m_Center: {x: 0, y: 1.505, z: 0}
---- !u!114 &8886915108609230286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8886915108609230281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9503ea8fe301d7342b7b5298176bba70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!95 &8886915108609230275
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8886915108609230281}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 50844f4aeed14cb4fb8f1a544f56887c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!33 &949693953596878666
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -160,18 +175,3 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8886915108609230281}
   m_Mesh: {fileID: 3495554506156927126, guid: fed13af23e9035d4dad344e7784249cd, type: 3}
---- !u!114 &4200790508060071833
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8886915108609230281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c292105740daf94a91b9ebc2fea64fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitSounds: []
-  attackSounds: []
-  deathSounds: []

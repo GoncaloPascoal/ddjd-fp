@@ -28,18 +28,21 @@ public class LevelChanger : MonoBehaviour
     public void ChangeLevel(int levelIndex)
     {
         _nextSceneIndex = levelIndex;
-        PlayerPrefs.SetInt("Checkpoint", 1);
         _animator.SetTrigger("LevelChange");
     }
     
     public void NextLevel()
     {
-        ChangeLevel(SceneManager.GetActiveScene().buildIndex + 1);
+        var newLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        GameData.CheckpointNumber = 1;
+        GameData.LevelNumber = newLevel;
+        ChangeLevel(newLevel);
     }
 
     public void ReloadLevel()
     {
         GameData.InCheckpoint = true;
+        
         _animator.SetTrigger("LevelChange");
     }
 
