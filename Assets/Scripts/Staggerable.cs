@@ -57,7 +57,7 @@ public class Staggerable : MonoBehaviour
 
     public void ActivateStagger()
     {
-        _attacker.EndAttack();
+        if (_attacker != null) _attacker.EndAttack();
         _animator.SetBool("WillNotStagger",false);
         _animator.ResetTrigger("Stagger");
     }
