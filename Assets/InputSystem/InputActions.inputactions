@@ -1,5 +1,5 @@
 {
-    "name": "StarterAssets",
+    "name": "InputActions",
     "maps": [
         {
             "name": "Game",
@@ -331,7 +331,7 @@
                 {
                     "name": "",
                     "id": "a5ddadc2-aff4-4cfd-bb56-e43842bfc9e3",
-                    "path": "<Keyboard>/escape",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
