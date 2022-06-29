@@ -61,6 +61,11 @@ public class Attacker : MonoBehaviour
         }
     }
 
+    public void DisableWeapon()
+    {
+        weapon.DisableCollider();
+    }
+
     public void Attack(string triggerName)
     {
         AnimatorStateInfo animatorState = _animator.GetCurrentAnimatorStateInfo(0);
