@@ -6,11 +6,14 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+#if UNITY_EDITOR
+
 [CustomPropertyDrawer(typeof(StatsDictionary))]
 [CustomPropertyDrawer(typeof(ItemPickupDictionary))]
 [CustomPropertyDrawer(typeof(MenuButtonStateSpriteDictionary))]
 [CustomPropertyDrawer(typeof(MenuTabGameObjectDictionary))]
 public class AnySerializableDictionaryPropertyDrawer : SerializableDictionaryPropertyDrawer { }
+#endif
 
 [Serializable]
 public struct InventoryData
