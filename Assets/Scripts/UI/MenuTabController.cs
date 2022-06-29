@@ -37,23 +37,24 @@ public class MenuTabController : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.GetButtonDown("MenuToggle"))
+        if (InputManager.Action("MenuToggle").WasPressedThisFrame()
+            || (!_inSubMenu && InputManager.Action("MenuBack").WasPressedThisFrame()))
         {
             ToggleMenu();
         }
-        
+
         if (_inSubMenu) return;
 
-        if (InputManager.GetButtonDown("MenuRight"))
+        if (InputManager.Action("MenuRight").WasPressedThisFrame())
         {
             CurrentTab = (CurrentTab + 1) % tabs.Count;
         }
-        else if (InputManager.GetButtonDown("MenuLeft"))
+        else if (InputManager.Action("MenuLeft").WasPressedThisFrame())
         {
             if (CurrentTab == 0) CurrentTab = tabs.Count - 1;
             else CurrentTab -= 1;
         }
-        else if (InputManager.GetButtonDown("MenuAction"))
+        else if (InputManager.Action("MenuAction").WasPressedThisFrame())
         {
             SetTabSelected(true);
             _inSubMenu = true;
@@ -65,7 +66,7 @@ public class MenuTabController : MonoBehaviour
         if (_visible) Return();
 
         _visible = !_visible;
-        InputManager.CurrentActionType = _visible ? ActionType.Menu : ActionType.Game;
+        InputManager.Input.SwitchCurrentActionMap(_visible ? "Menu" : "Game");
         transform.GetChild(0).gameObject.SetActive(_visible);
         if (_visible) tabs.ElementAt(CurrentTab).Key.SetState(MenuButtonState.Active);
     }

@@ -29,16 +29,16 @@ public class Checkpoint : MonoBehaviour
     {
         if (!_playerInRange) return;
 
-        if (InputManager.GetButtonDown("Cancel"))
+        if (InputManager.Action("Cancel").WasPressedThisFrame())
         {
             if (_player.IsInCheckpoint(checkpointNumber))
             {
                 _player.ExitCheckpoint();
             }
         }
-        else if (InputManager.GetButtonDown("Interact"))
-        {
 
+        else if (InputManager.Action("Interact").WasPressedThisFrame())
+        {
             if (!_player.IsInCheckpoint() && !_activating)
             {
                 _activating = true;
