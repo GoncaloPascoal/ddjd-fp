@@ -43,7 +43,8 @@ public class Projectile : MonoBehaviour
         _shot = true;
 
         // Physics
-        float gravity = Physics.gravity.magnitude;
+        float gravityEnhancer = 0.09f;
+        float gravity = Physics.gravity.magnitude + gravityEnhancer; 
         float projX = new Vector2(direction.x, direction.z).magnitude;
         float y = direction.y;
 
