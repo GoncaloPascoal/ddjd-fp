@@ -298,6 +298,7 @@ MonoBehaviour:
   - Master
   Banks:
   - Ambient
+  - Boss
   - Character
   - Enemy
   - Menu
@@ -312,6 +313,7 @@ MonoBehaviour:
   - Menu
   - Mind Control
   - Weapons
+  - Boss
   LiveUpdatePort: 9264
   EnableMemoryTracking: 0
   AndroidUseOBB: 0
@@ -323,7 +325,7 @@ MonoBehaviour:
   SharedLibraryTimeSinceStart: 0
   CurrentVersion: 131588
   HideSetupWizard: 1
-  LastEventReferenceScanVersion: 0
+  LastEventReferenceScanVersion: 131588
   Platforms:
   - {fileID: -7630466326992787016}
   - {fileID: -5206924344416741123}

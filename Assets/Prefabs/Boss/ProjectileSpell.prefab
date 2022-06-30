@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3295149748968026770}
   - component: {fileID: -585190249880275101}
   - component: {fileID: 7543571712185802036}
+  - component: {fileID: 3861946047043538347}
   m_Layer: 0
   m_Name: ProjectileSpell
   m_TagString: Untagged
@@ -4848,3 +4849,23 @@ MonoBehaviour:
   intoPositionSpeed: 10
   shootSpeed: 4
   damage: 10
+  explosion: {fileID: 2687975859157287251, guid: d02a21e22bf7b334ba59a84a2b42e30f, type: 3}
+--- !u!114 &3861946047043538347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3097093939111664365}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0290b48de34c46aeaf413966cd3424ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitSounds: []
+  attackSounds: []
+  deathSounds: []
+  numberSwordAttacks: 4
+  numberSlams: 3
+  numberProjectile: 4
+  numberFoot: 8

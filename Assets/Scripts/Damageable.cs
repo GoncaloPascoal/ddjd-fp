@@ -8,6 +8,7 @@ public abstract class Damageable : MonoBehaviour
 {
     [SerializeField] public Bar healthBar;
     private ThirdPersonController _player;
+    private PlayerSounds _ps;
 
     protected virtual void Start()
     {
@@ -77,5 +78,5 @@ public abstract class Damageable : MonoBehaviour
         Health = MaxHealth;
     }
 
-    protected abstract void Die();
+    public abstract void Die();
 }

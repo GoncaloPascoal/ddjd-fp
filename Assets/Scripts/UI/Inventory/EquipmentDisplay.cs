@@ -11,6 +11,7 @@ public class EquipmentDisplay : MonoBehaviour
     public void UpdateDisplay(Inventory inventory)
     {
         Equipment equipped = inventory.Equipped[slot];
-        icon.sprite = equipped != null ? equipped.icon : null;
+        icon.gameObject.SetActive(equipped != null);
+        if (equipped != null) icon.sprite = equipped.icon;
     }
 }

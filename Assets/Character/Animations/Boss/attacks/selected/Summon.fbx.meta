@@ -66,6 +66,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0
+        functionName: SummonSound
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: 0290b48de34c46aeaf413966cd3424ca, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

@@ -10,6 +10,7 @@ public class PlayerSounds : EntitySounds
     [SerializeField] private int numberSpells = 4;
     [SerializeField] private int numberJumps = 6;
     [SerializeField] private int numberBackstabs = 1;
+    [SerializeField] private int hit = 7;
     
     
     public void FootstepSound()
@@ -24,6 +25,13 @@ public class PlayerSounds : EntitySounds
         int randomSound = Random.Range(1, numberJumps + 1);
         
         Play3DSound("character/Jump/Jump_up_" + randomSound, 1);
+    }
+    
+    public void HitSound()
+    {
+        int randomSound = Random.Range(1, hit + 1);
+        
+        Play3DSound("character/Dmg_taken/Hit_" + randomSound, 1);
     }
 
     public void JumpLandSound()
