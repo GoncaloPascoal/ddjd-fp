@@ -38,8 +38,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected Animator _animator;
 
-    [SerializeField] private List<string> targetsWhileMindControlled = new List<string>{"Enemy"};
-    [SerializeField] private List<string> normalTargets = new List<string> {"Player", "MindControlled"};
+    [SerializeField] private List<string> targetsWhileMindControlled = new List<string>{ "Enemy" };
+    [SerializeField] private List<string> normalTargets = new List<string> { "Player", "MindControlled" };
 
     protected void Start()
     {
@@ -71,7 +71,10 @@ public abstract class Enemy : MonoBehaviour
 
     protected bool DetectTarget()
     {
-        Vector3 rayDirection = GetTargetPos() - enemyHead.transform.position;
+        Vector3? targetPos = GetTargetPos();
+        if (targetPos == null) return false;
+
+        Vector3 rayDirection = (Vector3) targetPos - enemyHead.transform.position;
 
         // if target is within view distance
         if (Vector3.Magnitude(rayDirection) > viewDistance)
@@ -94,7 +97,7 @@ public abstract class Enemy : MonoBehaviour
         return false;
     }
 
-    protected Vector3 GetTargetPos()
+    protected Vector3? GetTargetPos()
     {
         var headPos = Player.playerHeadTransform.position;
         var playerPos = 
@@ -105,19 +108,15 @@ public abstract class Enemy : MonoBehaviour
         {
             return GetClosestWithTags(normalTargets).position + new Vector3(0, 0.5f, 0);
         }
-        var closestEnemy = GetClosestWithTags(targetsWhileMindControlled);
+
+        Transform closestEnemy = GetClosestWithTags(targetsWhileMindControlled);
 
         if (closestEnemy != null)
         {
-            if (targetsWhileMindControlled.Contains("Player"))
-                targetsWhileMindControlled.Remove("Player");
-            
             return closestEnemy.position + new Vector3(0, 0.5f, 0);
         }
 
-        // if no enemy is found the enemy attacks the player instead - TODO: what should we do in this case?
-        targetsWhileMindControlled.Add("Player");
-        return playerPos;
+        return null;
     }
 
     private Transform GetClosestWithTags(List<string> tags)
@@ -150,12 +149,19 @@ public abstract class Enemy : MonoBehaviour
 
     protected void LookAtTarget()
     {
-        Quaternion lookRotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
-            Quaternion.LookRotation(GetTargetPos() - transform.position).eulerAngles.y,
-            transform.rotation.eulerAngles.z);
-        transform.rotation =
-            Quaternion.Lerp(transform.rotation, lookRotation,
-                Time.deltaTime * 5f); // TODO: change hardcoded lerp speed
+        Vector3? targetPos = GetTargetPos();
+
+        if (targetPos != null)
+        {
+            Quaternion rotation = transform.rotation;
+            Quaternion lookRotation = Quaternion.Euler(rotation.eulerAngles.x,
+                Quaternion.LookRotation((Vector3) targetPos - transform.position).eulerAngles.y,
+                rotation.eulerAngles.z);
+
+            // TODO: change hardcoded lerp speed
+            rotation = Quaternion.Lerp(rotation, lookRotation,Time.deltaTime * 5f);
+            transform.rotation = rotation;
+        }
     }
 
     public void Backstab(float damage)

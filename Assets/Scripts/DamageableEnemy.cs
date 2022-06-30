@@ -53,7 +53,8 @@ public class DamageableEnemy : Damageable
     {
         Enemy enemy = GetComponent<Enemy>();
         if (_attacker != null) _attacker.DisableWeapon();
-        if (enemy.backstabbed)
+
+        if (enemy.backstabbed && !enemy.CompareTag("MindControlled"))
         {
             RestoreToMaxHealth();
             enemy.MindControl();
@@ -76,7 +77,7 @@ public class DamageableEnemy : Damageable
             _animator.SetTrigger("Die");
             gameObject.tag = "Dead";
 
-            LevelSystem.Instance.AddExperience(experienceGiven);
+            if (!enemy.CompareTag("MindControlled")) LevelSystem.Instance.AddExperience(experienceGiven);
         }
     }
 

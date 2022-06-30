@@ -8693,7 +8693,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: This Seems To Be A Room Used For Different Types Of Rituals.
+      value: '[The ominous aura of this room leads you to presume it is a space where
+        sacred rituals are performed]'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -24361,7 +24362,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Even After Death Some Are Still Too Dangerous To Be Let Free.
+      value: Even after death, some are too dangerous to be free.
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -27602,7 +27603,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Even What's Invisible Casts Shadows.
+      value: The invisible are defeated by their shadow.
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -62524,8 +62525,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: The Throne Room Lies Just Behind This Door. Redy Yourselft To Struggle
-        In Vain.
+      value: '[The throne room liies just beyond this passage. The flickering torches
+        appear to produce unnatural, ghostly shadows.]'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name

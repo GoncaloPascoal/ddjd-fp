@@ -438,7 +438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHead: {fileID: 7792425591318055071}
-  viewDistance: 5
+  viewDistance: 15
   fieldOfView: 70
   chaseSpeed: 3
   walkSpeed: 1.5
@@ -565,6 +565,7 @@ MonoBehaviour:
   hitSounds: []
   attackSounds: []
   deathSounds: []
+  hitNumber: 5
   numberWeaponAttacks: 5
   numberFootsteps: 5
   numberArrow: 5
