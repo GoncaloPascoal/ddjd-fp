@@ -42,8 +42,14 @@ public class Attacker : MonoBehaviour
     {
         weapon.Attack();
         _isStartingAttack = false;
+        _isAttacking = true;
     }
 
+    public void SetAttackingIfNotStarting(bool att)
+    {
+        if(!_isStartingAttack) _isAttacking = att;
+    }
+    
     public void EndAttack()
     {
         if (_bufferedAttack)
