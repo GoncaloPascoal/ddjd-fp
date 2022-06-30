@@ -18,8 +18,9 @@ MonoBehaviour:
     off the ground. '
   icon: {fileID: 21300000, guid: 3a5efc86db1461f28852030ba714c60f, type: 3}
   statValues:
-    m_keys: 0300000001000000
+    m_keys: 030000000100000002000000
     m_values:
-    - 45
-    - -15
+    - 35
+    - -20
+    - -4
   slot: 1

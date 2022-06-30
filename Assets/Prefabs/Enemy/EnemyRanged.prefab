@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHead: {fileID: 7792425591318055071}
   viewDistance: 15
-  fieldOfView: 70
+  fieldOfView: 150
   chaseSpeed: 3
   walkSpeed: 1.5
   chaseCooldown: 5
@@ -544,12 +544,12 @@ MonoBehaviour:
   baseValues:
     m_keys: 000000000100000002000000030000000400000005000000
     m_values:
-    - 40
+    - 45
     - 0
     - 0
-    - 15
+    - 17.5
     - 10
-    - 5
+    - 20
 --- !u!114 &4225973291287278350
 MonoBehaviour:
   m_ObjectHideFlags: 0
