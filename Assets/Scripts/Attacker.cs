@@ -29,7 +29,7 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
-        if(_tpc!=null && _currentTrigger != null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
+        if (_tpc != null && _currentTrigger != null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
         _isStartingAttack = true;
     }
 
@@ -42,8 +42,14 @@ public class Attacker : MonoBehaviour
     {
         weapon.Attack();
         _isStartingAttack = false;
+        _isAttacking = true;
     }
 
+    public void SetAttackingIfNotStarting(bool att)
+    {
+        if(!_isStartingAttack) _isAttacking = att;
+    }
+    
     public void EndAttack()
     {
         if (_bufferedAttack)
@@ -75,8 +81,6 @@ public class Attacker : MonoBehaviour
         {
             if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.1f)
             {
-                Debug.Log("Attacking");
-
                 _bufferedAttack = true;
                 if (_currentTrigger != null) _animator.ResetTrigger(_currentTrigger);
                 _currentTrigger = triggerName;
