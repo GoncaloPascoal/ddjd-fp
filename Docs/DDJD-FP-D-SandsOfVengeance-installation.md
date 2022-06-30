@@ -22,13 +22,17 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 - Attack: Right Click;
 
+- Sprint: Shift;
+
 - Roll: R;
 
-- Ressurect dead enemy: ;
+- Ressurect dead enemy: E;
 
-- Pray: ; 
+- Pray: E; 
 
-- Pickup item: ;
+- Pickup item: E;
+
+- Open Menu/Inventory: ESC; 
 
 ## Controller
 
@@ -38,6 +42,8 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 - Attack: ;
 
+- Sprint: ;
+
 - Roll: ;
 
 - Ressurect dead enemy: ;
@@ -45,6 +51,8 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 - Pray: ; 
 
 - Pickup item: ;
+
+- Open Menu/Inventory: ESC
 
 ### Enemies
 
