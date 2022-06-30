@@ -23,12 +23,12 @@ public class MainMenu : MonoBehaviour
         newGameButton.onClick.AddListener(() =>
         {
             GameSaveManager.NewSave();
-            SceneManager.LoadScene("Initial");
+            SceneManager.LoadScene(GameData.LevelNumber);
         });
         
         loadGameButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene("Level" + GameData.LevelNumber);
+            SceneManager.LoadScene(GameData.LevelNumber);
         });
         
         settingsButton.onClick.AddListener(() =>

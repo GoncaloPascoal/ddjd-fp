@@ -24,35 +24,47 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 - Jump: Space;
 
-- Attack: Right Click;
+- Light Attack: Left Click;
 
-- Sprint: Shift;
+- Heavy Attack: Right Click;
+
+- Sprint: Shift/ALT;
 
 - Roll: R;
 
 - Pray: E; 
 
+- Exit Pray: ESC;
+
 - Pickup item: E;
 
 - Open Menu/Inventory: Q; 
 
+- Navigate Menu: WASD; 
+
 ## Controller
 
-- Movement: ;
+- Movement: Left Joystick;
 
-- Jump: ;
+- Jump: Y;
 
-- Attack: ;
+- Light Attack: Right Bumper;
 
-- Sprint: ;
+- Heavy Attack: Right Trigger;
 
-- Roll: ;
+- Sprint: Left Bumper;
 
-- Pray: ; 
+- Roll: B;
 
-- Pickup item: ;
+- Pray: A; 
 
-- Open Menu/Inventory: ESC
+- Exit Pray: ;
+
+- Pickup item: A;
+
+- Open Menu/Inventory: Start;
+
+- Navigate Menu: Left Joystick;
 
 ### Enemies
 

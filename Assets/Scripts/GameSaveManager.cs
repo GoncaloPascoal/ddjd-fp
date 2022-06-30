@@ -52,8 +52,9 @@ public class GameSaveManager : MonoBehaviour
         {
             BinaryFormatter binaryFormatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
-            
+
             Save save = binaryFormatter.Deserialize(stream) as Save;
+            stream.Close();
 
             GameData.SetSaveData(save);
             
