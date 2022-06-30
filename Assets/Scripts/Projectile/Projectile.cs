@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
     private float _initialYVelocity;
     private Vector3 _shootDirection;
 
-    private int _damage;
+    private float _damage;
     private bool _mindControl;
 
     private void Awake()
@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    public void ShootAt(Vector3 target, int damage, bool mindControl = false)
+    public void ShootAt(Vector3 target, float damage, bool mindControl = false)
     {
         if (_shot) return;
 
