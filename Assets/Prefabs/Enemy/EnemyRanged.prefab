@@ -450,7 +450,7 @@ MonoBehaviour:
   normalTargets:
   - Player
   - MindControlled
-  prepareTime: 3
+  prepareTime: 2
   recoveryTime: 1
   projectile: {fileID: 1080494255442829614, guid: e3f810e8a218d734f8b5949fde03eab0, type: 3}
 --- !u!195 &1586840718211668744

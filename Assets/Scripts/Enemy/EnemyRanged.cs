@@ -11,7 +11,7 @@ enum EnemyRangedState
 
 public class EnemyRanged : Enemy
 {
-    [SerializeField] private float prepareTime = 3f;
+    [SerializeField] private float prepareTime = 2f;
     [SerializeField] private float recoveryTime = 1f;
     [SerializeField] private GameObject projectile;
 
