@@ -449,7 +449,7 @@ namespace StarterAssets
 		{
 			if (_inCheckpoint != -1) return;
 			
-			if (Grounded && !_isBackstabbing && !_resurrecting)
+			if (Grounded && !_isBackstabbing && !_resurrecting && !_staggerable.IsStaggered())
 			{
 				// reset the fall timeout timer
 				_fallTimeoutDelta = FallTimeout;
