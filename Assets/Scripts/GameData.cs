@@ -188,6 +188,12 @@ public static class GameData
         return new Save();
     }
 
+    public static void NewLevel(int levelIndex)
+    {
+        LevelNumber = levelIndex;
+        CheckpointNumber = 1;
+    }
+
     public static Save NewSave()
     {
         LevelNumber = 1;
