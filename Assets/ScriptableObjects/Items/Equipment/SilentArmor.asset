@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Armor worn by the Silent, a company of mercenaries with unmatched
     strength and ruthlessness. It is said that after stating their price, they never
     speak another word.
-  icon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
+  icon: {fileID: 21300000, guid: 53997a17037b72a7f80adb27a1ebce52, type: 3}
   statValues:
     m_keys: 04000000020000000100000005000000
     m_values:

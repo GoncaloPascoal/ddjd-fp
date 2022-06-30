@@ -12,6 +12,10 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 # Playing instructions
 
+### Mechanics
+
+There are some special game mechanics such as: Mind-Control and Enemy Ressurection. Both of these make enemies fight on your side against other dangerous enemies. In order to Mind-Control an enemy, you must attack it while standing behind him. In order to Ressurect a dead enemy you must press E while his dead soul is floating around.
+
 ### Controls
 
 ## Keyboard
@@ -22,13 +26,15 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 - Attack: Right Click;
 
+- Sprint: Shift;
+
 - Roll: R;
 
-- Ressurect dead enemy: ;
+- Pray: E; 
 
-- Pray: ; 
+- Pickup item: E;
 
-- Pickup item: ;
+- Open Menu/Inventory: ESC; 
 
 ## Controller
 
@@ -38,13 +44,15 @@ pyramid. You decide to adventure into the unknown, in order to free him from the
 
 - Attack: ;
 
-- Roll: ;
+- Sprint: ;
 
-- Ressurect dead enemy: ;
+- Roll: ;
 
 - Pray: ; 
 
 - Pickup item: ;
+
+- Open Menu/Inventory: ESC
 
 ### Enemies
 
