@@ -22,8 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Ghost(Boss)_Mat
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ShaderKeywords: _SPECULAR_SETUP
-  m_LightmapFlags: 4
+  m_ShaderKeywords: _EMISSION _SPECULAR_SETUP
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
@@ -120,8 +120,8 @@ Material:
     - _WorkflowMode: 0
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0, g: 1, b: 0.9930272, a: 0.7019608}
+    - _BaseColor: {r: 0, g: 1, b: 0.99302715, a: 0.34117648}
     - _Color: {r: 0, g: 1, b: 0.9930272, a: 0.49019608}
-    - _EmissionColor: {r: 0.1882353, g: 0.9098039, b: 1.0196079, a: 1}
+    - _EmissionColor: {r: 0.051731627, g: 0.1632651, b: 0.17978863, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
