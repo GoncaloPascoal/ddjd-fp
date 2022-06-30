@@ -9,6 +9,7 @@ public class CutscenePlayer : MonoBehaviour
     private PlayableDirector _timeline;
     
     [SerializeField] private bool skippable = true;
+    [SerializeField] private bool changesLevel = true;
     [SerializeField] private bool managesObjects = true;
 
     public GameObject cutsceneElements;
@@ -18,9 +19,7 @@ public class CutscenePlayer : MonoBehaviour
     public List<GameObject> objectsToDestroy;
     public List<GameObject> objectsNotToSpawn;
 
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         _timeline = GetComponent<PlayableDirector>();
 
@@ -30,7 +29,7 @@ public class CutscenePlayer : MonoBehaviour
         {
             Destroy(objectToDestroy);
         }
-        
+
         foreach (var objectInScene in Resources.FindObjectsOfTypeAll<GameObject>())
         {
             if (objectInScene.transform.parent == null)
@@ -44,12 +43,10 @@ public class CutscenePlayer : MonoBehaviour
                     objectInScene.SetActive(false);
                 }
             }
-                
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (skippable && InputManager.Action("Cancel").WasPressedThisFrame())
         {
@@ -79,6 +76,9 @@ public class CutscenePlayer : MonoBehaviour
 
     public void CutsceneEndChangeLevel(int levelIndex)
     {
+        if (changesLevel)
+            GameData.NewLevel(levelIndex);
+
         SceneManager.LoadScene(levelIndex);
     }
 }
