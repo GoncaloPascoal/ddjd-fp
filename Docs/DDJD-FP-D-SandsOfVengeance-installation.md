@@ -4,13 +4,13 @@
 A tyrannical pharaoh murders your brother, trapping his soul within a great
 pyramid. You decide to adventure into the unknown, in order to free him from the pharaoh's clutches. Sands of Vengeance is an Action RPG game (Soulslike) where you have to explore the pharaoh's pyramid, gathering powerful items and defeating enemies along the way, until you reach the pharaoh's room, from where you can free your brother by defeating the pharaoh himself.
 
-# Installation
+## Installation
 
 - Download the project zip file.
 - Run the .exe file
 
 
-# Playing instructions
+## Playing instructions
 
 ### Mechanics
 
@@ -18,53 +18,20 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 ### Controls
 
-## Keyboard
 
-- Movement: W,A,S,D;
-
-- Jump: Space;
-
-- Light Attack: Left Click;
-
-- Heavy Attack: Right Click;
-
-- Sprint: Shift/ALT;
-
-- Roll: R;
-
-- Pray: E; 
-
-- Exit Pray: ESC;
-
-- Pickup item: E;
-
-- Open Menu/Inventory: Q; 
-
-- Navigate Menu: WASD; 
-
-## Controller
-
-- Movement: Left Joystick;
-
-- Jump: Y;
-
-- Light Attack: Right Bumper;
-
-- Heavy Attack: Right Trigger;
-
-- Sprint: Left Bumper;
-
-- Roll: B;
-
-- Pray: A; 
-
-- Exit Pray: ;
-
-- Pickup item: A;
-
-- Open Menu/Inventory: Start;
-
-- Navigate Menu: Left Joystick;
+|   Action  |   Controller      |   Keyboard + Mouse   |
+| :-----:   | :-----------: |   :-----------: |       
+|   **Movement**  |   Left Joystick      |  W,A,S,D |
+|   **Jump**  |   X      |  Space |
+|   **Light Attack**  |   Right Bumper      |   Left Mouse Button |
+|   **Heavy Attack**  |   Right Trigger      |  Right Mouse Button |
+|   **Sprint**  |   Left Trigger      |  Shift/ALT |
+|   **Roll**  |   B      |  R |
+|   **Pray**  |   A      |  E |
+|   **Exit Pray**  |   B      | ESC |
+|   **Pickup item**  |   A      |   E |
+|   **Open Menu/Inventory**  |   Start      |   G |
+|   **Navigate Menu**  |   Left Joystick / D-Pad      | W,A,S,D |
 
 ### Enemies
 
@@ -83,15 +50,20 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 |         Armor          | Armor that changes player stats such as damage, armor, stability,  stamina and stamina recovery                                                                                                                                                            |
 
 
-# Group Members
+## Group Members
 
+### Developers
 - Diogo Rosário 
 - Henrique Ribeiro
 - Davide Castro
 - Gonçalo Pascoal
 - João Alexandre
 - Rafael Ribeiro
+
+### 3D Modelling
 - Bruno Dias
+
+### Sound Design
 - Gabriela Ferreira
 - Francisco Coelho
 - Marta Rebelo
