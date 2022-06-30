@@ -34,7 +34,7 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 - Pickup item: E;
 
-- Open Menu/Inventory: ESC; 
+- Open Menu/Inventory: Q; 
 
 ## Controller
 
@@ -58,17 +58,17 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 |                    Enemy                    | Description                                                                                                                                                                                             |
 | :------------------------------------------------: | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![Range Enemy](ranged.png) | **Ranged Enemy:** Shoots at the player when he sees him inside his FOV |
-|    ![Melee enemy](melee.png)     | **Melee enemy:** Attacks the player when he is close enough. Has different attack patterns.                                       |
-|   ![Boss](boss.png)   | **Boss:** Has multiple phases with different attacks each phase. Scaling difficulty through each of the phases.                                                                                                                 |
+| ![Range Enemy](Images/ranged.png) | **Ranged Enemy:** Shoots at the player when he sees him inside his FOV |
+|    ![Melee enemy](Images/melee.png)     | **Melee enemy:** Attacks the player when he is close enough. Has different attack patterns.                                       |
+|   ![Boss](Images/boss.png)   | **Boss:** Has multiple phases with different attacks each phase. Scaling difficulty through each of the phases.                                                                                                                 |
 
 ### Items
 
 |                   Item                     | Description                                                                                                                                                                                                                 |
 | :----------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|       Weapons        | Short description                                                                                                                                                   |
-|        Potions         | Short description                                                                                                                                                        |
-|         Armor          | Short description                                                                                                                                                            |
+|       Weapons        | Weapons that change player stats such as damage or stamina.                                                                                                                                                   |
+|        Healing Potions         | Potions to heal the player.                                                                                                                                                     |
+|         Armor          | Armor that changes player stats such as damage, armor, stability,  stamina and stamina recovery                                                                                                                                                            |
 
 
 # Group Members
