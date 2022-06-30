@@ -17,7 +17,7 @@ public class PlayerSounds : EntitySounds
     {
         int randomSound = Random.Range(1, numberFootsteps + 1);
         
-        Play3DSound("character/Footsteps/footsteps_" + randomSound);
+        Play3DSound("character/Footsteps/footsteps_" + randomSound, 0.1f);
     }
 
     public void JumpStartSound()
