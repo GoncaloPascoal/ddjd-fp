@@ -1595,6 +1595,68 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0f45fe582cb5f924f81ba0d2ebb64aaf, type: 3}
+--- !u!1001 &239023933
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: _labelText
+      value: It Seems That Some Tombs Are Open. Maybe The Corpses Inside Now Dwell
+        Inside The Pyramid.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_Name
+      value: LoreMessage (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.1674132
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.7588587
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 20.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
 --- !u!4 &239911051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3448062917901344734, guid: cc801edceccafbb4aadd664b6760d9fb, type: 3}
@@ -10012,6 +10074,26 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 7782249584776494367, guid: 435899984706f184cb08997108448075, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8191144
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782249584776494367, guid: 435899984706f184cb08997108448075, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5735499
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782249584776494367, guid: 435899984706f184cb08997108448075, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0078631425
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782249584776494367, guid: 435899984706f184cb08997108448075, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.005505831
+      objectReference: {fileID: 0}
+    - target: {fileID: 7782249584776494367, guid: 435899984706f184cb08997108448075, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7841220889368835788, guid: 435899984706f184cb08997108448075, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
@@ -12310,6 +12392,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2097249085946203830, guid: ecbcef0716d077b41bbbf3fd396853ac, type: 3}
   m_PrefabInstance: {fileID: 1695228617}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1711263305
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: _labelText
+      value: Even After Death, Some Cannot Reach The Heights They Wish And Are Limited
+        To Rest Under A Bridge.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_Name
+      value: LoreMessage (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -16.344093
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -13.908909
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 50.491688
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984394242925935929, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
 --- !u!1001 &1713436134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16437,7 +16581,7 @@ Transform:
   - {fileID: 355814337}
   - {fileID: 1955168693}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2048376749
 PrefabInstance:
@@ -31485,7 +31629,7 @@ Transform:
   - {fileID: 4723418254762219371}
   - {fileID: 4211681645117066480}
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2333379552811378404
 PrefabInstance:
