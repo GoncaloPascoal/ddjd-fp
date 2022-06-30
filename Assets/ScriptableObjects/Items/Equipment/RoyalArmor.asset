@@ -21,7 +21,7 @@ MonoBehaviour:
   statValues:
     m_keys: 04000000010000000200000005000000
     m_values:
-    - 15
+    - 10
     - 15
     - 5
     - 10
