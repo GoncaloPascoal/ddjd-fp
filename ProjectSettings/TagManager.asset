@@ -17,6 +17,9 @@ TagManager:
   - Cutscene
   - Spyke
   - InvCanvas
+  - GameSave
+  - HealthBar
+  - StaminaBar
   layers:
   - Default
   - TransparentFX

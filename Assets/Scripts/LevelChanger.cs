@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelChanger : MonoBehaviour
 {
@@ -10,12 +11,12 @@ public class LevelChanger : MonoBehaviour
 
     private int _nextSceneIndex;
 
+    private GameObject _healthBar;
+    private GameObject _staminaBar;
+
     private void Awake()
     {
-        if (!PlayerPrefs.HasKey("Checkpoint"))
-        {
-            PlayerPrefs.SetInt("Checkpoint", 1); // TODO: move this to main menu script?
-        }
+        
     }
 
     private void Start()
@@ -27,23 +28,51 @@ public class LevelChanger : MonoBehaviour
     public void ChangeLevel(int levelIndex)
     {
         _nextSceneIndex = levelIndex;
-        PlayerPrefs.SetInt("Checkpoint", 1);
         _animator.SetTrigger("LevelChange");
     }
     
     public void NextLevel()
     {
-        ChangeLevel(SceneManager.GetActiveScene().buildIndex + 1);
+        var newLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        GameData.CheckpointNumber = 1;
+        GameData.LevelNumber = newLevel;
+        ChangeLevel(newLevel);
     }
 
     public void ReloadLevel()
     {
         GameData.InCheckpoint = true;
+        
         _animator.SetTrigger("LevelChange");
+    }
+
+    public void ReloadLevelOnDeath()
+    {
+        GameData.InCheckpoint = true;
+        _healthBar = GameObject.FindWithTag("HealthBar");
+        if(_healthBar != null)
+            _healthBar.SetActive(false);
+        _staminaBar = GameObject.FindWithTag("StaminaBar");
+        if(_staminaBar != null)    
+            _staminaBar.SetActive(false);
+        _animator.SetTrigger("PlayerDead");
+        GameSaveManager.LoadSave();
     }
 
     public void OnFadeEnd()
     {
+        if (_healthBar != null)
+        {
+            _healthBar.SetActive(true);
+            _healthBar = null;
+        }
+
+        if (_staminaBar != null)
+        {
+            _staminaBar.SetActive(true);
+            _staminaBar = null;
+        }
+
         SceneManager.LoadScene(_nextSceneIndex);
     }
 }

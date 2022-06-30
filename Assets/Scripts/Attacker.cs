@@ -29,8 +29,13 @@ public class Attacker : MonoBehaviour
 
     public void StartAttack()
     {
-        if(_tpc!=null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
+        if(_tpc!=null && _currentTrigger != null) _tpc.ChangeStamina(_tpc.StaminaUsageAttacks[_currentTrigger]);
         _isStartingAttack = true;
+    }
+
+    public void ResetAlreadyHit()
+    {
+        weapon.ResetAlreadyHit();
     }
 
     public void AttackMoment()
@@ -56,6 +61,11 @@ public class Attacker : MonoBehaviour
         }
     }
 
+    public void DisableWeapon()
+    {
+        weapon.DisableCollider();
+    }
+
     public void Attack(string triggerName)
     {
         AnimatorStateInfo animatorState = _animator.GetCurrentAnimatorStateInfo(0);
@@ -63,12 +73,14 @@ public class Attacker : MonoBehaviour
         // If already attacking, buffer next attack
         if (IsAttacking())
         {
-            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.3f)
+            if (InAttackingState(animatorState) && animatorState.normalizedTime > 0.1f)
             {
+                Debug.Log("Attacking");
+
                 _bufferedAttack = true;
                 if (_currentTrigger != null) _animator.ResetTrigger(_currentTrigger);
-                _animator.SetTrigger(_currentTrigger);
                 _currentTrigger = triggerName;
+                _animator.SetTrigger(_currentTrigger);
                 _animator.applyRootMotion = true;
             }
         }
@@ -91,7 +103,6 @@ public class Attacker : MonoBehaviour
 
         _isAttacking = true;
         _animator.applyRootMotion = true;
-        weapon.Attack();
         _animator.SetTrigger(possibleAnimations[randomAnimation]);
     }
 

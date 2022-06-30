@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
+  m_Name: KhaAmun
+  m_EditorClassIdentifier: 
+  itemName: Kha Amun
+  itemNamePlural: Kha Amuns
+  description: 'An unwieldy blade that most warriors would struggle to even lift
+    off the ground. '
+  icon: {fileID: 21300000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
+  statValues:
+    m_keys: 0300000001000000
+    m_values:
+    - 45
+    - -15
+  slot: 1

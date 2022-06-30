@@ -10,6 +10,7 @@ public class Hittable : MonoBehaviour
     private Animator _animator;
     private Staggerable _staggerable;
     private EntitySounds _entitySounds;
+    private bool alreadyLow = false;
 
     [SerializeField] private int hitSoundChance = 50;
 
@@ -37,8 +38,25 @@ public class Hittable : MonoBehaviour
 
         if (_entitySounds != null) _entitySounds.GetHitSound(isStaggered ? 100 : hitSoundChance);
 
+        _entitySounds.SwordHitSound();
+
         if (_enemy != null) {
-            _enemy.SetFOV(720); //it's not the player
+            _enemy.SetFOV(720); //it's not the player. Enemy becomes alert of everything around it
+        }
+        else // is the player
+        {
+            if (_damageable.Health / _damageable.MaxHealth <= 0.25f)
+            {
+                if (!alreadyLow)
+                {
+                    _entitySounds.LowHealth();
+                    alreadyLow = true;
+                }
+            }
+            else
+            {
+                alreadyLow = false;
+            }
         }
     }
 }

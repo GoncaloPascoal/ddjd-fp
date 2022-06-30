@@ -18,6 +18,8 @@ public class Pickup : MonoBehaviour
 
     private void Start()
     {
+        if (GameData.PickupsPicked.Contains(GameData.GameObjectToHash(gameObject)))
+            Destroy(gameObject);
         _inventory = GameObject.FindWithTag("Player").GetComponent<Inventory>();
         _active = false;
     }
@@ -26,7 +28,7 @@ public class Pickup : MonoBehaviour
     {
         if (!_active) return;
 
-        if (Input.GetButtonDown("Interact"))
+        if (InputManager.Action("Interact").WasPressedThisFrame())
         {
             HUD.Instance.HideButtonPrompt();
             HUD.Instance.ShowItemPickup(items);
@@ -35,6 +37,7 @@ public class Pickup : MonoBehaviour
                 _inventory.AddItem(item, items[item]);
             }
             items.Clear();
+            GameData.AddPickUp(gameObject);
             Destroy(gameObject);
         }
     }

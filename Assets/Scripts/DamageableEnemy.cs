@@ -11,11 +11,8 @@ public class DamageableEnemy : Damageable
     private BoxCollider _backstab;
     private bool _alreadyDied;
 
-
     [SerializeField]
-    private int _xp = 1;
-    // Currently necessary for xp system TODO: Refactor XP class to be static
-    private XPSystem _xpSystem;
+    private int experienceGiven = 1;
 
     protected override void Start()
     {
@@ -26,7 +23,6 @@ public class DamageableEnemy : Damageable
         _backstab = gameObject.transform.Find("Backstab").gameObject.GetComponent<BoxCollider>();
         _souls = gameObject.transform.Find("FloatingSoul").gameObject;
         _alreadyDied = false;
-        _xpSystem = GameObject.FindWithTag("InvCanvas").GetComponent<XPSystem>();
     }
 
     public void DeleteComponents()
@@ -53,9 +49,10 @@ public class DamageableEnemy : Damageable
         Destroy(this);
     }
     
-    protected override void Die()
+    public override void Die()
     {
         Enemy enemy = GetComponent<Enemy>();
+        if (_attacker != null) _attacker.DisableWeapon();
         if (enemy.backstabbed)
         {
             RestoreToMaxHealth();
@@ -78,8 +75,8 @@ public class DamageableEnemy : Damageable
             _animator.applyRootMotion = true;
             _animator.SetTrigger("Die");
             gameObject.tag = "Dead";
-            
-            _xpSystem.AddXp(_xp);
+
+            LevelSystem.Instance.AddExperience(experienceGiven);
         }
     }
 

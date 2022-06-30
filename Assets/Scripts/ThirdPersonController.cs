@@ -123,7 +123,7 @@ namespace StarterAssets
 
 		private Animator _animator;
 		private CharacterController _controller;
-		private StarterAssetsInputs _input;
+		private PlayerInput _playerInput;
 		private GameObject _mainCamera;
 		private Staggerable _staggerable;
 
@@ -151,11 +151,13 @@ namespace StarterAssets
 
 		private void Start()
 		{
+			Cursor.lockState = CursorLockMode.Locked;
+
 			_stats = GetComponent<Stats>();
 
 			_hasAnimator = TryGetComponent(out _animator);
 			_controller = GetComponent<CharacterController>();
-			_input = GetComponent<StarterAssetsInputs>();
+			_playerInput = GetComponent<PlayerInput>();
 			_staggerable = GetComponent<Staggerable>();
 			_enemyToResurrect = null;
 
@@ -181,8 +183,18 @@ namespace StarterAssets
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 
-			var currentCheckpoint = PlayerPrefs.GetInt("Checkpoint");
-			var checkPoint = GameObject.Find("Checkpoint" + currentCheckpoint);
+			var currentCheckpoint = GameData.CheckpointNumber;
+			GameObject checkPoint = null;
+			
+			foreach (var check in GameObject.FindGameObjectsWithTag("Checkpoint"))
+			{
+				var checkpointScript = check.GetComponent<Checkpoint>();
+				if (checkpointScript != null && checkpointScript.checkpointNumber == currentCheckpoint)
+				{
+					checkPoint = check;
+					break;
+				}
+			}
 			
 			// get a reference to our main camera
 			if (_mainCamera == null)
@@ -228,8 +240,15 @@ namespace StarterAssets
 
 			JumpAndGravity();
 			GroundedCheck();
+			GroundedOrFalling();
 			Move();
 			Attacks();
+		}
+
+		private void GroundedOrFalling()
+		{
+			// Possible Fix to An Infinite Loop That Happens When Both Bools Are Set To True
+			if(_animator.GetBool(_animIDFreeFall) && _animator.GetBool(_animIDGrounded)) _animator.SetBool(_animIDFreeFall, false);
 		}
 
 		private void LateUpdate()
@@ -262,7 +281,7 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
-			Vector2 look = new Vector2(InputManager.GetAxis("Mouse X"), InputManager.GetAxis("Mouse Y"));
+			Vector2 look = _playerInput.actions["Look"].ReadValue<Vector2>();
 			
 			// if there is an input and camera position is not fixed
 			if (look.sqrMagnitude >= Threshold && !LockCameraPosition)
@@ -286,22 +305,21 @@ namespace StarterAssets
 		{
 			if (_inCheckpoint != -1)
 				return;
-			
+
 			Vector2 movement;
 
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 
-			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered())
+			bool sprint = _playerInput.actions["Sprint"].IsPressed();
+
+			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered() || isDead())
 				movement = Vector2.zero;
 			else
-				movement = new Vector2(InputManager.GetAxis("Horizontal"), InputManager.GetAxis("Vertical")).normalized;
+				movement = _playerInput.actions["Move"].ReadValue<Vector2>();
 
-			//Can't move
-			if (isAttacking || _isBackstabbing || _resurrecting) return;
-			
-			bool sprint = InputManager.GetButton("Sprint");
-
+			// Can't move
+			if (!isAttackingCanRotate && (isAttacking || _isBackstabbing || _resurrecting)) return;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
 			float targetSpeed = (sprint && _stamina > _staminaNeededBeforeSprint) ? SprintSpeed : MoveSpeed;
@@ -371,7 +389,7 @@ namespace StarterAssets
 				_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
 				                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 			}
-			else if(!_controller.isGrounded)
+			else if (!_controller.isGrounded)
 			{
 				_controller.Move(new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 			}
@@ -423,8 +441,7 @@ namespace StarterAssets
 
 		private void JumpAndGravity()
 		{
-			if (_inCheckpoint != -1)
-				return;
+			if (_inCheckpoint != -1) return;
 			
 			if (Grounded && !_isBackstabbing && !_resurrecting)
 			{
@@ -444,27 +461,26 @@ namespace StarterAssets
 					_verticalVelocity = -2f;
 				}
 
-				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered())
+				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered() || isDead())
 				{
 					// Roll
-					if (InputManager.GetButtonDown("Roll") && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
+					if (_playerInput.actions["Roll"].WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
 					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
 						_isRolling = true;
 						_animator.SetBool("Rolling", true);
 						_animator.applyRootMotion = true;
-						// _roll_duration_cur = _roll_duration;
 					}
 
 					// Jump
-					if (InputManager.GetButtonDown("Jump") && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
+					if (_playerInput.actions["Jump"].WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
-
+					
 						// the square root of H * -2 * G = how much velocity needed to reach desired height
 						_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
+					
 						// update animator if using character
 						if (_hasAnimator)
 						{
@@ -497,9 +513,6 @@ namespace StarterAssets
 						_animator.SetBool(_animIDFreeFall, true);
 					}
 				}
-
-				// if we are not grounded, do not jump
-				_input.jump = false;
 			}
 
 			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
@@ -514,16 +527,16 @@ namespace StarterAssets
 			if (_inCheckpoint != -1)
 				return;
 
-			if (_staggerable.IsStaggered())
+			if (_staggerable.IsStaggered() || isDead())
 				return;
 
-			if (StaminaUsageAttacks.Keys.All(a => !InputManager.GetButtonDown(a)) || !Grounded)
+			if (StaminaUsageAttacks.Keys.All(a => !_playerInput.actions[a].WasPressedThisFrame() || !Grounded))
 				return;
 
 			if (_isRolling)
 				return;
 
-			string attack = StaminaUsageAttacks.Keys.First(InputManager.GetButtonDown);
+			string attack = StaminaUsageAttacks.Keys.First(a => _playerInput.actions[a].WasPressedThisFrame());
 			float staminaUsage = StaminaUsageAttacks[attack];
 
 			if (_backstabTargets.Count > 0)
@@ -544,7 +557,6 @@ namespace StarterAssets
 			if (_stamina >= Mathf.Abs(staminaUsage))
 			{
 
-				Debug.Log(_stamina + " - " + Mathf.Abs(staminaUsage));
 				_attacker.Attack(attack);
 			}
 		}
@@ -601,6 +613,11 @@ namespace StarterAssets
 			return _inCheckpoint != -1;
 		}
 
+		public bool IsInCheckpoint(int checkpoint)
+		{
+			return _inCheckpoint == checkpoint;
+		}
+
 		public int GetCheckpoint()
 		{
 			return _inCheckpoint;
@@ -623,9 +640,12 @@ namespace StarterAssets
 
 		public void StartResurrection(Animator enemy)
 		{
-			_animator.SetTrigger("Resurrection");
-			_resurrecting = true;
-			_enemyToResurrect = enemy;
+			if (!_resurrecting)
+			{
+				_animator.SetTrigger("Resurrection");
+				_resurrecting = true;
+				_enemyToResurrect = enemy;
+			}
 		}
 		
 		public void EndResurrection()
@@ -638,6 +658,19 @@ namespace StarterAssets
 		public float GetStamina()
 		{
 			return _stamina;
+		}
+
+		public bool isDead()
+		{
+			return _animator.GetBool("isDying");
+		}
+		
+		public void resetDeadAnimationBool()
+		{
+			if(isDead())
+				_animator.SetBool("isDying",false);
+			else
+				_animator.SetBool("isDying",true);
 		}
 	}
 }

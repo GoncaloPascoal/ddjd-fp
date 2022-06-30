@@ -151,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5713754410212480846, guid: 9a767e99a4129fbf8ba089208f1594cf, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 152
+      value: 162
       objectReference: {fileID: 0}
     - target: {fileID: 5713754410212480846, guid: 9a767e99a4129fbf8ba089208f1594cf, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -315,14 +315,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9027285780930424340, guid: d7a8cd58102accc6bad64234cd97e1f6, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 750
-      objectReference: {fileID: 0}
-    - target: {fileID: 9027285780930424340, guid: d7a8cd58102accc6bad64234cd97e1f6, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 9027285780930424340, guid: d7a8cd58102accc6bad64234cd97e1f6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -391,6 +383,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5623470650687518210, guid: db7ecb05620bbb553886d38945c9217d, type: 3}
       propertyPath: m_Name
+      value: StaminaBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623470650687518210, guid: db7ecb05620bbb553886d38945c9217d, type: 3}
+      propertyPath: m_TagString
       value: StaminaBar
       objectReference: {fileID: 0}
     - target: {fileID: 5623470650687518211, guid: db7ecb05620bbb553886d38945c9217d, type: 3}
@@ -623,6 +619,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5623470650687518210, guid: db7ecb05620bbb553886d38945c9217d, type: 3}
       propertyPath: m_Name
+      value: HealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623470650687518210, guid: db7ecb05620bbb553886d38945c9217d, type: 3}
+      propertyPath: m_TagString
       value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 5623470650687518211, guid: db7ecb05620bbb553886d38945c9217d, type: 3}
