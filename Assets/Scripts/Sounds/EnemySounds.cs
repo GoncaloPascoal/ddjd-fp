@@ -24,7 +24,7 @@ public void WeaponAttackSound()
     {
         int randomSound = Random.Range(1, numberFootsteps + 1);
         
-        Play3DSound("character/Footsteps/footsteps_" + randomSound, 0.2f);
+        Play3DSound("character/Footsteps/footsteps_" + randomSound, 0.1f);
     }
     
     public void DeathSound()

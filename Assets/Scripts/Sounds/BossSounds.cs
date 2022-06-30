@@ -34,7 +34,7 @@ public class BossSounds : EntitySounds
     public void FootStepSound()
     {
         int randomSound = Random.Range(1, numberFoot + 1);
-        Play3DSound("Enemys/enemy_footsteps/Foot_" + randomSound);
+        Play3DSound("Enemys/enemy_footsteps/Foot_" + randomSound, 0.1f);
     }
         
     public void SummonSound()
