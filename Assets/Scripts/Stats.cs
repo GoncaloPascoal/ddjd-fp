@@ -27,6 +27,6 @@ public class Stats : MonoBehaviour
 
     public static float CalculateReducedDamage(float damage, float armor)
     {
-        return damage - Mathf.Min(damage * 0.75f, Mathf.Pow(armor, 0.93f));
+        return damage - Mathf.Min(damage * 0.65f, Mathf.Pow(armor, 0.9f));
     }
 }
