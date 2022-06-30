@@ -9,6 +9,7 @@ public class CutscenePlayer : MonoBehaviour
     private PlayableDirector _timeline;
     
     [SerializeField] private bool skippable = true;
+    [SerializeField] private bool changesLevel = true;
     [SerializeField] private bool managesObjects = true;
 
     public GameObject cutsceneElements;
@@ -75,6 +76,9 @@ public class CutscenePlayer : MonoBehaviour
 
     public void CutsceneEndChangeLevel(int levelIndex)
     {
+        if (changesLevel)
+            GameData.NewLevel(levelIndex);
+
         SceneManager.LoadScene(levelIndex);
     }
 }

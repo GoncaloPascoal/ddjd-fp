@@ -34,8 +34,7 @@ public class LevelChanger : MonoBehaviour
     public void NextLevel()
     {
         var newLevel = SceneManager.GetActiveScene().buildIndex + 1;
-        GameData.CheckpointNumber = 1;
-        GameData.LevelNumber = newLevel;
+        GameData.NewLevel(newLevel);
         ChangeLevel(newLevel);
     }
 
