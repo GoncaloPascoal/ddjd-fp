@@ -1275,8 +1275,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyHead: {fileID: 8365675724145485924}
-  viewDistance: 5
-  fieldOfView: 70
+  viewDistance: 10
+  fieldOfView: 150
   chaseSpeed: 3
   walkSpeed: 1.5
   chaseCooldown: 5
@@ -1355,7 +1355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 5024694283907251014}
-  _xp: 1
+  experienceGiven: 1
 --- !u!114 &4155889300669106417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1410,8 +1410,11 @@ MonoBehaviour:
   hitSounds: []
   attackSounds: []
   deathSounds: []
+  hitNumber: 5
   numberWeaponAttacks: 5
   numberFootsteps: 5
+  numberArrow: 5
+  numberDeath: 2
 --- !u!114 &9164252187900891314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3308,11 +3311,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
---- !u!224 &3339179377750451490 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 3415345290316560251, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
-  m_PrefabInstance: {fileID: 86302325299155545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5024694283907251014 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4938715229606717727, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
@@ -3324,6 +3322,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 160cb88ca84e7188fa8812396325e726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &3339179377750451490 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3415345290316560251, guid: 8b30193c237d325a6ac4372e4e116304, type: 3}
+  m_PrefabInstance: {fileID: 86302325299155545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5189169122356438695
 PrefabInstance:
   m_ObjectHideFlags: 0

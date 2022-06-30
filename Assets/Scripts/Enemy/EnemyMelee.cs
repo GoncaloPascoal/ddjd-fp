@@ -45,68 +45,74 @@ public class EnemyMelee : Enemy
     private new void Update()
     {
         if (backstabbed || gameObject.CompareTag("Dead")) return;
-        var detectingTarget = DetectTarget();
-        var targetPos = GetTargetPos();
-        var position = transform.position;
-        var distanceToTarget = Vector2.Distance(new Vector2(position.x,position.z), new Vector2(targetPos.x, targetPos.z));
-        
+
+        bool detectedTarget = DetectTarget();
+        Vector3? targetPosNullable = GetTargetPos();
+        Vector3 position = transform.position;
+
         _attackCooldown -= Time.deltaTime;
 
-        // if near target (attack range)
-        if (distanceToTarget <= meleeDistance)
+        if (targetPosNullable != null)
         {
-            // NavMeshAgent.SetDestination(gameObject.transform.position);
-            StopMovement();
+            Vector3 targetPos = (Vector3) targetPosNullable;
+            float distanceToTarget = Vector2.Distance(new Vector2(position.x,position.z), new Vector2(targetPos.x, targetPos.z));
 
-            // is chasing - will look at player to attack, or player is too close
-            if (CanChase(distanceToTarget))
+            // if near target (attack range)
+            if (distanceToTarget <= meleeDistance)
             {
-                if(!_attacker.IsAttacking())LookAtTarget();
+                // NavMeshAgent.SetDestination(gameObject.transform.position);
+                StopMovement();
 
-                if (_attackCooldown <= 0)
+                // is chasing - will look at player to attack, or player is too close
+                if (CanChase(distanceToTarget))
                 {
-                    _attacker.AttackNotBuffered();
-                    _attackCooldown = 3f;
+                    if (!_attacker.IsAttacking()) LookAtTarget();
+
+                    if (_attackCooldown <= 0)
+                    {
+                        _attacker.AttackNotBuffered();
+                        _attackCooldown = 3f;
+                    }
+                    
+                    _animator.SetFloat(_animIDSpeed, 0);
+
+                    base.Update();
+                    return;
                 }
-                
-                _animator.SetFloat(_animIDSpeed, 0);
-
-                base.Update();
-                return;
+                // else, player is standing behind unsuspecting enemy
             }
-            // else, player is standing behind unsuspecting enemy
-        }
-        else if (!_attacker.IsAttacking())
-        {
-            if (detectingTarget || distanceToTarget <= unconditionalDetectionRange)
+            else if (!_attacker.IsAttacking())
             {
-                if (!_chasingTarget)
+                if (detectedTarget || distanceToTarget <= unconditionalDetectionRange)
                 {
-                    _chasingTime = chaseCooldown;
-                }
+                    if (!_chasingTarget)
+                    {
+                        _chasingTime = chaseCooldown;
+                    }
 
-                ChaseTarget();
-            }
-            else if (_chasingTarget)
-            {
-                if (distanceToTarget <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
-                {
                     ChaseTarget();
                 }
-                else if(!gameObject.CompareTag("MindControlled"))
+                else if (_chasingTarget)
                 {
-                    _chasingTarget = false;
-                    GoToSpawn();
+                    if (distanceToTarget <= alertRange || !((_chasingTime -= Time.deltaTime) <= 0))
+                    {
+                        ChaseTarget();
+                    }
+                    else if (!gameObject.CompareTag("MindControlled"))
+                    {
+                        _chasingTarget = false;
+                        GoToSpawn();
+                    }
                 }
-            }
-            else
-            {
-                // if near spawn, reset to initial orientation
-                if (Vector3.Distance(transform.position, _spawn.position) <= 0.2)
+                else
                 {
-                    NavMeshAgent.speed = 0f;
-                    transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
-                    SetFOV(initialFOV);
+                    // if near spawn, reset to initial orientation
+                    if (Vector3.Distance(transform.position, _spawn.position) <= 0.2)
+                    {
+                        NavMeshAgent.speed = 0f;
+                        transform.rotation = Quaternion.Lerp(transform.rotation, InitialOrientation, Time.deltaTime);
+                        SetFOV(initialFOV);
+                    }
                 }
             }
         }
@@ -129,8 +135,14 @@ public class EnemyMelee : Enemy
 
     private void ChaseTarget()
     {
-        Vector3 targetVector = GetTargetPos();
-        NavMeshAgent.SetDestination(targetVector);
+        Vector3? targetPos = GetTargetPos();
+        if (targetPos == null)
+        {
+            StopMovement();
+            return;
+        }
+
+        NavMeshAgent.SetDestination((Vector3) targetPos);
         NavMeshAgent.speed = chaseSpeed;
         _chasingTarget = true;
     }

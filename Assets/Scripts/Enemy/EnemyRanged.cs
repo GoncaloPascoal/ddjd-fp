@@ -93,8 +93,12 @@ public class EnemyRanged : Enemy
         _animator.SetTrigger("Shoot");
         _sounds.ShootBow();
 
-        GameObject projectileInstance = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
-        projectileInstance.GetComponent<Projectile>().ShootAt(GetTargetPos(), Stats.GetStatValue(StatName.Damage), mindControlled);
+        Vector3? targetPos = GetTargetPos();
+        if (targetPos != null)
+        {
+            GameObject projectileInstance = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
+            projectileInstance.GetComponent<Projectile>().ShootAt((Vector3) targetPos, Stats.GetStatValue(StatName.Damage), mindControlled);
+        }
     }
 
     private void OnDrawGizmos()
