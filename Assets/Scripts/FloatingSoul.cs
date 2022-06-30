@@ -54,6 +54,7 @@ public class FloatingSoul : MonoBehaviour
         {
             _damageable.DeleteAnimator();
             _damageable.DeleteComponents();
+            if (_promptEnabled && _playerInRange) HUD.Instance.HideButtonPrompt();
             Destroy(gameObject);
         }
     }
