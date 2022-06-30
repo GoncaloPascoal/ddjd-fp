@@ -19,11 +19,10 @@ public class EnemyRanged : Enemy
 
     private EnemyRangedState _state;
     private EnemySounds _sounds;
-    
+
     private new void Start()
     {
         base.Start();
-        _currentTime = prepareTime;
         _state = EnemyRangedState.NotAlert;
         _sounds = GetComponent<EnemySounds>();
     }
@@ -40,18 +39,12 @@ public class EnemyRanged : Enemy
         if (_state == EnemyRangedState.Preparing)
         {
             LookAtTarget();
-            
-            if ((_currentTime -= Time.deltaTime) <= 0)
-            {
-                Shoot();
-            }    
-            
             return;
         }
 
-        bool detectingPlayer = DetectTarget();
+        bool detectedTarget = DetectTarget();
 
-        if (detectingPlayer)
+        if (detectedTarget)
         {
             switch (_state)
             {
@@ -74,9 +67,15 @@ public class EnemyRanged : Enemy
         } // else, the enemy will keep preparing the shot, even if player goes out of the area
     }
 
+    public void Stagger()
+    {
+        // Got staggered in the middle of a shot, reset state
+        _state = EnemyRangedState.NotAlert;
+    }
+
     protected override void ChangeTargetsMindControl(List<string> newTargets)
     {
-        // Doesn't need to do any changes.
+        // Don't need to do any changes
     }
 
     private void Prepare()
@@ -94,8 +93,8 @@ public class EnemyRanged : Enemy
         _animator.SetTrigger("Shoot");
         _sounds.ShootBow();
 
-        GameObject shotProjectile = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
-        shotProjectile.GetComponent<Projectile>().ShootAt(GetTargetPos(), (int) Stats.GetStatValue(StatName.Damage), mindControlled);
+        GameObject projectileInstance = Instantiate(projectile, transform.position + (Vector3.up * 1.5f) + transform.forward, Quaternion.identity);
+        projectileInstance.GetComponent<Projectile>().ShootAt(GetTargetPos(), Stats.GetStatValue(StatName.Damage), mindControlled);
     }
 
     private void OnDrawGizmos()
@@ -109,6 +108,6 @@ public class EnemyRanged : Enemy
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, viewDistance);
     }
-    
-    public override void StopMovement(){}
+
+    public override void StopMovement() { }
 }
