@@ -20,9 +20,12 @@ public class Weapon : MonoBehaviour
     {
         _collider = GetComponent<BoxCollider>();
         _collider.enabled = false;
-        
-        _wielderStats = wielder.GetComponent<Stats>();
-        _wielderAnimator = wielder.GetComponent<Animator>();
+
+        if (wielder != null)
+        {
+            _wielderStats = wielder.GetComponent<Stats>();
+            _wielderAnimator = wielder.GetComponent<Animator>();
+        }
         _alreadyHit.Clear();
     }
 

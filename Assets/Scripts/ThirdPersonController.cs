@@ -14,9 +14,6 @@ using UnityEngine.InputSystem;
 namespace StarterAssets
 {
 	[RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-	[RequireComponent(typeof(PlayerInput))]
-#endif
 	public class ThirdPersonController : MonoBehaviour
 	{
 		[Header("Player_For_Others")] [Tooltip("Player head transform")]
@@ -123,7 +120,6 @@ namespace StarterAssets
 
 		private Animator _animator;
 		private CharacterController _controller;
-		private PlayerInput _playerInput;
 		private GameObject _mainCamera;
 		private Staggerable _staggerable;
 
@@ -157,7 +153,6 @@ namespace StarterAssets
 
 			_hasAnimator = TryGetComponent(out _animator);
 			_controller = GetComponent<CharacterController>();
-			_playerInput = GetComponent<PlayerInput>();
 			_staggerable = GetComponent<Staggerable>();
 			_enemyToResurrect = null;
 
@@ -287,7 +282,7 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
-			Vector2 look = _playerInput.actions["Look"].ReadValue<Vector2>();
+			Vector2 look = InputManager.Action("Look").ReadValue<Vector2>();
 			
 			// if there is an input and camera position is not fixed
 			if (look.sqrMagnitude >= Threshold && !LockCameraPosition)
@@ -317,12 +312,12 @@ namespace StarterAssets
 			bool isAttacking = _attacker.IsAttacking();
 			bool isAttackingCanRotate = _attacker.IsStartingAttack();
 
-			bool sprint = _playerInput.actions["Sprint"].IsPressed();
+			bool sprint = InputManager.Action("Sprint").IsPressed();
 
 			if (isAttacking && !isAttackingCanRotate || _staggerable.IsStaggered() || isDead())
 				movement = Vector2.zero;
 			else
-				movement = _playerInput.actions["Move"].ReadValue<Vector2>();
+				movement = InputManager.Action("Move").ReadValue<Vector2>();
 
 			// Can't move
 			if (!isAttackingCanRotate && (isAttacking || _isBackstabbing || _resurrecting)) return;
@@ -470,7 +465,7 @@ namespace StarterAssets
 				if (!_attacker.IsAttacking() && !_staggerable.IsStaggered() || isDead())
 				{
 					// Roll
-					if (_playerInput.actions["Roll"].WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
+					if (InputManager.Action("Roll").WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageRoll) &&
 					    !_isRolling && _verticalVelocity <= 0.0f)
 					{
 						ChangeStamina(StaminaUsageRoll);
@@ -480,7 +475,7 @@ namespace StarterAssets
 					}
 
 					// Jump
-					if (_playerInput.actions["Jump"].WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
+					if (InputManager.Action("Jump").WasPressedThisFrame() && Stamina >= Mathf.Abs(StaminaUsageJump) && !_isRolling)
 					{
 						ChangeStamina(StaminaUsageJump);
 					
@@ -536,13 +531,13 @@ namespace StarterAssets
 			if (_staggerable.IsStaggered() || isDead())
 				return;
 
-			if (StaminaUsageAttacks.Keys.All(a => !_playerInput.actions[a].WasPressedThisFrame() || !Grounded))
+			if (StaminaUsageAttacks.Keys.All(a => !InputManager.Action(a).WasPressedThisFrame() || !Grounded))
 				return;
 
 			if (_isRolling)
 				return;
 
-			string attack = StaminaUsageAttacks.Keys.First(a => _playerInput.actions[a].WasPressedThisFrame());
+			string attack = StaminaUsageAttacks.Keys.First(a => InputManager.Action(a).WasPressedThisFrame());
 			float staminaUsage = StaminaUsageAttacks[attack];
 
 			if (_backstabTargets.Count > 0)
