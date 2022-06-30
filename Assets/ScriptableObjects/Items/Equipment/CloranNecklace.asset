@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
-  m_Name: Armor
+  m_Name: CloranNecklace
   m_EditorClassIdentifier: 
-  itemName: Armor
-  itemNamePlural: Armors
-  description: Provides decent protection
-  icon: {fileID: 21300000, guid: 12969e2b0c4a66846924328b6fa35a4c, type: 3}
+  itemName: Cloran Necklace
+  itemNamePlural: Cloran Necklaces
+  description: A delicate, peculiar necklace. Wearing it fills you with newfound
+    vigor.
+  icon: {fileID: 21300000, guid: 0e123cfdc54a3ca4684816a34167a566, type: 3}
   statValues:
-    m_keys: 04000000
+    m_keys: 02000000
     m_values:
-    - 25
-  slot: 0
+    - 10
+  slot: 3

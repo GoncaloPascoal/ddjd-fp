@@ -35,6 +35,7 @@ public class InventoryManager : MonoBehaviour
     private int _currentSlot;
     
     private List<Image> _slotIcons;
+    private List<TMP_Text> _slotAmounts;
     private List<Item> _slotItems;
 
     private List<EquipmentDisplay> _equipmentDisplays;
@@ -53,10 +54,12 @@ public class InventoryManager : MonoBehaviour
         _currentSlot = 0;
 
         _slotIcons = new List<Image>(inventorySlots);
+        _slotAmounts = new List<TMP_Text>(inventorySlots);
         _slotItems = Enumerable.Repeat<Item>(null, inventorySlots).ToList();
         for (int i = 0; i < itemSlots.transform.childCount; ++i)
         {
             _slotIcons.Add(itemSlots.transform.GetChild(i).GetChild(0).GetComponent<Image>());
+            _slotAmounts.Add(itemSlots.transform.GetChild(i).GetComponentInChildren<TMP_Text>());
         }
 
         _equipmentDisplays = new List<EquipmentDisplay>(equipmentSlots.transform.childCount);
@@ -158,6 +161,7 @@ public class InventoryManager : MonoBehaviour
                 }
 
                 if (slot == inventorySlots) return;
+                _slotAmounts[slot].text = "";
                 _slotIcons[slot].gameObject.SetActive(true);
                 _slotIcons[slot].sprite = equipment.icon;
                 _slotItems[slot++] = equipment;
@@ -167,6 +171,8 @@ public class InventoryManager : MonoBehaviour
         foreach (Consumable consumable in _inventory.Consumables.Keys)
         {
             if (slot == inventorySlots) return;
+            uint quantity = _inventory.Consumables[consumable];
+            _slotAmounts[slot].text = quantity > 1 ? quantity.ToString() : "";
             _slotIcons[slot].gameObject.SetActive(true);
             _slotIcons[slot].sprite = consumable.icon;
             _slotItems[slot++] = consumable;
@@ -174,6 +180,7 @@ public class InventoryManager : MonoBehaviour
 
         while (slot != inventorySlots)
         {
+            _slotAmounts[slot].text = "";
             _slotIcons[slot].gameObject.SetActive(false);
             _slotItems[slot++] = null;
         }
