@@ -238,17 +238,20 @@ namespace StarterAssets
 			
 			if (_inCheckpoint != -1) return;
 
+			Debug.Log(_attacker.IsAttacking());
+
 			JumpAndGravity();
 			GroundedCheck();
-			GroundedOrFalling();
+			ResetAnimationTriggersAndFlags();
 			Move();
 			Attacks();
 		}
 
-		private void GroundedOrFalling()
+		private void ResetAnimationTriggersAndFlags()
 		{
 			// Possible Fix to An Infinite Loop That Happens When Both Bools Are Set To True
 			if(_animator.GetBool(_animIDFreeFall) && _animator.GetBool(_animIDGrounded)) _animator.SetBool(_animIDFreeFall, false);
+			if(_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle Walk Run Blend") && _attacker.IsAttacking()) _attacker.EndAttack();
 		}
 
 		private void LateUpdate()
