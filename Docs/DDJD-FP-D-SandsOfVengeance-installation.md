@@ -28,7 +28,7 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 - Heavy Attack: Right Click;
 
-- Sprint: Shift;
+- Sprint: Shift/ALT;
 
 - Roll: R;
 
@@ -40,27 +40,31 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 - Open Menu/Inventory: Q; 
 
+- Navigate Menu: WASD; 
+
 ## Controller
 
-- Movement: ;
+- Movement: Left Joystick;
 
-- Jump: ;
+- Jump: Y;
 
-- Light Attack: ;
+- Light Attack: Right Bumper;
 
-- Heavy Attack: ;
+- Heavy Attack: Right Trigger;
 
-- Sprint: ;
+- Sprint: Left Bumper;
 
-- Roll: ;
+- Roll: B;
 
-- Pray: ; 
+- Pray: A; 
 
 - Exit Pray: ;
 
-- Pickup item: ;
+- Pickup item: A;
 
-- Open Menu/Inventory: ;
+- Open Menu/Inventory: Start;
+
+- Navigate Menu: Left Joystick;
 
 ### Enemies
 
