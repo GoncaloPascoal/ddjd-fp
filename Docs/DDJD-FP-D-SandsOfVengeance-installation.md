@@ -66,9 +66,9 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 |                   Item                     | Description                                                                                                                                                                                                                 |
 | :----------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|       Weapons        | Short description                                                                                                                                                   |
-|        Potions         | Short description                                                                                                                                                        |
-|         Armor          | Short description                                                                                                                                                            |
+|       Weapons        | Weapons that change player stats such as damage or stamina.                                                                                                                                                   |
+|        Healing Potions         | Potions to heal the player.                                                                                                                                                     |
+|         Armor          | Armor that changes player stats such as damage, armor, stability,  stamina and stamina recovery                                                                                                                                                            |
 
 
 # Group Members
