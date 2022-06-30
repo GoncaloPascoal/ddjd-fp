@@ -34,7 +34,7 @@ There are some special game mechanics such as: Mind-Control and Enemy Ressurecti
 
 - Pickup item: E;
 
-- Open Menu/Inventory: ESC; 
+- Open Menu/Inventory: Q; 
 
 ## Controller
 
