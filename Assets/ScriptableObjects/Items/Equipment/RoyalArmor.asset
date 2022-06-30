@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef4e1ee67195461aaab7c9a2b71bd28b, type: 3}
-  m_Name: StaminaArmor
+  m_Name: RoyalArmor
   m_EditorClassIdentifier: 
-  itemName: Stamina Armour
+  itemName: Royal Plate
   itemNamePlural: Stamina Armours
-  description: A light weight armor that boosts the user's stamina
-  icon: {fileID: 21300000, guid: 5c1271ad87a99fa458ba298a0e56c0db, type: 3}
+  description: These finely crafted pieces protect the members of the Royal Guard,
+    a group composed of the deadliest swordsmen in the realm. It is surprisingly
+    light, and the wearers feel a constant surge of energy.
+  icon: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
   statValues:
-    m_keys: 000000000100000002000000
+    m_keys: 04000000010000000200000005000000
     m_values:
     - 15
-    - 25
+    - 15
     - 5
+    - 10
   slot: 0
