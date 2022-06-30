@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHead: {fileID: 7792425591318055071}
   viewDistance: 15
-  fieldOfView: 70
+  fieldOfView: 150
   chaseSpeed: 3
   walkSpeed: 1.5
   chaseCooldown: 5
@@ -450,7 +450,7 @@ MonoBehaviour:
   normalTargets:
   - Player
   - MindControlled
-  prepareTime: 3
+  prepareTime: 2
   recoveryTime: 1
   projectile: {fileID: 1080494255442829614, guid: e3f810e8a218d734f8b5949fde03eab0, type: 3}
 --- !u!195 &1586840718211668744
@@ -544,12 +544,12 @@ MonoBehaviour:
   baseValues:
     m_keys: 000000000100000002000000030000000400000005000000
     m_values:
-    - 40
+    - 45
     - 0
     - 0
-    - 15
+    - 17.5
     - 10
-    - 5
+    - 20
 --- !u!114 &4225973291287278350
 MonoBehaviour:
   m_ObjectHideFlags: 0

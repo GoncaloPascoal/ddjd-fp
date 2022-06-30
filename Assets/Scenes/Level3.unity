@@ -2571,7 +2571,7 @@ PrefabInstance:
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_keys.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: a31819a68130d294aa0faf6a8e765eee, type: 2}
+      objectReference: {fileID: 11400000, guid: 276dff8f2448f9c58aa5af590b5e4f91, type: 2}
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_keys.Array.data[1]
       value: 
@@ -12269,14 +12269,14 @@ PrefabInstance:
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_keys.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 3736b69d35209b20697b5c2963f38923, type: 2}
+      objectReference: {fileID: 11400000, guid: b552d98106b66ababbd6ee2e6fff4b91, type: 2}
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_values.Array.data[0]
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_values.Array.data[1]
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747658863064545614, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: m_Name
@@ -24672,7 +24672,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_values.Array.data[2]
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1747658863064545614, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: m_Name
@@ -25172,7 +25172,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 8acf8de57c0a495448eccc4ae2610748, type: 2}
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_values.Array.data[0]
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 156994094224516736, guid: 8f525676e8ecb89deb6f83c5da21c09e, type: 3}
       propertyPath: items.m_values.Array.data[1]
@@ -34808,7 +34808,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: Not Every Closed Door Is Closed Forever
+      value: Not every door Is closed forever
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: m_Name
@@ -62525,7 +62525,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -4296061042900646877, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}
       propertyPath: _labelText
-      value: '[The throne room liies just beyond this passage. The flickering torches
+      value: '[The throne room lies just beyond this passage. The flickering torches
         appear to produce unnatural, ghostly shadows.]'
       objectReference: {fileID: 0}
     - target: {fileID: 1421613605991069243, guid: 898ea52c58e83ce46b4828413cd9d832, type: 3}

@@ -1430,12 +1430,12 @@ MonoBehaviour:
   baseValues:
     m_keys: 000000000100000002000000030000000400000005000000
     m_values:
-    - 40
+    - 60
     - 0
     - 0
     - 20
     - 10
-    - 30
+    - 25
 --- !u!1 &5069041362607205264
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,6 @@ MonoBehaviour:
   statValues:
     m_keys: 0300000004000000
     m_values:
-    - 22
-    - 8
+    - 20
+    - 7.5
   slot: 1
