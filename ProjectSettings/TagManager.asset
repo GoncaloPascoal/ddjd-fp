@@ -6,6 +6,20 @@ TagManager:
   tags:
   - CinemachineTarget
   - Enemy
+  - Pickup
+  - Message
+  - Checkpoint
+  - MindControlled
+  - Dead
+  - Boss
+  - PressurePlate
+  - Door
+  - Cutscene
+  - Spyke
+  - InvCanvas
+  - GameSave
+  - HealthBar
+  - StaminaBar
   layers:
   - Default
   - TransparentFX
@@ -13,15 +27,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - EnemyBack
+  - EnemyProjectile
+  - Ground
+  - EnemySkeleton
+  - PlayerSkeleton
+  - BossSkeleton
+  - Spyke
   - 
   - 
   - 
